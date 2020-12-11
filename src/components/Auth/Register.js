@@ -50,7 +50,7 @@ export const Register = props => {
                     <label htmlFor="password">Password </label>
                     <input onChange={handleFormInput} type="password" id="password" className="form-control" placeholder="Password" required />
                     <label htmlFor="passwordConfirm">Confirm Password </label>
-                    <input onChange={handleFormInput} type="password" id="passwordConfirm" className="form-control" placeholder="Password" required />
+                    <input onChange={handleFormInput} type="password" id="passwordConfirm" className="form-control" placeholder="Confirm Password" required />
                     <button className="btn btn-success">Create Account</button>
                     { signupInfo.passwordConfirm && !passwordMatch ? 'PASSWORDS DO NOT MATCH' : ''}
                 </fieldset>

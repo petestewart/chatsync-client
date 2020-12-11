@@ -1,9 +1,8 @@
 import React, { useContext } from "react"
-import { Link } from "react-router-dom"
 
 export const Login = props => {
 
-    const email = React.createRef()
+    const username = React.createRef()
     const password = React.createRef()
     const invalidDialog = React.createRef()
 
@@ -16,18 +15,18 @@ export const Login = props => {
                 "Accept": "application/json"
             },
             body: JSON.stringify({
-                username: email.current.value,
+                username: username.current.value,
                 password: password.current.value
             })
         })
             .then(res => res.json())
             .then(res => {
-                if ("valid" in res && res.valid && "isActive" in res && "token" in res) {
+                if ("valid" in res && res.valid && "token" in res) {
                     localStorage.setItem('watchparty_id', res.token)
                     props.history.push("/")
                 }
                 else {
-                    invalidDialog.current.showModal()
+                    console.warn('invalid')
                 }
             })
     }
@@ -38,8 +37,8 @@ export const Login = props => {
             <section>
                 <form className="login-form" onSubmit={handleLogin}>
                     <fieldset>
-                        <label htmlFor="email">Email address </label>
-                        <input ref={email} type="email" id="email" className="form-control" placeholder="Email address" required autoFocus />
+                        <label htmlFor="username">Username</label>
+                        <input ref={username} type="text" id="username" className="form-control" placeholder="Username" required autoFocus />
                         <label htmlFor="password"> Password </label>
                         <input ref={password} type="password" id="password" className="form-control" placeholder="Password" required />
                         <button className="btn btn-success">Sign In</button>
