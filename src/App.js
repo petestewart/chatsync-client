@@ -1,25 +1,33 @@
-import logo from './logo.svg';
+import React from "react"
 import './App.css';
+import { Redirect, Route } from 'react-router-dom';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
-}
+import { Login } from './components/Auth/Login.js'
+import { Register } from './components/Auth/Register'
 
-export default App;
+export const App = () => (
+  <>
+    <Route render={() => {
+            if (localStorage.getItem("watchparty_id")) {
+                return <h1>WatchParty Home</h1>
+            } else {
+                return <Redirect to="/login" />
+            }
+        }} />
+    <Route path="/login" render={(props) => {
+            if (localStorage.getItem("watchparty_id")) {
+                return <Redirect to="/" />
+            } else {
+                return <Login {...props} />
+            }
+        }} />
+
+    <Route path="/register" render={(props) => {
+            if (localStorage.getItem("watchparty_id")) {
+                return <Redirect to="/" />
+            } else {
+                return <Register history={props.history} />
+            }
+        }} />
+  </>
+)
