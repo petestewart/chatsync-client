@@ -39,15 +39,21 @@ export const Login = props => {
                     <fieldset>
                         <label htmlFor="username">Username</label>
                         <input ref={username} type="text" id="username" className="form-control" placeholder="Username" required autoFocus />
+                    </fieldset>
+                    <fieldset>
                         <label htmlFor="password"> Password </label>
                         <input ref={password} type="password" id="password" className="form-control" placeholder="Password" required />
+                    </fieldset>
+                    <fieldset>
                         <button className="btn btn-success">Sign In</button>
                     </fieldset>
                 </form>
             </section>
             <section>
+                    <fieldset>
                 <h6>No account? No problem.</h6>
                 <button className="btn btn-secondary" onClick={() => props.history.push("/register")}>Sign Up</button>
+                    </fieldset>
             </section>
         </main>
 
