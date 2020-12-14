@@ -35,6 +35,7 @@ export const ProfileProvider = (props) => {
         })
             .then(response => response.json())
             .then(setProfile)
+            .then(data => {return(data)})
     };
 
     useEffect(getProfile, [])

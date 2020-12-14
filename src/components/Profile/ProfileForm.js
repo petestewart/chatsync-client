@@ -41,6 +41,7 @@ export const ProfileForm = props => {
     const handleFormSubmission = (e) => {
         e.preventDefault()
         updateProfile(profileInfo)
+            .then(() => {props.history.push("/profile")})
     };
 
 
