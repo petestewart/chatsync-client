@@ -1,5 +1,7 @@
 import React, { useContext } from "react"
 
+import './Auth.css'
+
 export const Login = props => {
 
     const username = React.createRef()
@@ -32,28 +34,29 @@ export const Login = props => {
     }
 
     return (
-        <main className="login-container">
-            <h1>WatchParty</h1>
+        <main className="login-container px-3">
+            <h1 className="watchparty-logo mt-3 text-center">WatchParty</h1>
             <section>
-                <form className="login-form" onSubmit={handleLogin}>
-                    <fieldset>
-                        <label htmlFor="username">Username</label>
-                        <input ref={username} type="text" id="username" className="form-control" placeholder="Username" required autoFocus />
-                    </fieldset>
-                    <fieldset>
-                        <label htmlFor="password"> Password </label>
-                        <input ref={password} type="password" id="password" className="form-control" placeholder="Password" required />
-                    </fieldset>
-                    <fieldset>
-                        <button className="btn btn-success">Sign In</button>
-                    </fieldset>
-                </form>
+
+            <form className="login-form my-5" onSubmit={handleLogin}>
+                <div className="form-group">
+                    <label htmlFor="username">Username</label>
+                    <input ref={username} type="text" className="form-control" id="username" placeholder="Enter username" />
+
+                </div>
+                <div className="form-group">
+                    <label htmlFor="password">Password</label>
+                    <input ref={password} type="password" className="form-control" id="password" placeholder="Enter password" />
+                </div>
+                <button className="btn btn-success w-100">Sign In</button>
+            </form>
+
             </section>
-            <section>
-                    <fieldset>
-                <h6>No account? No problem.</h6>
-                <button className="btn btn-secondary" onClick={() => props.history.push("/register")}>Sign Up</button>
-                    </fieldset>
+            <section className="signup-button my-5">
+            <div className="form-group">
+                <small className="form-text text-center">No account? No problem.</small>
+                <button className="btn btn-secondary w-100" onClick={() => props.history.push("/register")}>Sign Up</button>
+             </div>
             </section>
         </main>
 
