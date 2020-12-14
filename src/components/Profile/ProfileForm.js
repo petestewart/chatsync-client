@@ -14,7 +14,7 @@ export const ProfileForm = props => {
         location: '',
         bio: '',
         profile_pic: '',
-        time_zone_offset: 0
+        time_zone_offset: -6
     })
 
     useEffect(() => {
@@ -30,13 +30,6 @@ export const ProfileForm = props => {
             })
         }
     }, [profile])
-
-    // useEffect(() => {
-    //     getProfile()
-    //         .then(() => setProfileInfo(profile))
-    // }, [])
-
-
     
     const handleFormInput = (e) => {
         e.preventDefault()
@@ -71,12 +64,29 @@ export const ProfileForm = props => {
                     <input onChange={handleFormInput} type="email" id="email" className="form-control" value={profileInfo.email} required />
                 </div>
                 <div className="form-group">
-                    <label htmlFor="location">Location </label>
+                    <label htmlFor="profile_pic">Profile Pic</label>
+                    <input onChange={handleFormInput} type="text" id="profile_pic" className="form-control" value={profileInfo.profile_pic} />
+                </div>
+                <div className="form-group">
+                    <label htmlFor="location">Location</label>
                     <input onChange={handleFormInput} type="text" id="location" className="form-control" value={profileInfo.location} />
                 </div>
                 <div className="form-group">
+                    <label htmlFor="time_zone_offset">Time Zone</label>
+                    <select value={profileInfo.time_zone_offset} id="time_zone_offset" className="form-control" onChange={handleFormInput}>
+                        <option value={-8}>Pacific Standard Time (GMT-8)</option>
+                        <option value={-7}>Mountain Standard Time (GMT-7)</option>
+                        <option value={-6}>Central Standard Time (GMT-6)</option>
+                        <option value={-5}>Eastern Standard Time (GMT-5)</option>
+                    </select>
+                    </div>
+
+
+
+
+                <div className="form-group">
                     <label htmlFor="bio">Bio</label>
-                    <textarea onChange={handleFormInput} className="form-control" id="bio" rows="3"></textarea>
+                    <textarea onChange={handleFormInput} className="form-control" id="bio" rows="3" value={profileInfo.bio}></textarea>
                 </div>
 
                 <button className="btn btn-success w-100" onClick={handleFormSubmission}>Save</button>
