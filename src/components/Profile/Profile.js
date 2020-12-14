@@ -1,20 +1,28 @@
-import React, { useContext, useState, useEffect } from "react"
+import React, { useContext } from "react"
+import { Link } from "react-router-dom"
 
 import { ProfileContext } from "../Profile/ProfileProvider"
 
 
 
 export const Profile = props => {
-    const { profile, getProfile } = useContext(ProfileContext)
-
-    
-
-
+    const { profile } = useContext(ProfileContext)
 
     return (
-        <main className="profile-container px-3">
-        <h2 className="mt-3 text-center">Your Profile</h2>
-            <div className="container mt-3">
+        <main className="profile-container container px-3">
+            <div className="row d-flex align-items-center">
+                <div className="col-2"></div>
+                <div className="col-8">
+                    <h2 className="mt-3 text-center">Your Profile</h2>
+                </div>
+                <div className="col-2 ">
+                    <Link to={'profile/edit'}>
+                        <i className="fas fa-cog fa-2x text-secondary"></i>
+                    </Link>
+                </div>
+
+            </div>
+            <div className="mt-3">
                 <div className="profile-header row">
                     <div className="col-4">
                         <img className="profile-page-pic w-100" src={profile.profile_pic !== '' ? profile.profile_pic : 'https://cdn3.iconfinder.com/data/icons/web-ui-3/128/Account-2-256.png'} alt="profile pic"/>

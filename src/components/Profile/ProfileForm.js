@@ -2,8 +2,6 @@ import React, { useContext, useState, useEffect } from "react"
 
 import { ProfileContext } from "../Profile/ProfileProvider"
 
-
-
 export const ProfileForm = props => {
     const { profile, getProfile, updateProfile } = useContext(ProfileContext)
 
@@ -82,15 +80,13 @@ export const ProfileForm = props => {
                     </select>
                     </div>
 
-
-
-
                 <div className="form-group">
                     <label htmlFor="bio">Bio</label>
                     <textarea onChange={handleFormInput} className="form-control" id="bio" rows="3" value={profileInfo.bio}></textarea>
                 </div>
 
                 <button className="btn btn-success w-100" onClick={handleFormSubmission}>Save</button>
+                <button className="btn btn-secondary w-100 mt-3" onClick={() => {props.history.push("/profile")}}>Cancel</button>
             </form>
         </section>
     </main>
