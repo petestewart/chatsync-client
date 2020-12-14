@@ -2,18 +2,27 @@ import React from "react"
 import './App.css';
 import { Redirect, Route } from 'react-router-dom';
 
-import { Login } from './components/Auth/Login.js'
+import { ApplicationViews } from './components/Auth/ApplicationViews'
+import { Login } from './components/Auth/Login'
+import { NavBar } from './components/Navigation/NavBar'
 import { Register } from './components/Auth/Register'
 
 export const App = () => (
   <>
+    {/* Main App View */}
     <Route render={() => {
             if (localStorage.getItem("watchparty_id")) {
-                return <h1>WatchParty Home</h1>
+                return (
+                    <>
+                        <NavBar />
+                        <ApplicationViews />
+                    </>)
             } else {
                 return <Redirect to="/login" />
             }
         }} />
+
+    {/* Login Screen */}
     <Route path="/login" render={(props) => {
             if (localStorage.getItem("watchparty_id")) {
                 return <Redirect to="/" />
@@ -22,6 +31,7 @@ export const App = () => (
             }
         }} />
 
+    {/* Register New User */}
     <Route path="/register" render={(props) => {
             if (localStorage.getItem("watchparty_id")) {
                 return <Redirect to="/" />
