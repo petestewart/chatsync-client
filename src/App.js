@@ -18,7 +18,8 @@ export const App = () => (
             return (
                 <AuthProvider {...props}>
                     <Layout {...props} />
-                </AuthProvider>)
+                </AuthProvider>
+                )
             } else {
                 return <Redirect to="/login" />
             }
@@ -29,7 +30,11 @@ export const App = () => (
             if (localStorage.getItem("watchparty_token")) {
                 return <Redirect to="/" />
             } else {
-                return <AuthProvider {...props}><Login {...props} /></AuthProvider>
+                return (
+                    <AuthProvider {...props}>
+                        <Login {...props} />
+                    </AuthProvider>
+                )
             }
         }} />
 
@@ -38,7 +43,12 @@ export const App = () => (
             if (localStorage.getItem("watchparty_token")) {
                 return <Redirect to="/" />
             } else {
-                return <Register history={props.history} />
+                return (
+                    <AuthProvider {...props}>
+                        <Register history={props.history} />
+                    </AuthProvider>
+                )
+                
             }
         }} />
         </>
