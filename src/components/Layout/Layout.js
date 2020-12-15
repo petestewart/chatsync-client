@@ -4,6 +4,7 @@ import { ApplicationViews } from '../ApplicationViews'
 import { NavBar } from '../Navigation/NavBar'
 import { SideDrawer } from "../Navigation/SideDrawer"
 
+
 export const Layout = (props) => {
     const [showSideDrawer, setShowSideDrawer] = useState(false)
 
@@ -18,9 +19,8 @@ export const Layout = (props) => {
     return (
         <>
             <NavBar toggleSideDrawerHandler={sideDrawerToggleHandler} sideDrawerOpen={showSideDrawer} {...props}/>
-            <SideDrawer open={showSideDrawer} closedHandler={sideDrawerClosedHandler} />
-                        
-            <ApplicationViews sideDrawerOpen={showSideDrawer} sideDrawerClosedHandler={sideDrawerClosedHandler}  />
+            <SideDrawer open={showSideDrawer} closedHandler={sideDrawerClosedHandler} {...props} />
+            <ApplicationViews sideDrawerOpen={showSideDrawer} sideDrawerClosedHandler={sideDrawerClosedHandler}  {...props}/>
         </>
     )
 };

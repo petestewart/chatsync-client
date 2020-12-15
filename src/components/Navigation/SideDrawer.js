@@ -1,10 +1,14 @@
-import React from "react"
+import React, { useContext } from "react"
+
+import { AuthContext } from "../Auth/AuthProvider"
 
 import Backdrop from '../UI/Backdrop/Backdrop';
 
 import "./SideDrawer.css"
 
 export const SideDrawer = (props) => {
+    const {logoutUser} = useContext(AuthContext)
+
     return (
         <>
         <Backdrop show={props.open} clicked={props.closedHandler} />
@@ -18,7 +22,7 @@ export const SideDrawer = (props) => {
                 <li className="sidemenu-item my-3"><span className="menu-icon"><i className="fas fa-users"></i></span>Create Channel</li>
                 <hr />
                 <li className="sidemenu-item my-3"><span className="menu-icon"><i className="fas fa-user-plus"></i></span>Invite Friends</li>
-                <li className="sidemenu-item my-3"><span className="menu-icon"><i className="fas fa-sign-out-alt"></i></span>Sign Out</li>
+                <li className="sidemenu-item my-3" onClick={logoutUser}><span className="menu-icon"><i className="fas fa-sign-out-alt" ></i></span>Sign Out</li>
             </ul>
         </div>
         </>
