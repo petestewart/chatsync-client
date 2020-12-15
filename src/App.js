@@ -10,11 +10,11 @@ import { Register } from './components/Auth/Register'
 export const App = () => (
   <>
     {/* Main App View */}
-    <Route render={() => {
+    <Route render={(props) => {
             if (localStorage.getItem("watchparty_id")) {
                 return (
                     <>
-                        <NavBar />
+                        <NavBar {...props}/>
                         <ApplicationViews />
                     </>)
             } else {

@@ -1,0 +1,8 @@
+.nav-item {
+    color: rgb(46, 46, 46);
+}
+
+.nav-item:hover {
+    cursor: pointer;
+    color: rgb(2, 212, 2);
+}
