@@ -20,7 +20,7 @@ export const Layout = (props) => {
         <>
             <NavBar toggleSideDrawerHandler={sideDrawerToggleHandler} sideDrawerOpen={showSideDrawer} {...props}/>
             <SideDrawer open={showSideDrawer} closedHandler={sideDrawerClosedHandler} {...props} />
-            <ApplicationViews sideDrawerOpen={showSideDrawer} sideDrawerClosedHandler={sideDrawerClosedHandler}  {...props}/>
+            <ApplicationViews sideDrawerOpen={showSideDrawer} closeSideDrawer={sideDrawerClosedHandler}  {...props}/>
         </>
     )
 };

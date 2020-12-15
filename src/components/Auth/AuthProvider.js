@@ -4,7 +4,6 @@ export const AuthContext = React.createContext()
 
 export const AuthProvider = (props) => {
     const loginUser = (loginInfo) => {
-        console.log(loginInfo)
         return fetch("http://127.0.0.1:8000/login", {
             method: "POST",
             headers: {

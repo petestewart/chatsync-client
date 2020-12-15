@@ -80,13 +80,13 @@ export const Register = props => {
                 <div className="form-group">
                     <label htmlFor="passwordConfirm">Confirm Password </label>
                     <input onChange={handleFormInput} type="password" id="passwordConfirm" className="form-control" placeholder="Password" required />
-                    <small class="text-danger mt-3" role="alert">
+                    <small className="text-danger mt-3" role="alert">
                     { signupInfo.passwordConfirm && !passwordMatches ? 'Passwords do not match' : ''}
                     </small>
                 </div>
-                <div class="form-group form-check d-flex align-items-center mb-5">
-                    <input onChange={handleTermsCheckbox} type="checkbox" class="form-check-input" id="terms" checked={termsAgreed}/>
-                    <label class="form-check-label" for="terms"><small>Terms and conditions</small></label>
+                <div className="form-group form-check d-flex align-items-center mb-5">
+                    <input onChange={handleTermsCheckbox} type="checkbox" className="form-check-input" id="terms" checked={termsAgreed}/>
+                    <label className="form-check-label" htmlFor="terms"><small>Terms and conditions</small></label>
                 </div>
                 <button className="btn btn-success w-100" onClick={handleFormSubmission} disabled={!formIsComplete || !passwordMatches || !termsAgreed} >Create Account</button>
             </form>
