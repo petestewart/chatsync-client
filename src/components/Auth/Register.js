@@ -62,7 +62,7 @@ export const Register = props => {
             .then(res => res.json())
             .then(res => {
                 if ("token" in res) {
-                    localStorage.setItem('watchparty_id', res.token)
+                    localStorage.setItem('watchparty_token', res.token)
                     props.history.push("/")
                 }
                 else {

@@ -16,7 +16,7 @@ export const ProfileProvider = (props) => {
     const getProfile = () => {
         return fetch("http://localhost:8000/members/me", {
             headers: {
-                "Authorization": `Token ${localStorage.getItem("watchparty_id")}`
+                "Authorization": `Token ${localStorage.getItem("watchparty_token")}`
             }
         })
             .then(response => response.json())
@@ -27,7 +27,7 @@ export const ProfileProvider = (props) => {
         return fetch("http://localhost:8000/members/me", {
             method : "PUT",
             headers: {
-                "Authorization": `Token ${localStorage.getItem("watchparty_id")}`,
+                "Authorization": `Token ${localStorage.getItem("watchparty_token")}`,
                 "Content-Type": "application/json",
                 "Accept": "application/json"
             },
