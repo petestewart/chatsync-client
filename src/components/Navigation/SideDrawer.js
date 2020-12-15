@@ -15,7 +15,10 @@ export const SideDrawer = (props) => {
         <div className={`sidedrawer ${props.open ? 'sidedrawer-open' : 'sidedrawer-closed'}`}>
             <ul className="side-menu w-100">
                 <li className="sidemenu-item my-3"><span className="menu-icon"><i className="fas fa-calendar-alt"></i></span>My Parties</li>
-                <li className="sidemenu-item my-3"><span className="menu-icon"><i className="fas fa-calendar-plus"></i></span>Schedule Party</li>
+                <li className="sidemenu-item my-3" onClick={() => {
+                    props.closedHandler()
+                    props.history.push("/parties/create")
+                    }}><span className="menu-icon"><i className="fas fa-calendar-plus"></i></span>Schedule Party</li>
                 <li className="sidemenu-item my-3"><span className="menu-icon"><i className="fas fa-comments"></i></span>Host Instant Party</li>
                 <hr />
                 <li className="my-3"><span className="menu-icon"><i className="fas fa-hashtag"></i></span>My Channels</li>
