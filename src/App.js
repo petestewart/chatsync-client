@@ -2,21 +2,17 @@ import React from "react"
 import './App.css';
 import { Redirect, Route } from 'react-router-dom';
 
-import { ApplicationViews } from './components/Auth/ApplicationViews'
+import { Layout } from './components/Layout/Layout'
 import { Login } from './components/Auth/Login'
-import { NavBar } from './components/Navigation/NavBar'
+
 import { Register } from './components/Auth/Register'
 
 export const App = () => (
   <>
     {/* Main App View */}
     <Route render={(props) => {
-            if (localStorage.getItem("watchparty_id")) {
-                return (
-                    <>
-                        <NavBar {...props}/>
-                        <ApplicationViews />
-                    </>)
+        if (localStorage.getItem("watchparty_id")) {
+            return <Layout {...props} />
             } else {
                 return <Redirect to="/login" />
             }

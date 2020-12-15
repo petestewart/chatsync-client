@@ -1,0 +1,45 @@
+.sidedrawer {
+    position: fixed;
+    width: 280px;
+    max-width: 70%;
+    height: 100%;
+    left: 0;
+    top: 40;
+    z-index: 200;
+    background-color: white;
+    padding: 32px 0px;
+    box-sizing: border-box;
+    transition: transform 0.3s ease-out;
+    }
+
+.sidedrawer-open {
+    transform: translateX(0);
+    box-shadow: 5px -1px 10px grey;
+
+}
+
+.sidedrawer-closed {
+    transform: translateX(-100%);
+    
+}
+
+/* @media (min-width: 500px) {
+    .SideDrawer {
+    display: none;
+    }
+    } */
+
+.sidedrawer ul {
+    list-style: none;
+    padding-inline-start: 15px;
+}
+
+.menu-icon {
+    float: left;
+    width: 30px;
+}
+
+.sidemenu-item:hover {
+    cursor: pointer;
+    color: rgb(2, 212, 2);
+}

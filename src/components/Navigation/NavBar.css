@@ -6,3 +6,7 @@
     cursor: pointer;
     color: rgb(2, 212, 2);
 }
+
+.nav-item-active {
+    color: rgb(2, 212, 2);
+}
