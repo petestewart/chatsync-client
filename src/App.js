@@ -29,7 +29,7 @@ export const App = () => (
             if (localStorage.getItem("watchparty_token")) {
                 return <Redirect to="/" />
             } else {
-                return <Login {...props} />
+                return <AuthProvider {...props}><Login {...props} /></AuthProvider>
             }
         }} />
 
