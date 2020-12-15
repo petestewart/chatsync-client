@@ -1,9 +1,13 @@
-import React, { useState, useEffect } from "react"
+import React, { useContext, useState, useEffect } from "react"
+
+import { AuthContext } from "./AuthProvider"
 
 import './Auth.css'
 
 
 export const Register = props => {
+    const {registerUser} = useContext(AuthContext)
+
 
     const [signupInfo, setSignupInfo] = useState({
         username: '',
@@ -16,13 +20,13 @@ export const Register = props => {
     const [formIsComplete, setFormIsComplete] = useState(false)
     const [termsAgreed, setTermsAgreed] = useState(false)
 
-    const confirmPassword = () => {
-        if (signupInfo.passwordConfirm === signupInfo.password) {
-            setPasswordMatches(true)
-        } else {
-            setPasswordMatches(false)
-        }
-    }
+    // const confirmPassword = () => {
+    //     if (signupInfo.passwordConfirm === signupInfo.password) {
+    //         setPasswordMatches(true)
+    //     } else {
+    //         setPasswordMatches(false)
+    //     }
+    // }
     
     useEffect(() => {
         setPasswordMatches(signupInfo.password === signupInfo.passwordConfirm)
@@ -47,31 +51,12 @@ export const Register = props => {
     const handleFormSubmission = (e) => {
         e.preventDefault()
         if (!passwordMatches || !formIsComplete) { return }
-        return fetch("http://127.0.0.1:8000/register", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-                "Accept": "application/json"
-            },
-            body: JSON.stringify({
-                username: signupInfo.username,
-                password: signupInfo.password,
-                email: signupInfo.email
-            })
+        registerUser({
+            username: signupInfo.username,
+            password: signupInfo.password,
+            email: signupInfo.email
         })
-            .then(res => res.json())
-            .then(res => {
-                if ("token" in res) {
-                    localStorage.setItem('watchparty_token', res.token)
-                    props.history.push("/")
-                }
-                else {
-                    console.warn('invalid')
-                }
-            })
     };
-
-
 
     return (
         <main className="register-container px-3">

@@ -1,37 +1,26 @@
 import React, { useContext } from "react"
 
+import { AuthContext } from "./AuthProvider"
+
+
 import './Auth.css'
 
 export const Login = props => {
+    const {loginUser} = useContext(AuthContext)
+
 
     const username = React.createRef()
     const password = React.createRef()
-    const invalidDialog = React.createRef()
+    // const invalidDialog = React.createRef()
 
     const handleLogin = (e) => {
         e.preventDefault()
-        return fetch("http://127.0.0.1:8000/login", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-                "Accept": "application/json"
-            },
-            body: JSON.stringify({
-                username: username.current.value,
-                password: password.current.value
-            })
+        loginUser({
+            username: username.current.value,
+            password: password.current.value
         })
-            .then(res => res.json())
-            .then(res => {
-                if ("valid" in res && res.valid && "token" in res) {
-                    localStorage.setItem('watchparty_token', res.token)
-                    props.history.push("/")
-                }
-                else {
-                    console.warn('invalid')
-                }
-            })
-    }
+    };
+
 
     return (
         <main className="login-container px-3">
