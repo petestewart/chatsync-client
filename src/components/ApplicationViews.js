@@ -1,9 +1,9 @@
 import React from "react"
 import { Route } from "react-router-dom"
 
-import { ProfileProvider } from '../Profile/ProfileProvider'
-import { Profile } from "../Profile/Profile"
-import { ProfileForm } from "../Profile/ProfileForm"
+import { ProfileProvider } from './Profile/ProfileProvider'
+import { Profile } from "./Profile/Profile"
+import { ProfileForm } from "./Profile/ProfileForm"
 
 export const ApplicationViews = (props) => {
     return (

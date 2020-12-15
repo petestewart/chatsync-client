@@ -1,0 +1,47 @@
+.sidedrawer {
+    position: fixed;
+    width: 280px;
+    max-width: 70%;
+    height: 100%;
+    left: 0;
+    top: 40;
+    z-index: 200;
+    background-color: white;
+    padding: 32px 16px;
+    box-sizing: border-box;
+    transition: transform 0.3s ease-out;
+  }
+  
+  /* .SidedrawerLogo {
+    margin-bottom: 32px;
+    height: 11%
+  } */
+  
+  /* @media (min-width: 500px) {
+    .SideDrawer {
+      display: none;
+    }
+  } */
+  
+  .sidedrawer-open {
+    /* position: fixed;
+    width: 280px;
+    max-width: 70%;
+    height: 100%;
+    left: 0;
+    top: 40;
+    z-index: 200;
+    background-color: white;
+    padding: 32px 16px;
+    box-sizing: border-box; */
+    /* transition: transform 0.3s ease-out; */
+    transform: translateX(0);
+    color: blue;
+  }
+  
+  .sidedrawer-closed {
+    transform: translateX(-100%);
+    /* display: none; */
+    /* position: fixed; */
+
+  }
