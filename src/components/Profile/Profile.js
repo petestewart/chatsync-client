@@ -1,9 +1,8 @@
 import React, { useContext } from "react"
-import { Link } from "react-router-dom"
 
 import { ProfileContext } from "../Profile/ProfileProvider"
 
-
+import "./Profile.css"
 
 export const Profile = props => {
     const { profile } = useContext(ProfileContext)
@@ -16,9 +15,9 @@ export const Profile = props => {
                     <h2 className="mt-3 text-center">Your Profile</h2>
                 </div>
                 <div className="col-2 ">
-                    <Link to={'profile/edit'}>
-                        <i className="fas fa-cog fa-2x text-secondary"></i>
-                    </Link>
+                    {/* <Link to={'profile/edit'}> */}
+                        <i className="fas fa-cog edit-profile-btn" onClick={() => props.history.push("profile/edit")}></i>
+                    {/* </Link> */}
                 </div>
 
             </div>

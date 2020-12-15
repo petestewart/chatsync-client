@@ -1,0 +1,8 @@
+.edit-profile-btn {
+    color: grey;
+}
+
+.edit-profile-btn:hover {
+    cursor: pointer;
+    color: rgb(2, 212, 2);
+}
