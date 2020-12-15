@@ -56,7 +56,7 @@ export const Login = props => {
             <div className="form-group">
                 <small className="form-text text-center">No account? No problem.</small>
                 <button className="btn btn-secondary w-100" onClick={() => props.history.push("/register")}>Sign Up</button>
-             </div>
+            </div>
             </section>
         </main>
 

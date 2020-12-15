@@ -17,10 +17,10 @@ export const Layout = (props) => {
 
     return (
         <>
-            <NavBar toggleSideDrawerHandler={sideDrawerToggleHandler} {...props}/>
+            <NavBar toggleSideDrawerHandler={sideDrawerToggleHandler} sideDrawerOpen={showSideDrawer} {...props}/>
             <SideDrawer open={showSideDrawer} closedHandler={sideDrawerClosedHandler} />
                         
-            <ApplicationViews />
+            <ApplicationViews sideDrawerOpen={showSideDrawer} sideDrawerClosedHandler={sideDrawerClosedHandler}  />
         </>
     )
 };
