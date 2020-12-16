@@ -3,7 +3,7 @@ import React, { useContext, useState, useEffect } from "react"
 import { PartyContext } from "../Party/PartyProvider"
 
 export const PartyForm = props => {
-    const { party, createParty, getParty, updateParty } = useContext(PartyContext)
+    const { createParty, getParty, updateParty } = useContext(PartyContext)
 
     const [partyInfo, setPartyInfo] = useState({
         title: '',
