@@ -8,7 +8,7 @@ export const PartyCard = (props) => {
 
     return (
     <div className="party-card card mb-3">
-        <div className="card-body" onClick={() => {console.log('clicked')}}>
+        <div className="card-body" onClick={() => {props.history.push(`/party/${props.party.id}`)}}>
             <h5 className="card-title">{props.party.title}</h5>
             <p className="card-text">{dayjs(props.party.datetime).format('dddd MMMM D, YYYY  h:mmA')}</p>
             <p className="card-text">{props.party.description}</p>

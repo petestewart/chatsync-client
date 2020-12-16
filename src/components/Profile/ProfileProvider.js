@@ -13,6 +13,8 @@ export const ProfileProvider = (props) => {
         timeZoneOffset: 0
     })
 
+    const [allProfiles, setAllProfiles] = useState([])
+
     const getProfile = () => {
         return fetch("http://localhost:8000/members/me", {
             headers: {
@@ -21,6 +23,17 @@ export const ProfileProvider = (props) => {
         })
             .then(response => response.json())
             .then(setProfile)
+    }
+
+    const getAllProfiles = () => {
+        return fetch("http://localhost:8000/members", {
+            headers: {
+                "Authorization": `Token ${localStorage.getItem("watchparty_token")}`
+            }
+        })
+            .then(response => response.json())
+            .then(response => response.sort((a, b) => a.full_name > b.full_name ? 1 : -1))
+            .then(setAllProfiles)
     }
 
     const updateProfile = (profileInfo) => {
@@ -42,7 +55,7 @@ export const ProfileProvider = (props) => {
 
     return (
         <ProfileContext.Provider value={{
-            profile, getProfile, updateProfile
+            profile, getProfile, updateProfile, allProfiles, getAllProfiles
         }}>
             {props.children}
         </ProfileContext.Provider>
