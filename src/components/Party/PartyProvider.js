@@ -7,6 +7,9 @@ export const PartyProvider = (props) => {
         
     };
 
+    const [upcomingParties, setUpcomingParties] = useState([], [])
+
+
     const [party, setParty] = useState({
         id: 0,
         creator: {},
@@ -25,6 +28,16 @@ export const PartyProvider = (props) => {
         })
             .then(response => response.json())
             .then(setParty)
+    }
+
+    const getUpcomingParties = (partyId) => {
+        return fetch('http://localhost:8000/parties/myupcoming', {
+            headers: {
+                "Authorization": `Token ${localStorage.getItem("watchparty_token")}`
+            }
+        })
+            .then(response => response.json())
+            .then(setUpcomingParties)
     }
 
     const createParty = (partyInfo) => {
@@ -60,7 +73,7 @@ export const PartyProvider = (props) => {
 
     return (
         <PartyContext.Provider value={{
-            party, getParty, updateParty, createParty
+            party, getUpcomingParties, getParty, updateParty, createParty, upcomingParties
         }}>
             {props.children}
         </PartyContext.Provider>

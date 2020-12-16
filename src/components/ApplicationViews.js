@@ -5,6 +5,7 @@ import { PartyProvider } from './Party/PartyProvider'
 import { ProfileProvider } from './Profile/ProfileProvider'
 
 import { PartyForm } from "./Party/PartyForm"
+import { PartyList } from "./Party/PartyList"
 import { Profile } from "./Profile/Profile"
 import { ProfileForm } from "./Profile/ProfileForm"
 
@@ -18,6 +19,9 @@ export const ApplicationViews = (props) => {
 
                     {/* View Profile */}
                     <Route exact path="/profile" render={ props => <Profile history={props.history} {...props} />} />
+
+                    {/* View Parties */}
+                    <Route exact path="/parties/upcoming" render={ props => <PartyList history={props.history} {...props} />} />
 
                     {/* Create Party */}
                     <Route exact path="/parties/create" render={ props => <PartyForm history={props.history} {...props} />} />
