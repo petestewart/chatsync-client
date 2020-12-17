@@ -76,7 +76,6 @@ export const InviteForm = props => {
 
     return (
         <main className="inviteform-container px-3">
-            <h2 className="mt-3 text-center">Invite Guests to PARTY</h2>
             <section className="mt-5">
                 <div className="selected-list mb-1">
                 Invited Guests:

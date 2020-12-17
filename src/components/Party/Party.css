@@ -1,0 +1,47 @@
+.party-container {
+    /* height: calc(100vh - 50px); */
+    
+  
+  /* grid container settings */
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-rows: auto 1fr;
+  grid-template-areas: 
+    'header'
+    'main'
+}
+
+.party-header {
+    grid-area: header;
+}
+
+.party-room-body {
+    grid-area: main;
+}
+
+
+.party-control-button {
+    color: grey;
+}
+
+.party-control-button:hover {
+    cursor: pointer;
+    color: rgb(2, 212, 2);
+}
+
+
+/* .party-header {
+    flex-shrink: 0;
+}
+
+.party-room-body {
+    flex-grow: 1;
+    
+}
+.chat-feed {
+    flex-grow: 1;
+}
+
+.chat-footer {
+    flex-shrink: 0;
+} */
