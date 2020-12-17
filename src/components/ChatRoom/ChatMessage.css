@@ -2,3 +2,9 @@
     font-weight: bold;
 
 }
+
+.message-avatar {
+    height: 48px;
+    width: 48px;
+    border-radius: 50%;
+}
