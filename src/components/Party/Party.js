@@ -23,7 +23,7 @@ export const Party = props => {
             <section className="mt-5">
                 {party.title}
                 <button>Invite</button>
-                <InviteForm />
+                <InviteForm party={party} />
             </section>
         </main>
             

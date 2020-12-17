@@ -1,0 +1,10 @@
+.selected-option {
+    background-color: rgb(88, 219, 116);
+    border-radius: 5px;
+    margin-left: 5px;
+    padding: 4px;
+}
+
+.remove-selection-button:hover {
+    cursor: pointer;
+}
