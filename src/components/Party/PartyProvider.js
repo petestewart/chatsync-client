@@ -12,9 +12,10 @@ export const PartyProvider = (props) => {
 
     const [party, setParty] = useState({
         id: 0,
-        creator: {},
+        guests: {},
         url: '',
         title: '',
+        creator: {},
         description: '',
         datetime: '',
         is_public: false
@@ -28,6 +29,53 @@ export const PartyProvider = (props) => {
         })
             .then(response => response.json())
             .then(setParty)
+    }
+
+    const getPartyGuests = (partyId) => {
+        return fetch(`http://localhost:8000/partyguests/${partyId}`, {
+            headers: {
+                "Authorization": `Token ${localStorage.getItem("watchparty_token")}`
+            }
+        })
+            .then(response => response.json())
+            .then(data => {return(data)})
+    }
+
+    const addPartyGuest = (partyId, guestId) => {
+        return fetch('http://localhost:8000/partyguests', {
+            method : "POST",
+            headers: {
+                "Authorization": `Token ${localStorage.getItem("watchparty_token")}`,
+                "Content-Type": "application/json",
+                "Accept": "application/json"
+            },
+            body: JSON.stringify(
+                {
+                    "guest_id": guestId,
+                    "party_id": partyId,
+                    "rsvp": false
+                }
+            )
+        })
+            .then(response => response.json())
+            .then(data => {return(data)})
+    }
+    const deletePartyGuest = (partyId, guestId) => {
+        return fetch(`http://localhost:8000/partyguests/${partyId}`, {
+            method : "DELETE",
+            headers: {
+                "Authorization": `Token ${localStorage.getItem("watchparty_token")}`,
+                "Content-Type": "application/json",
+                "Accept": "application/json"
+            },
+            body: JSON.stringify(
+                {
+                    "guest_id": guestId
+                }
+            )
+        })
+            .then(response => response.json())
+            .then(data => {return(data)})
     }
 
     const getUpcomingParties = (partyId) => {
@@ -73,7 +121,7 @@ export const PartyProvider = (props) => {
 
     return (
         <PartyContext.Provider value={{
-            party, getUpcomingParties, getParty, updateParty, createParty, upcomingParties
+            party, getUpcomingParties, getParty, updateParty, createParty, upcomingParties, getPartyGuests, addPartyGuest, deletePartyGuest
         }}>
             {props.children}
         </PartyContext.Provider>
