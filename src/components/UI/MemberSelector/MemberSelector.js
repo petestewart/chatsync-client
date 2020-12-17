@@ -33,7 +33,6 @@ export const MemberSelector = (props) => {
 
 
     return (
-        <>
         <div className="dropdown" >
             <form autoComplete="off" >
 
@@ -51,7 +50,5 @@ export const MemberSelector = (props) => {
             </div>
             </form>
         </div>
-        <h1>morestuff</h1>
-        </>
     )
 };

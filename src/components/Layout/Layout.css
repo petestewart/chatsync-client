@@ -1,0 +1,16 @@
+.Layout {
+    height: 100vh;
+    margin: 0;
+}
+
+.navbar-container {
+    position: fixed;
+    width: 100%;
+    height: 48px;
+}
+
+.app-container {
+    position: relative;
+    top: 48px;
+    height: calc(100vh - 48px);
+}
