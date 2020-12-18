@@ -1,32 +1,26 @@
 .chatroom-container {
-    /* height: calc(100vh - 100px); */
-    position: relative;
-    
-
-    /* grid container settings */
-    display: grid;
-    grid-template-columns: 1fr;
-    grid-template-rows: 1fr auto ;
-    grid-template-areas: 
-        'feed'
-        'footer'
+    /* background-color: red; */
+    width: 100%;
 }
 
 .chat-feed {
-    grid-area: feed;
-    height: calc(100vh - 172px); /* vpace for fixed navbar (48px), "main" (71px), footer (53px) */
-  overflow-y: scroll; /* vertical scroll for the message feed */
+    /* background-color: orange; */
+    height: calc(100vh - 338px); 
+    overflow-y: scroll;
+    margin: 0 0 150px; 
+    width: 100%;
+    padding-top: 10px;
 }
 
+
 .chat-footer {
-    grid-area: footer;
+    background-color: white;
     position: fixed;
     bottom: 0;
     left: 0;
     width: 100%; /* 100% of page width */
-    padding: 0 15px 15px 15px; /* standard edge margin (15px) */
-    height: 200px; /* space for input height (38px) + bottom padding (15px) */
-    background-color: #fff;
+    padding: 15px; /* standard edge margin (15px) */
+    height: 150px; /* space for input height (38px) + bottom padding (15px) */
 }
 
 .chat-message-form {
@@ -35,4 +29,16 @@
 
 .chat-text-input-window {
     width: 80vw;
+}
+
+
+
+.message-button {
+    color: grey;
+    margin: 0 10px;
+}
+
+.message-button:hover {
+    color: rgb(2, 212, 2);
+    cursor: pointer;
 }

@@ -11,9 +11,6 @@ import { ChatMessage } from './ChatMessage'
 
 import { ProfileContext } from "../Profile/ProfileProvider"
 
-
-
-
 firebase.initializeApp({
     apiKey: "AIzaSyALgLboaRpdiz584kKvzJ0qJNd-6SahHA4",
     authDomain: "superchat-fced2.firebaseapp.com",
@@ -35,10 +32,22 @@ export const ChatRoom = (props) => {
     // listen for new messages
     const [messages] = useCollectionData(query, {idField: 'id'});
 
+
+    const handleFormData = (e) => {
+        setFormValue(e.target.value)
+    };
+
+    const handleKeystroke = (e) => {
+        console.log(e)
+        if (e.keyCode === 13 && e.shiftKey === false) {
+            sendMessage()
+        }
+    };
+
     // for sending a message
     const [formValue, setFormValue] = useState('');
     const sendMessage = async(e) => {
-        e.preventDefault();
+        // e.preventDefault();
         // (to set current user)
         // send message:
         await messagesRef.add({
@@ -58,14 +67,17 @@ export const ChatRoom = (props) => {
                 {messages && messages.map(msg => <ChatMessage key={msg.id} message={msg} readerId={profile.id} />)}
             </div>
             <div className="chat-footer">
-                <form className="chat-message-form" onSubmit={sendMessage}>
+                <form className="chat-message-form w-100" onSubmit={sendMessage}>
                     <textarea 
-                        className="chat-text-input-window"
-                        rows="4"
+                        className="chat-text-input-window w-100"
+                        rows="2"
                         value={formValue}
-                        onChange={(e) => {setFormValue(e.target.value)}}/>
-                    <button type="submit">Send</button>
-                <div className="message-controls">
+                        onKeyDown={(e) => {handleKeystroke(e)}}
+                        onChange={(e) => {handleFormData(e)}}/>
+                    {/* <button type="submit">Send</button> */}
+                <div className="message-controls d-flex justify-content-around">
+                    <i class="fas fa-paper-plane fa-2x message-button" onClick={sendMessage}></i>
+                    <i class="fas fa-smile fa-2x message-button"></i>
                 </div>
                 </form>
             </div>
@@ -73,15 +85,3 @@ export const ChatRoom = (props) => {
     )
     };
 
-    
-
-    // const ChatMessage = (props) => {
-    // const { photoURL, text, uid } = props.message;
-
-    // return (
-    //     <div className="message">
-    //         <img src={photoURL} alt=""/>
-    //         <p>{text}</p>
-    //     </div>
-    // )
-// };

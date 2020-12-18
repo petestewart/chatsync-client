@@ -13,21 +13,7 @@ export const ChatMessage = (props) => {
 
     return (
         <div className="message row">
-            <div className="col-1 message-avatar">
-            {/* <Avatar.Root
-                overflow={'hidden'}
-                borderRadius={24}
-                width={48}
-                height={48}
-            >
-                <Avatar.Image 
-                    src={profile_pic}
-                    width={'48px'}
-                    height={'48px'}
-                    objectFit={'cover'}
-                    />
-                <Avatar.Fallback />
-            </Avatar.Root> */}
+            <div className="col-1">
             <img className="message-avatar" 
                 src={profile_pic
                     ? profile_pic

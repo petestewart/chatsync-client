@@ -4,13 +4,21 @@
 }
 
 .navbar-container {
+    /* background-color: yellow; */
     position: fixed;
+    top: 0;
     width: 100%;
     height: 48px;
+    z-index: 50;
 }
 
 .app-container {
-    position: relative;
+    /* position: relative;
     top: 48px;
-    height: calc(100vh - 48px);
+    height: calc(100vh - 48px); */
+    width: 100%;
+    /* position: fixed; */
+    /* top: 48px; */
+    margin-top: 48px;
+    min-height: calc(100vh - 48px);
 }

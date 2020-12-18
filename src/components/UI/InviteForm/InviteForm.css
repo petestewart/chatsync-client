@@ -1,3 +1,10 @@
+.inviteform-container {
+    background-color: white;
+    width: calc(100% - 10px);
+    min-height: 200px;
+    z-index: 200;
+}
+
 .selected-option {
     background-color: rgb(88, 219, 116);
     border-radius: 5px;

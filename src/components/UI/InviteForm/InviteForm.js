@@ -75,8 +75,8 @@ export const InviteForm = props => {
 
 
     return (
-        <main className="inviteform-container px-3">
-            <section className="mt-5">
+        <main className="inviteform-container">
+            <section className="p-3">
                 <div className="selected-list mb-1">
                 Invited Guests:
                 {guests.map((guestId) => getGuestName(guestId))}
