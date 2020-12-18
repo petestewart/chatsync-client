@@ -3,9 +3,6 @@ import React, { useState } from "react"
 export const PartyContext = React.createContext()
 
 export const PartyProvider = (props) => {
-    const convertToUTC = (datetime) => {
-        
-    };
 
     const [upcomingParties, setUpcomingParties] = useState([], [])
 
