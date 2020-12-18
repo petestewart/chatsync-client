@@ -35,10 +35,22 @@ export const ChatRoom = (props) => {
     // listen for new messages
     const [messages] = useCollectionData(query, {idField: 'id'});
 
+
+    const handleFormData = (e) => {
+        setFormValue(e.target.value)
+    };
+
+    const handleKeystroke = (e) => {
+        console.log(e)
+        if (e.keyCode === 13 && e.shiftKey === false) {
+            sendMessage()
+        }
+    };
+
     // for sending a message
     const [formValue, setFormValue] = useState('');
     const sendMessage = async(e) => {
-        e.preventDefault();
+        // e.preventDefault();
         // (to set current user)
         // send message:
         await messagesRef.add({
@@ -54,7 +66,7 @@ export const ChatRoom = (props) => {
     
     return (
         <div className="chatroom-container">
-            <div className="chat-feed">
+            <div className="chat-feed container">
                 {messages && messages.map(msg => <ChatMessage key={msg.id} message={msg} readerId={profile.id} />)}
             </div>
             <div className="chat-footer">
@@ -63,7 +75,8 @@ export const ChatRoom = (props) => {
                         className="chat-text-input-window"
                         rows="4"
                         value={formValue}
-                        onChange={(e) => {setFormValue(e.target.value)}}/>
+                        onKeyDown={(e) => {handleKeystroke(e)}}
+                        onChange={(e) => {handleFormData(e)}}/>
                     <button type="submit">Send</button>
                 <div className="message-controls">
                 </div>

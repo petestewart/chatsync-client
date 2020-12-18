@@ -4,7 +4,7 @@
 }
 
 .message-avatar {
-    height: 48px;
-    width: 48px;
+    max-height: 30px;
+    max-width: 30px;
     border-radius: 50%;
 }
