@@ -74,11 +74,15 @@ export const ChatRoom = (props) => {
     const deleteMessage = (messageId) => {
         messagesRef.doc(messageId).delete()
     };
+
+    const updateMessage = (messageId, content) => {
+        messagesRef.doc(messageId).update({ content})
+    };
     
     return (
         <div className="chatroom-container">
             <div className="chat-feed">
-                {messages && messages.map(msg => <ChatMessage key={msg.id} message={msg} readerId={profile.id} deleteMessage={deleteMessage} />)}
+                {messages && messages.map(msg => <ChatMessage key={msg.id} message={msg} readerId={profile.id} deleteMessage={deleteMessage} updateMessage={updateMessage} />)}
                 <span ref={endOfFeed}></span>
             </div>
             <div className="chat-footer">
@@ -90,8 +94,8 @@ export const ChatRoom = (props) => {
                         onKeyDown={(e) => {handleKeystroke(e)}}
                         onChange={(e) => {handleFormData(e)}}/>
                 <div className="message-controls d-flex justify-content-around">
-                    <i class="fas fa-paper-plane fa-2x message-button" onClick={sendMessage}></i>
-                    <i class="fas fa-smile fa-2x message-button"></i>
+                    <i className="fas fa-paper-plane fa-2x message-button" onClick={sendMessage}></i>
+                    <i className="fas fa-smile fa-2x message-button"></i>
                 </div>
                 </form>
             </div>
