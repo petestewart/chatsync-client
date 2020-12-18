@@ -12,3 +12,27 @@
     max-width: 30px;
     border-radius: 50%;
 }
+
+.react-to-message-button {
+    color: grey;
+}
+
+.react-to-message-button:hover {
+    color: yellow;
+    cursor: pointer;
+}
+
+.delete-message-button:hover {
+    color: red;
+    cursor: pointer;
+}
+
+.edit-message-button:hover {
+    color: blue;
+    cursor: pointer;
+}
+
+.message-open-controls-button:hover {
+    color: black !important;
+    cursor: pointer;
+}

@@ -23,9 +23,7 @@ export const Party = props => {
         setPartyIsLive(
             (dayjs(party.datetime).valueOf()) <= (dayjs(new Date()).valueOf())
         )}, [party])
-    
-    console.log(dayjs(party.datetime).valueOf())
-    console.log(dayjs(new Date()).valueOf())
+
 
     return (
         <main className="party-container">

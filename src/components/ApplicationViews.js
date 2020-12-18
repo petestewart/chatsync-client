@@ -1,6 +1,7 @@
 import React from "react"
 import { Route } from "react-router-dom"
 
+import { ChatProvider } from './ChatRoom/ChatProvider'
 import { PartyProvider } from './Party/PartyProvider'
 import { ProfileProvider } from './Profile/ProfileProvider'
 
@@ -25,8 +26,10 @@ export const ApplicationViews = (props) => {
                     <Route exact path="/parties/upcoming" render={ props => <PartyList history={props.history} {...props} />} />
 
                     {/* Party */}
-                    <Route exact path="/party/:id(\d+)" render={ props => <Party history={props.history} {...props} />} />
-
+                    <ChatProvider>
+                        <Route exact path="/party/:id(\d+)" render={ props => <Party history={props.history} {...props} />} />
+                    </ChatProvider>
+                    
                     {/* Create Party */}
                     <Route exact path="/parties/create" render={ props => <PartyForm history={props.history} {...props} />} />
 
