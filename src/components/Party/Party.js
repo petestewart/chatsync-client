@@ -13,19 +13,29 @@ export const Party = props => {
     const { getParty, party } = useContext(PartyContext)
     const [showInviteForm, setShowInviteForm] = useState(false)
 
+    const [partyIsLive, setPartyIsLive] = useState(false)
+
     useEffect(() => {
         getParty(props.match.params.id)
     }, [])
 
+    useEffect(() => {
+        setPartyIsLive(
+            (dayjs(party.datetime).valueOf()) <= (dayjs(new Date()).valueOf())
+        )}, [party])
     
-    
-
+    console.log(dayjs(party.datetime).valueOf())
+    console.log(dayjs(new Date()).valueOf())
 
     return (
         <main className="party-container">
             <div className="party-header">
                 <h2 className="mt-3 text-center">{party.title}</h2>
-                <h6 className="text-center">Watch Party</h6>
+                <h6 className={`text-center ${partyIsLive ? 'text-primary' : ''}`}>
+                    {partyIsLive
+                    ? 'LIVE '
+                    : ''}
+                    Watch Party</h6>
                 
                 <section className="mt-3">
                     <div className="container">

@@ -4,12 +4,12 @@
 }
 
 .navbar-container {
+    /* background-color: yellow; */
     position: fixed;
     top: 0;
     width: 100%;
     height: 48px;
     z-index: 50;
-    background-color: yellow;
 }
 
 .app-container {

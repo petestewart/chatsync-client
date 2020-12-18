@@ -1,39 +1,28 @@
 .party-container {
-  /* grid container settings */
-  /* display: grid;
-  grid-template-columns: 1fr;
-  grid-template-rows: auto 1fr;
-  grid-template-areas: 
-    'header'
-    'main' */
-
+    /* background-color: lightblue; */
     min-height: calc(100vh - 48px);
-    background-color: lightblue;
-    /* extra */
     position: fixed;
     top: 48px;
     width: 100%;
 }
 
 .party-header {
+    /* background-color: lightgreen; */
     height: 140px;
     min-height: 140px;
     position: fixed;
     top: 48px;
     width: 100%;
     left: 0;
-    background-color: lightgreen;
     z-index: 99;
 }
 
 .party-room-body {
+    /* background-color: pink; */
     height: calc(100vh - 188px);
     width: 100%;
-    background-color: pink;
-    /* margin-top: 188px; EXTRA change back and comment out the two below */
     position: fixed;
     top: 188px;
-    /* z-index: 999; */
 }
 
 

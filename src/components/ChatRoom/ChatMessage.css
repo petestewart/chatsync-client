@@ -1,5 +1,6 @@
 .message {
     margin: 0 !important;
+    overflow-wrap: break-word;
 }
 
 .message-sender {
