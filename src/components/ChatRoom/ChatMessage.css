@@ -36,3 +36,9 @@
     color: black !important;
     cursor: pointer;
 }
+
+.edit-message-textbox {
+    outline: none;
+    border: none;
+    height: unset;
+}

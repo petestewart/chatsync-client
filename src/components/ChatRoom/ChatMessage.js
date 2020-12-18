@@ -1,17 +1,59 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState, useRef } from 'react'
 import dayjs from 'dayjs'
-import * as Avatar from '@radix-ui/react-avatar';
 
 
 import './ChatMessage.css'
 
 
 export const ChatMessage = (props) => {
-    const { content, senderId, createdAt, full_name, profile_pic } = props.message;
+    const { content, senderId, createdAt, full_name, profile_pic, id } = props.message;
 
     const [showEditMenu, setShowEditMenu] = useState(false);
+    const [editMessage, setEditMessage] = useState(false);
 
     
+
+    const MessageForm = (props) => {
+        const inputRef = useRef(null);
+        const [newMessageContent, setNewMessageContent] = useState(props.origMessage)
+
+        useEffect(() => {
+            // Moving cursor to the end
+            inputRef.current.selectionStart = inputRef.current.value.length;
+            inputRef.current.selectionEnd = inputRef.current.value.length;
+        }, []);
+
+        const handleFormData = (e) => {
+            setNewMessageContent(e.target.value)
+        };
+
+        const handleKeystroke = (e) => {
+            // update message if user presses return
+            if (e.keyCode === 13 && e.shiftKey === false) {
+                props.updateMessage(id, newMessageContent)
+                setEditMessage(false)
+            }
+            // cancel if user presses ESC
+            if (e.keyCode === 27) {
+                setEditMessage(false)
+            }
+        };
+
+        return (
+        <div>
+            <textarea
+                ref={inputRef}
+                className="w-100 edit-message-textbox" 
+                type="text" 
+                value={newMessageContent} 
+                onChange={handleFormData} onKeyDown={handleKeystroke}
+                autoFocus
+                />
+            
+        </div>
+
+        )
+    }
 
     return (
         <div className="message row">
@@ -22,7 +64,7 @@ export const ChatMessage = (props) => {
                     : 'https://www.clipartmax.com/png/middle/97-978328_avatar-icon-free-fa-user-circle-o.png'} 
                     alt={full_name}/>
             </div>
-            <div className="col-6">
+            <div className="col-9">
                 <span className="message-sender">{full_name} </span> 
                 <small>
                     {createdAt 
@@ -30,16 +72,25 @@ export const ChatMessage = (props) => {
                         : ''
                     }
                 </small>
-                <p>{content}</p>
+                
+                { editMessage
+                ?   <MessageForm origMessage={content} updateMessage={props.updateMessage} />
+                : <p>{content}</p>
+                }
+                
             </div>
-            <div className="col-5 text-right">
+            <div className="col-2 text-right">
                     { showEditMenu
                     ? <span className="message-edit-controls">
                         <i className="fas fa-smile mr-3 react-to-message-button"></i>
                         { senderId === props.readerId
                             ? <>
                                 <i className="far fa-trash-alt mr-3 delete-message-button" onClick={() => {props.deleteMessage(props.message.id)}}></i>
-                                <i class="far fa-edit mr-3 edit-message-button"></i>
+                                <i className="far fa-edit mr-3 edit-message-button" 
+                                    onClick= {() => {
+                                        setEditMessage(true)
+                                        setShowEditMenu(false)
+                                        }}></i>
                             </>
                             : ''
                         }
