@@ -47,6 +47,9 @@ export const ChatMessage = (props) => {
                 type="text" 
                 value={newMessageContent} 
                 onChange={handleFormData} onKeyDown={handleKeystroke}
+                onBlur={() => {
+                    setEditMessage(false)
+                }}
                 autoFocus
                 />
             
