@@ -1,6 +1,9 @@
+.message {
+    margin: 0 !important;
+}
+
 .message-sender {
     font-weight: bold;
-
 }
 
 .message-avatar {

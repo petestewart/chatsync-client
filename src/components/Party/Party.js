@@ -22,7 +22,7 @@ export const Party = props => {
 
 
     return (
-        <main className="party-container px-3">
+        <main className="party-container">
             <div className="party-header">
                 <h2 className="mt-3 text-center">{party.title}</h2>
                 <h6 className="text-center">Watch Party</h6>
@@ -50,7 +50,7 @@ export const Party = props => {
                     }
                 </section>
             </div>
-            <section className="party-room-body mt-3">
+            <section className="party-room-body">
                 <ChatRoom party={party} />
             </section>
         </main>

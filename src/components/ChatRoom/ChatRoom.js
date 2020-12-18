@@ -11,9 +11,6 @@ import { ChatMessage } from './ChatMessage'
 
 import { ProfileContext } from "../Profile/ProfileProvider"
 
-
-
-
 firebase.initializeApp({
     apiKey: "AIzaSyALgLboaRpdiz584kKvzJ0qJNd-6SahHA4",
     authDomain: "superchat-fced2.firebaseapp.com",
@@ -66,14 +63,14 @@ export const ChatRoom = (props) => {
     
     return (
         <div className="chatroom-container">
-            <div className="chat-feed container">
+            <div className="chat-feed ">
                 {messages && messages.map(msg => <ChatMessage key={msg.id} message={msg} readerId={profile.id} />)}
             </div>
             <div className="chat-footer">
-                <form className="chat-message-form" onSubmit={sendMessage}>
+                <form className="chat-message-form w-100" onSubmit={sendMessage}>
                     <textarea 
-                        className="chat-text-input-window"
-                        rows="4"
+                        className="chat-text-input-window w-100"
+                        rows="2"
                         value={formValue}
                         onKeyDown={(e) => {handleKeystroke(e)}}
                         onChange={(e) => {handleFormData(e)}}/>
@@ -86,15 +83,3 @@ export const ChatRoom = (props) => {
     )
     };
 
-    
-
-    // const ChatMessage = (props) => {
-    // const { photoURL, text, uid } = props.message;
-
-    // return (
-    //     <div className="message">
-    //         <img src={photoURL} alt=""/>
-    //         <p>{text}</p>
-    //     </div>
-    // )
-// };
