@@ -72,7 +72,7 @@ export const PartyForm = props => {
     const handleFormSubmission = (e) => {
         e.preventDefault()
         createParty(partyInfo)
-            .then(() => {props.history.push("/profile")})
+            .then(() => {props.history.push("/parties/upcoming")})
     };
 
     const handleDateTimeInput = (e) => {

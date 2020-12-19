@@ -11,8 +11,6 @@ export const ChatMessage = (props) => {
     const [showEditMenu, setShowEditMenu] = useState(false);
     const [editMessage, setEditMessage] = useState(false);
 
-    
-
     const MessageForm = (props) => {
         const inputRef = useRef(null);
         const [newMessageContent, setNewMessageContent] = useState(props.origMessage)
@@ -54,7 +52,6 @@ export const ChatMessage = (props) => {
                 />
             
         </div>
-
         )
     }
 

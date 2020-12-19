@@ -1,10 +1,13 @@
 import React from "react"
 import { Route } from "react-router-dom"
 
+import ScrollToTop from './UI/ScrollToTop/ScrollToTop'
+
 import { ChatProvider } from './ChatRoom/ChatProvider'
 import { PartyProvider } from './Party/PartyProvider'
 import { ProfileProvider } from './Profile/ProfileProvider'
 
+import { Home } from "./Home/Home"
 import { Party } from "./Party/Party"
 import { PartyForm } from "./Party/PartyForm"
 import { PartyList } from "./Party/PartyList"
@@ -17,12 +20,15 @@ export const ApplicationViews = (props) => {
             <ProfileProvider>
                 <PartyProvider>
                     {/* Edit Profile */}
+                    <ScrollToTop />
                     <Route exact path="/profile/edit" render={ props => <ProfileForm history={props.history} {...props} />} />
 
                     {/* View Profile */}
+                    <ScrollToTop />
                     <Route exact path="/profile" render={ props => <Profile history={props.history} {...props} />} />
 
                     {/* View Parties List */}
+                    <ScrollToTop />
                     <Route exact path="/parties/upcoming" render={ props => <PartyList history={props.history} {...props} />} />
 
                     {/* Party */}
@@ -31,10 +37,13 @@ export const ApplicationViews = (props) => {
                     </ChatProvider>
                     
                     {/* Create Party */}
+                    <ScrollToTop />
                     <Route exact path="/parties/create" render={ props => <PartyForm history={props.history} {...props} />} />
 
                     {/* Home */}
-                    <Route exact path="/" render={ props => { return <h1>HOME</h1>}} />
+                    <ScrollToTop />
+                    <Route exact path="/" render={ props => <Home history={props.history} {...props} />} />
+
                 </PartyProvider>
             </ProfileProvider>
         </>
