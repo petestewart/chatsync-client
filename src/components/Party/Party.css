@@ -34,20 +34,3 @@
     cursor: pointer;
     color: rgb(2, 212, 2);
 }
-
-
-/* .party-header {
-    flex-shrink: 0;
-}
-
-.party-room-body {
-    flex-grow: 1;
-    
-}
-.chat-feed {
-    flex-grow: 1;
-}
-
-.chat-footer {
-    flex-shrink: 0;
-} */

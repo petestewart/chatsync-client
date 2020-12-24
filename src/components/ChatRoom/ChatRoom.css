@@ -1,6 +1,7 @@
 .chatroom-container {
     /* background-color: red; */
     width: 100%;
+    font-size: .8rem;
 }
 
 .chat-feed {
@@ -41,4 +42,9 @@
 .message-button:hover {
     color: rgb(2, 212, 2);
     cursor: pointer;
+}
+
+.message-time {
+    font-size: .6rem;
+    color: grey;
 }

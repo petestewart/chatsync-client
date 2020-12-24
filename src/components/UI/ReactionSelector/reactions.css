@@ -1,0 +1,35 @@
+.reactions {
+    margin-top: -20px;
+    font-size: 50%;
+    z-index: 999;
+}
+
+.reactions .reactions-counter {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.reactions .emoji-mart {
+    z-index: 999;
+}
+
+.reactions .emoji-mart-anchors {
+    display: none;
+}
+
+.reactions .emoji-mart-search {
+    display: none;
+}
+
+.reactions .emoji-mart-bar {
+    display: none;
+}
+
+.reactions .emoji-mart-scroll {
+    overflow: auto;
+    height: auto;
+}
+
+.reactions .emoji-mart-category-label {
+    display: none;
+}

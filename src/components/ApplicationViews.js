@@ -14,11 +14,17 @@ import { PartyList } from "./Party/PartyList"
 import { Profile } from "./Profile/Profile"
 import { ProfileForm } from "./Profile/ProfileForm"
 
+import {FacebookExample} from "./UI/ReactionSelector/FacebookExample"
+
 export const ApplicationViews = (props) => {
     return (
         <>
             <ProfileProvider>
                 <PartyProvider>
+                    {/* TEST */}
+                    <ScrollToTop />
+                    <Route exact path="/reactions" render={ props => <FacebookExample history={props.history} {...props} />} />
+
                     {/* Edit Profile */}
                     <ScrollToTop />
                     <Route exact path="/profile/edit" render={ props => <ProfileForm history={props.history} {...props} />} />
