@@ -25,6 +25,11 @@ export const ChatMessage = (props) => {
     //     .then((res) => setReactions(res))
     // })
 
+    useEffect(() => {
+        getReactionsByMessage(id)
+            .then((res) => setMessageReactions(res))
+    }, [])
+
     const MessageForm = (props) => {
         const inputRef = useRef(null);
         const [newMessageContent, setNewMessageContent] = useState(props.origMessage)
@@ -51,6 +56,7 @@ export const ChatMessage = (props) => {
                 setEditMessage(false)
             }
         };
+
         
         return (
             <div>
@@ -71,16 +77,15 @@ export const ChatMessage = (props) => {
     }
     
 
-    const handleReactionSelect = (emoji) => {
-        setEmoji(emoji)
-        setShowReactionForm(false)
-    };
+    // const handleReactionSelect = (emoji) => {
+    //     setEmoji(emoji)
+    //     setShowReactionForm(false)
+    // };
 
     const handleReactionToggle = (reaction) => {
         setEmoji(emoji)
         
         const selectedReaction = props.reactionTypes.find(r => r.name === reaction.id);
-        console.log(selectedReaction)
         toggleReaction({
             messageId: id,
             partyId,
@@ -91,6 +96,7 @@ export const ChatMessage = (props) => {
                 .then((res) => setMessageReactions(res))
         })
         setShowReactionForm(false)
+        setShowEditMenu(false)
 
     };
 
@@ -120,7 +126,9 @@ export const ChatMessage = (props) => {
                     <div className="col-5 text-right">
                         { showEditMenu
                         ? <span className="message-edit-controls">
-                            <i className="fas fa-smile mr-3 react-to-message-button" onClick={() => {setShowReactionForm(!showReactionForm)}}></i>
+                            <i className="fas fa-smile mr-3 react-to-message-button" onClick={() => {
+                                setShowReactionForm(!showReactionForm)
+                                }}></i>
                             { senderId === props.readerId
                                 ? <>
                                     <i className="far fa-trash-alt mr-3 delete-message-button" onClick={() => {props.deleteMessage(props.message.id)}}></i>
@@ -144,7 +152,7 @@ export const ChatMessage = (props) => {
                 ?   <MessageForm origMessage={content} updateMessage={props.updateMessage} />
                 : <span>{content}</span>
                 }
-                <Reactions emoji={emoji} messageReactions={messageReactions} click={handleReactionToggle} />
+                <Reactions reactionTypes={props.reactionTypes} messageReactions={messageReactions} click={handleReactionToggle} />
                 <br />
                 { showReactionForm
                 ? <ReactionSelector reactionTypes={props.reactionTypes} handleReactionSelect={handleReactionToggle}  />
@@ -152,7 +160,6 @@ export const ChatMessage = (props) => {
                 }
                 
             </div>
-           
         </div>
     )
 }
