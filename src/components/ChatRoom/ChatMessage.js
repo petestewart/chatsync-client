@@ -20,6 +20,8 @@ export const ChatMessage = (props) => {
     const [showEditMenu, setShowEditMenu] = useState(false);
     const [editMessage, setEditMessage] = useState(false);
 
+    const [hideMessage, setHideMessage] = useState(true)
+
     // useEffect(() => {
     //     getReactionsByMessage(id)
     //     .then((res) => setReactions(res))
@@ -29,6 +31,17 @@ export const ChatMessage = (props) => {
         getReactionsByMessage(id)
             .then((res) => setMessageReactions(res))
     }, [props.message])
+
+    useEffect(() => {
+        const m = props.message
+        if (m.createdAt) {
+            if (((m.createdAt.seconds * 1000) - m.timeOffset) <= ((new Date().getTime()) - props.delay)) {
+                setTimeout(() => {
+                    setHideMessage(false)
+                }, (((m.createdAt.seconds * 1000) + props.delay - m.timeOffset) - Math.floor(new Date().getTime())))
+            }
+        }
+    }, [props.delay, props.message])
 
     const MessageForm = (props) => {
         const inputRef = useRef(null);
@@ -99,7 +112,12 @@ export const ChatMessage = (props) => {
 
 
     return (
-        <div className="message row">
+        <>
+        
+        {
+            hideMessage
+            ? ''
+            : <div className="message row">
             <div className="col-1">
             <img className="message-avatar" 
                 src={profile_pic
@@ -156,5 +174,8 @@ export const ChatMessage = (props) => {
                 
             </div>
         </div>
+        }
+        
+        </>
     )
 }
