@@ -28,7 +28,7 @@ export const ChatMessage = (props) => {
     useEffect(() => {
         getReactionsByMessage(id)
             .then((res) => setMessageReactions(res))
-    }, [])
+    }, [props.message])
 
     const MessageForm = (props) => {
         const inputRef = useRef(null);
@@ -75,12 +75,6 @@ export const ChatMessage = (props) => {
         </div>
         )
     }
-    
-
-    // const handleReactionSelect = (emoji) => {
-    //     setEmoji(emoji)
-    //     setShowReactionForm(false)
-    // };
 
     const handleReactionToggle = (reaction) => {
         setEmoji(emoji)
@@ -92,6 +86,7 @@ export const ChatMessage = (props) => {
             reactionId: selectedReaction.id
         })
         .then(() => {
+            props.updateMessage(id)
             getReactionsByMessage(id)
                 .then((res) => setMessageReactions(res))
         })

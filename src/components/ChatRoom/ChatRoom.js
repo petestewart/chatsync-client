@@ -2,7 +2,6 @@ import React, { useState, useContext, useRef, useEffect } from 'react'
 import firebase from 'firebase/app'
 import 'firebase/firestore'
 import 'firebase/auth'
-// import { useAuthState } from 'react-firebase-hooks/auth'
 import { useCollectionData } from 'react-firebase-hooks/firestore'
 
 import "./ChatRoom.css"
@@ -35,12 +34,17 @@ export const ChatRoom = (props) => {
 
 
 
-  // get messages
+    // get messages
     const messagesRef = firestore.collection(`party-${props.party.id}`);
     const query = messagesRef.orderBy('createdAt').limit(25);
 
     // listen for new messages
     const [messages] = useCollectionData(query, {idField: 'id'});
+
+    // *** CHECK FOR SYSTEM MESSAGES ***
+    useEffect(() => {
+        console.log('SOMETHING CHANGED')
+    }, [messages])
 
 
     const handleFormData = (e) => {
@@ -59,10 +63,12 @@ export const ChatRoom = (props) => {
         await messagesRef.add({
         content: formValue,
         createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+        lastUpdated: firebase.firestore.FieldValue.serverTimestamp(),
         partyId: props.party.id,
         senderId: profile.id,
         full_name: profile.full_name,
-        profile_pic: profile.profile_pic
+        profile_pic: profile.profile_pic,
+        systemMessage: false
         });
         setFormValue('');
         endOfFeed.current.scrollIntoView({ behavior: 'smooth' })
@@ -72,9 +78,18 @@ export const ChatRoom = (props) => {
         messagesRef.doc(messageId).delete()
     };
 
+    // TODO: may not need the if statement?
     const updateMessage = (messageId, content) => {
-        messagesRef.doc(messageId).update({ content})
+        if (content) {
+            messagesRef.doc(messageId).update({ content, lastUpdated: firebase.firestore.FieldValue.serverTimestamp() })
+        } else {
+            messagesRef.doc(messageId).update({ lastUpdated: firebase.firestore.FieldValue.serverTimestamp() })
+        }
     };
+
+    // const updateMessageTime = (messageId) => {
+    //     messagesRef.doc(messageId).update({ lastUpdated: firebase.firestore.FieldValue.serverTimestamp() })
+    // };
     
     return (
         <div className="chatroom-container">

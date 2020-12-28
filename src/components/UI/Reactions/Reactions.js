@@ -13,16 +13,18 @@ export const Reactions = (props) => {
 
         //count is the length of the filtered array for each id in reactions
     
-
     return (
 
     <div>
         {
-            [...reactions].map(e => 
-            <span className="mr-2">
+            [...new Set(reactions)].map((e, index) => 
+            <span className="mr-2" key={index}>
                 <Emoji 
                 emoji={props.reactionTypes.find(rt => rt.id === e).name} 
-                size={12} onClick={props.click} />
+                size={12}
+                onClick={props.click}
+                
+                />
                 <small>{reactions.filter(r => r === e).length} </small>
             </span>
             )
