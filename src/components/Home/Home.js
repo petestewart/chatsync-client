@@ -13,19 +13,6 @@ export const Home = props => {
 
     useEffect(getUpcomingParties, [])
 
-    // const getLiveParties = () => {
-    //     const livePartyList = []
-    //     const notLivePartyList = []
-    //     upcomingParties.forEach((party) => {
-    //         if ((dayjs(party.datetime).valueOf()) <= (dayjs(new Date()).valueOf())) {
-    //             livePartyList.push(party)
-    //         } else {
-    //             notLivePartyList.push(party)
-    //         }
-    //     })
-    //     return livePartyList
-    // };
-
     const userPartiesMessage = () => {
         let livePartiesMessage = ''
         const livePartyList = []
@@ -42,7 +29,7 @@ export const Home = props => {
             }
             {
                 livePartyList.map((party) => (
-                    <button className="btn btn-danger w-100 mt-3" onClick={() => {props.history.push(`party/${party.id}`)}}>Join {party.title}</button>
+                    <button className="btn btn-danger w-100 mt-3" key={party.id} onClick={() => {props.history.push(`party/${party.id}`)}}>Join {party.title}</button>
                 ))
             }
             </div>)
