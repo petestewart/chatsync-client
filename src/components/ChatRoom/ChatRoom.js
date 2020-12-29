@@ -6,6 +6,7 @@ import { useCollectionData } from 'react-firebase-hooks/firestore'
 
 import "./ChatRoom.css"
 
+import { ChatCalibrator } from "./ChatCalibrator"
 import { ChatMessage } from './ChatMessage'
 
 import { firebaseInfo } from "./ChatProvider"
@@ -19,16 +20,14 @@ const firestore = firebase.firestore()
 
 export const ChatRoom = (props) => {
     const endOfFeed = useRef();
+    const [calibrationMessage, setCalibrationMessage] = useState({})
 
-    // const [messagesFeed, setMessagesFeed] = useState([])
 
     const { profile } = useContext(ProfileContext)
 
     const { getAllReactionTypes, reactionTypes } = useContext(ChatContext)
 
     useEffect(getAllReactionTypes, [])
-
-
 
     // get messages
     const messagesRef = firestore.collection(`party-${props.party.id}`);
@@ -37,76 +36,40 @@ export const ChatRoom = (props) => {
     // listen for new messages
     const [messages] = useCollectionData(query, {idField: 'id'});
 
-    let qTime
-
-    // const queueMessage = (message) => {
-    //     // console.log('setTimeout for ' + (((message.createdAt.seconds * 1000) + props.timeOffset) - Math.floor(new Date().getTime())))
-    //     qTime = setTimeout(() => {
-    //         const newMessages = [...messagesFeed, message]
-    //         setMessagesFeed(newMessages)
-    //     }, (((message.createdAt.seconds * 1000) + props.timeOffset - message.timeOffset) - Math.floor(new Date().getTime())))
-    // }
-
-    // const updateFeed = () => {
-    //     const newMessages = []
-    //     let timeout = 0
-    //     if (messages) {
-    //         messages.forEach(m => {
-    //             if (m.createdAt) {
-    //                 if (((m.createdAt.seconds * 1000) - m.timeOffset) <= ((new Date().getTime()) - props.timeOffset)) {
-    //                     // console.log((m.createdAt.seconds - (m.timeOffset / 1000)), ((new Date().getTime() + props.timeOffset) / 1000 ))
-    //                     newMessages.push(m)
-    //                     setMessagesFeed(newMessages)
-    //                 } else {
-    //                         console.log('Q')
-    //                         timeout = (((m.createdAt.seconds * 1000) + props.timeOffset - m.timeOffset) - Math.floor(new Date().getTime()))
-    //                         return
-    //                     }
-    //                 }
-    //             }
-    //         )
-    //     }
-    //     return timeout
-    // };
-
-    // keep messagesFeed in order
-    // const sortedMessages = (feed) => feed.sort((a, b) => a.createdAt.seconds - b.createdAt.seconds)
-    
-
     // *** CHECK FOR SYSTEM MESSAGES ***
-    // useEffect(() => {
-    //     const timeout = updateFeed()
-    //     console.log(timeout)
-    //     if (timeout > 0) {
-    //         setTimeout(updateFeed, timeout)
-    //     }
-    // }, [messages])
+    useEffect(() => {
+        if (messages) {
+            let calibratorOpen = false
+            let calibrateMessage = null
 
-
-    // useEffect(() => {
-    //     let isMounted = true
-    //     const newMessages = []
-    //     if (messages) {
-    //         messages.forEach(m => {
-    //             if (m.createdAt) {
-    //                 if (((m.createdAt.seconds * 1000) - m.timeOffset) <= ((new Date().getTime()) - props.timeOffset)) {
-    //                     // console.log((m.createdAt.seconds - (m.timeOffset / 1000)), ((new Date().getTime() + props.timeOffset) / 1000 ))
-    //                     newMessages.push(m)
-    //                     setMessagesFeed(newMessages)
-    //                 } else {
-    //                     if (isMounted) {
-    //                         console.log('Q')
-    //                         clearTimeout(qTime)
-    //                         queueMessage(m)
-    //                         return
-    //                     }
-    //                 }
-    //             }
-    //         })
-    //     }
-    //     return () => { isMounted = false }
-    // }, [messages])
-
+            messages.forEach((m) => {
+                if (m.systemMessage) {
+                    if (m.messageType === 'calibration_call') {
+                        if (calibrateMessage) {
+                            if (m.id !== calibrateMessage.id) {
+                                // delete old message (calibrateMessage.id)
+                                deleteMessage(calibrateMessage.id)
+                            }
+                        }
+                        calibrateMessage = m
+                        calibratorOpen = true
+                        console.log(calibrateMessage)
+                    }
+                    if (m.messageType === 'calibration_response' && m.senderId === profile.id && m.responseTo === calibrateMessage.id) {
+                        calibrateMessage = m
+                        calibratorOpen = false
+                        // calculate my offset time
+                    }
+                }
+            })
+            setCalibrationMessage(calibrateMessage)
+            if (calibratorOpen) {
+                console.log('FIRE UP THE CALIBRATOR')
+                
+                props.setShowCalibrator(true)
+            }
+        }
+    }, [messages])
 
     const handleFormData = (e) => {
         setFormValue(e.target.value)
@@ -136,6 +99,20 @@ export const ChatRoom = (props) => {
         endOfFeed.current.scrollIntoView({ behavior: 'smooth' })
     }
 
+    const sendCalibrationCall = async(cal) => {
+        await messagesRef.add({
+        content: cal.message,
+        createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+        partyId: props.party.id,
+        senderId: profile.id,
+        full_name: profile.full_name,
+        profile_pic: profile.profile_pic,
+        systemMessage: true,
+        messageType: 'calibration_call',
+        responseTo: null
+        });
+    }
+
     const deleteMessage = (messageId) => {
         messagesRef.doc(messageId).delete()
     };
@@ -148,23 +125,32 @@ export const ChatRoom = (props) => {
             messagesRef.doc(messageId).update({ lastUpdated: firebase.firestore.FieldValue.serverTimestamp() })
         }
     };
-
-    // const updateMessageTime = (messageId) => {
-    //     messagesRef.doc(messageId).update({ lastUpdated: firebase.firestore.FieldValue.serverTimestamp() })
-    // };
     
     return (
+        <>
+        <ChatCalibrator 
+            formOpen={props.showCalibrationForm} 
+            setFormOpen={props.setShowCalibrationForm} 
+            calibratorOpen={props.showCalibrator} 
+            setCalibratorOpen={props.setShowCalibrator}
+            sendCalibrationCall={sendCalibrationCall}
+            calibrationMessage={calibrationMessage}
+        />
+
         <div className="chatroom-container">
             <div className="chat-feed">
                 {messages && messages.map(msg => 
-                    <ChatMessage 
-                        key={msg.id} 
-                        message={msg} 
-                        readerId={profile.id} 
-                        deleteMessage={deleteMessage} 
-                        updateMessage={updateMessage} 
-                        reactionTypes={reactionTypes} 
-                        delay={props.timeOffset} />)}
+                    msg.systemMessage
+                        ? ''
+                        : <ChatMessage 
+                            key={msg.id} 
+                            message={msg} 
+                            readerId={profile.id} 
+                            deleteMessage={deleteMessage} 
+                            updateMessage={updateMessage} 
+                            reactionTypes={reactionTypes} 
+                            delay={props.timeOffset} />
+                            )}
                 <span ref={endOfFeed}></span>
             </div>
             <div className="chat-footer">
@@ -182,6 +168,7 @@ export const ChatRoom = (props) => {
                 </form>
             </div>
         </div>
+        </>
     )
     };
 

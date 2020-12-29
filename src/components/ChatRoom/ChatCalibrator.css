@@ -1,0 +1,11 @@
+.calibrator {
+    position: fixed;
+    right: 0;
+    top: 30;
+    z-index: 205;
+    background-color: lightgrey;
+    border: 1px solid black;
+    min-height: 300px;
+    width: 350px;
+    padding: 5px;
+}
