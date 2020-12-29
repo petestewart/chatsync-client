@@ -15,6 +15,9 @@ export const Party = props => {
 
     const [partyIsLive, setPartyIsLive] = useState(false)
 
+    const [timeOffset, setTimeOffset] = useState(0)
+
+
     useEffect(() => {
         getParty(props.match.params.id)
     }, [])
@@ -23,6 +26,10 @@ export const Party = props => {
         setPartyIsLive(
             (dayjs(party.datetime).valueOf()) <= (dayjs(new Date()).valueOf())
         )}, [party])
+
+    const offsetInputHandler = (e) => {
+        setTimeOffset(e.target.value)
+    };
 
 
     return (
@@ -46,6 +53,7 @@ export const Party = props => {
                             </div>
                             <div className="col-2 text-right">
                                 <i className="fas fa-cog party-control-button"></i>
+                                <input type="number" id="offset" onChange={offsetInputHandler}></input>
                             </div>
                         </div>
                     </div>
@@ -59,7 +67,7 @@ export const Party = props => {
                 </section>
             </div>
             <section className="party-room-body">
-                <ChatRoom party={party} />
+                <ChatRoom party={party} timeOffset={timeOffset * 1000} setTimeOffset={setTimeOffset} />
             </section>
         </main>
             

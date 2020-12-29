@@ -20,11 +20,7 @@ const firestore = firebase.firestore()
 export const ChatRoom = (props) => {
     const endOfFeed = useRef();
 
-    // useEffect(() => {
-    //     setTimeout(
-    //         () => endOfFeed.current.scrollIntoView({ behavior: 'smooth' }), 750
-    //     )
-    // }, [props.party])
+    // const [messagesFeed, setMessagesFeed] = useState([])
 
     const { profile } = useContext(ProfileContext)
 
@@ -41,10 +37,75 @@ export const ChatRoom = (props) => {
     // listen for new messages
     const [messages] = useCollectionData(query, {idField: 'id'});
 
+    let qTime
+
+    // const queueMessage = (message) => {
+    //     // console.log('setTimeout for ' + (((message.createdAt.seconds * 1000) + props.timeOffset) - Math.floor(new Date().getTime())))
+    //     qTime = setTimeout(() => {
+    //         const newMessages = [...messagesFeed, message]
+    //         setMessagesFeed(newMessages)
+    //     }, (((message.createdAt.seconds * 1000) + props.timeOffset - message.timeOffset) - Math.floor(new Date().getTime())))
+    // }
+
+    // const updateFeed = () => {
+    //     const newMessages = []
+    //     let timeout = 0
+    //     if (messages) {
+    //         messages.forEach(m => {
+    //             if (m.createdAt) {
+    //                 if (((m.createdAt.seconds * 1000) - m.timeOffset) <= ((new Date().getTime()) - props.timeOffset)) {
+    //                     // console.log((m.createdAt.seconds - (m.timeOffset / 1000)), ((new Date().getTime() + props.timeOffset) / 1000 ))
+    //                     newMessages.push(m)
+    //                     setMessagesFeed(newMessages)
+    //                 } else {
+    //                         console.log('Q')
+    //                         timeout = (((m.createdAt.seconds * 1000) + props.timeOffset - m.timeOffset) - Math.floor(new Date().getTime()))
+    //                         return
+    //                     }
+    //                 }
+    //             }
+    //         )
+    //     }
+    //     return timeout
+    // };
+
+    // keep messagesFeed in order
+    // const sortedMessages = (feed) => feed.sort((a, b) => a.createdAt.seconds - b.createdAt.seconds)
+    
+
     // *** CHECK FOR SYSTEM MESSAGES ***
-    useEffect(() => {
-        console.log('SOMETHING CHANGED')
-    }, [messages])
+    // useEffect(() => {
+    //     const timeout = updateFeed()
+    //     console.log(timeout)
+    //     if (timeout > 0) {
+    //         setTimeout(updateFeed, timeout)
+    //     }
+    // }, [messages])
+
+
+    // useEffect(() => {
+    //     let isMounted = true
+    //     const newMessages = []
+    //     if (messages) {
+    //         messages.forEach(m => {
+    //             if (m.createdAt) {
+    //                 if (((m.createdAt.seconds * 1000) - m.timeOffset) <= ((new Date().getTime()) - props.timeOffset)) {
+    //                     // console.log((m.createdAt.seconds - (m.timeOffset / 1000)), ((new Date().getTime() + props.timeOffset) / 1000 ))
+    //                     newMessages.push(m)
+    //                     setMessagesFeed(newMessages)
+    //                 } else {
+    //                     if (isMounted) {
+    //                         console.log('Q')
+    //                         clearTimeout(qTime)
+    //                         queueMessage(m)
+    //                         return
+    //                     }
+    //                 }
+    //             }
+    //         })
+    //     }
+    //     return () => { isMounted = false }
+    // }, [messages])
 
 
     const handleFormData = (e) => {
@@ -68,7 +129,8 @@ export const ChatRoom = (props) => {
         senderId: profile.id,
         full_name: profile.full_name,
         profile_pic: profile.profile_pic,
-        systemMessage: false
+        systemMessage: false,
+        timeOffset: props.timeOffset
         });
         setFormValue('');
         endOfFeed.current.scrollIntoView({ behavior: 'smooth' })
@@ -94,7 +156,15 @@ export const ChatRoom = (props) => {
     return (
         <div className="chatroom-container">
             <div className="chat-feed">
-                {messages && messages.map(msg => <ChatMessage key={msg.id} message={msg} readerId={profile.id} deleteMessage={deleteMessage} updateMessage={updateMessage} reactionTypes={reactionTypes} />)}
+                {messages && messages.map(msg => 
+                    <ChatMessage 
+                        key={msg.id} 
+                        message={msg} 
+                        readerId={profile.id} 
+                        deleteMessage={deleteMessage} 
+                        updateMessage={updateMessage} 
+                        reactionTypes={reactionTypes} 
+                        delay={props.timeOffset} />)}
                 <span ref={endOfFeed}></span>
             </div>
             <div className="chat-footer">
