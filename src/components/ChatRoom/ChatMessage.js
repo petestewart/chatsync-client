@@ -35,7 +35,7 @@ export const ChatMessage = (props) => {
     useEffect(() => {
         const m = props.message
         if (m.createdAt) {
-            if (((m.createdAt.seconds * 1000) - m.timeOffset) <= ((new Date().getTime()) - props.delay)) {
+            if (((m.createdAt.seconds * 1000) - m.timeOffset) <= ((new Date().getTime()) + props.delay)) {
                 setTimeout(() => {
                     setHideMessage(false)
                 }, (((m.createdAt.seconds * 1000) + props.delay - m.timeOffset) - Math.floor(new Date().getTime())))
@@ -117,7 +117,8 @@ export const ChatMessage = (props) => {
         {
             hideMessage
             ? ''
-            : <div className="message row">
+            : 
+        <div className="message row">
             <div className="col-1">
             <img className="message-avatar" 
                 src={profile_pic

@@ -20,14 +20,7 @@ const firestore = firebase.firestore()
 export const ChatRoom = (props) => {
     const endOfFeed = useRef();
 
-    const [messagesFeed, setMessagesFeed] = useState([])
-    // const [timeOffset, setTimeOffset] = useState(0)
-
-    // useEffect(() => {
-    //     setTimeout(
-    //         () => endOfFeed.current.scrollIntoView({ behavior: 'smooth' }), 750
-    //     )
-    // }, [props.party])
+    // const [messagesFeed, setMessagesFeed] = useState([])
 
     const { profile } = useContext(ProfileContext)
 
@@ -54,40 +47,40 @@ export const ChatRoom = (props) => {
     //     }, (((message.createdAt.seconds * 1000) + props.timeOffset - message.timeOffset) - Math.floor(new Date().getTime())))
     // }
 
-    const updateFeed = () => {
-        const newMessages = []
-        let timeout = 0
-        if (messages) {
-            messages.forEach(m => {
-                if (m.createdAt) {
-                    if (((m.createdAt.seconds * 1000) - m.timeOffset) <= ((new Date().getTime()) - props.timeOffset)) {
-                        // console.log((m.createdAt.seconds - (m.timeOffset / 1000)), ((new Date().getTime() + props.timeOffset) / 1000 ))
-                        newMessages.push(m)
-                        setMessagesFeed(newMessages)
-                    } else {
-                            console.log('Q')
-                            timeout = (((m.createdAt.seconds * 1000) + props.timeOffset - m.timeOffset) - Math.floor(new Date().getTime()))
-                            return
-                        }
-                    }
-                }
-            )
-        }
-        return timeout
-    };
+    // const updateFeed = () => {
+    //     const newMessages = []
+    //     let timeout = 0
+    //     if (messages) {
+    //         messages.forEach(m => {
+    //             if (m.createdAt) {
+    //                 if (((m.createdAt.seconds * 1000) - m.timeOffset) <= ((new Date().getTime()) - props.timeOffset)) {
+    //                     // console.log((m.createdAt.seconds - (m.timeOffset / 1000)), ((new Date().getTime() + props.timeOffset) / 1000 ))
+    //                     newMessages.push(m)
+    //                     setMessagesFeed(newMessages)
+    //                 } else {
+    //                         console.log('Q')
+    //                         timeout = (((m.createdAt.seconds * 1000) + props.timeOffset - m.timeOffset) - Math.floor(new Date().getTime()))
+    //                         return
+    //                     }
+    //                 }
+    //             }
+    //         )
+    //     }
+    //     return timeout
+    // };
 
     // keep messagesFeed in order
     // const sortedMessages = (feed) => feed.sort((a, b) => a.createdAt.seconds - b.createdAt.seconds)
     
 
     // *** CHECK FOR SYSTEM MESSAGES ***
-    useEffect(() => {
-        const timeout = updateFeed()
-        console.log(timeout)
-        if (timeout > 0) {
-            setTimeout(updateFeed, timeout)
-        }
-    }, [messages])
+    // useEffect(() => {
+    //     const timeout = updateFeed()
+    //     console.log(timeout)
+    //     if (timeout > 0) {
+    //         setTimeout(updateFeed, timeout)
+    //     }
+    // }, [messages])
 
 
     // useEffect(() => {
@@ -163,7 +156,15 @@ export const ChatRoom = (props) => {
     return (
         <div className="chatroom-container">
             <div className="chat-feed">
-                {messages && messages.map(msg => <ChatMessage key={msg.id} message={msg} readerId={profile.id} deleteMessage={deleteMessage} updateMessage={updateMessage} reactionTypes={reactionTypes} delay={props.timeOffset} />)}
+                {messages && messages.map(msg => 
+                    <ChatMessage 
+                        key={msg.id} 
+                        message={msg} 
+                        readerId={profile.id} 
+                        deleteMessage={deleteMessage} 
+                        updateMessage={updateMessage} 
+                        reactionTypes={reactionTypes} 
+                        delay={props.timeOffset} />)}
                 <span ref={endOfFeed}></span>
             </div>
             <div className="chat-footer">
