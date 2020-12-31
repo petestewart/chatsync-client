@@ -73,7 +73,7 @@ export const Party = props => {
                 <section className="mt-3">
                     {
                         showInviteForm
-                        ? <InviteForm party={party} />
+                        ? <InviteForm party={party} setShowInviteForm={setShowInviteForm} />
                         : ''
                     }
                 </section>
