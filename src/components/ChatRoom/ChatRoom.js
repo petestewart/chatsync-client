@@ -56,7 +56,6 @@ export const ChatRoom = (props) => {
                         }
                         calibrateMessage = m
                         calibratorOpen = true
-                        console.log(calibrateMessage)
                     }
                 }
             })
