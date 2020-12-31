@@ -6,6 +6,7 @@ import { ProfileContext } from "../../Profile/ProfileProvider"
 
 import { MemberSelector } from '../MemberSelector/MemberSelector'
 
+// import Backdrop from '../Backdrop/Backdrop'
 
 import "./InviteForm.css"
 
@@ -66,6 +67,8 @@ export const InviteForm = props => {
 
 
     return (
+    <>
+        {/* <Backdrop show={props.showInviteForm} clicked={() => {props.setShowInviteForm(false)}} /> */}
         <main className="inviteform-container">
             <span className="ml-3 mt-2 selector-close-menu-button" aria-hidden="true" onClick={() => {props.setShowInviteForm(false)}}>&times;</span>
             <section className="p-3">
@@ -78,6 +81,6 @@ export const InviteForm = props => {
                 <MemberSelector options={allProfiles} selected={guests} addSelection={addGuest} />
             </section>
         </main>
-            
+    </>
     )
 }

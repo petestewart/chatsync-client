@@ -47,7 +47,7 @@ export const Party = props => {
                     : ''}
                     Watch Party</h6>
                 <div className="text-center text-success">
-                     {
+                    {
                         timeOffset
                         ? `Your WatchEvent feed is delayed by ${timeOffset} second${timeOffset !== 1 ? 's' : ''}`
                         : ''
@@ -73,7 +73,7 @@ export const Party = props => {
                 <section className="mt-3">
                     {
                         showInviteForm
-                        ? <InviteForm party={party} setShowInviteForm={setShowInviteForm} />
+                        ? <InviteForm party={party} setShowInviteForm={setShowInviteForm} showInviteForm={showInviteForm} />
                         : ''
                     }
                 </section>

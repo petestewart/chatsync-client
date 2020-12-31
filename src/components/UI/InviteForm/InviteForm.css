@@ -1,8 +1,9 @@
 .inviteform-container {
     background-color: white;
     width: calc(100% - 10px);
+    max-width: 650px;
     min-height: 200px;
-    z-index: 200;
+    z-index: 205;
     border: 1px solid grey;
     box-shadow: 1px 1px 5px grey;
     margin-left: 5px;
