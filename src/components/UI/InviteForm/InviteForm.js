@@ -6,14 +6,13 @@ import { ProfileContext } from "../../Profile/ProfileProvider"
 
 import { MemberSelector } from '../MemberSelector/MemberSelector'
 
+// import Backdrop from '../Backdrop/Backdrop'
 
 import "./InviteForm.css"
 
 
 export const InviteForm = props => {
     const [guests, setGuests] = useState([])
-    const [uninviteQue, setUninviteQue] = useState([])
-    const [inviteQue, setInviteQue] = useState([])
 
     const { getAllProfiles, allProfiles } = useContext(ProfileContext)
     const { getPartyGuests, addPartyGuest, deletePartyGuest } = useContext(PartyContext)
@@ -31,7 +30,6 @@ export const InviteForm = props => {
     useEffect(getAllProfiles, [])
 
     const addGuest = (guestId) => {
-        // setGuests([...guests, guestId])
         addPartyGuest(props.party.id, guestId)
             .then(() => {
                 getPartyGuests(props.party.id)
@@ -44,12 +42,6 @@ export const InviteForm = props => {
     };
 
     const removeGuest = (guestId) => {
-        // let currentGuests = ([...guests])
-        // const index = currentGuests.indexOf(guestId)
-        // if (index > -1) {
-        //     currentGuests.splice(index, 1)
-        //     setGuests(currentGuests)
-        // }
         deletePartyGuest(props.party.id, guestId)
         .then(() => {
             getPartyGuests(props.party.id)
@@ -75,15 +67,20 @@ export const InviteForm = props => {
 
 
     return (
+    <>
+        {/* <Backdrop show={props.showInviteForm} clicked={() => {props.setShowInviteForm(false)}} /> */}
         <main className="inviteform-container">
+            <span className="ml-3 mt-2 selector-close-menu-button" aria-hidden="true" onClick={() => {props.setShowInviteForm(false)}}>&times;</span>
             <section className="p-3">
                 <div className="selected-list mb-1">
-                Invited Guests:
-                {guests.map((guestId) => getGuestName(guestId))}
+                    <small>
+                        Invited Guests:
+                        {guests.map((guestId) => getGuestName(guestId))}
+                    </small>
                 </div>
                 <MemberSelector options={allProfiles} selected={guests} addSelection={addGuest} />
             </section>
         </main>
-            
+    </>
     )
 }

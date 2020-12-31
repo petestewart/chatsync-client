@@ -10,7 +10,7 @@ export const MemberSelector = (props) => {
     const [showOptions, setShowOptions] = useState(false)
 
     // shows menu options as long as something is typed in to the text input
-    useEffect(() => {setShowOptions(textInput.length > 0)}, [textInput])
+    // useEffect(() => {setShowOptions(textInput.length > 0)}, [textInput])
 
     const handleInput = (e) => {
         setTextInput(e.target.value)
@@ -19,16 +19,18 @@ export const MemberSelector = (props) => {
     const menuOptions = props.options.map((option) => 
         props.selected.includes(option.id) 
         ? ''
-        :   <div className="dropdown-item w-100" 
-                id={option.id}
-                key={option.id}
-                onClick={() => {
-                    props.addSelection(option.id)
-                    // setShowOptions(false)
-                }} 
+        :   textInput === '' || option.full_name.toLowerCase().includes(textInput.toLowerCase())
+            ?   <div className="dropdown-item w-100" 
+                    id={option.id}
+                    key={option.id}
+                    onClick={() => {
+                        props.addSelection(option.id)
+                        // setShowOptions(false)
+                    }} 
                 >
                     {option.full_name}
-            </div>
+                </div>
+            : ''
     )
 
 
