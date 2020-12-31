@@ -46,6 +46,13 @@ export const Party = props => {
                     ? 'LIVE '
                     : ''}
                     Watch Party</h6>
+                <div className="text-center text-success">
+                     {
+                        timeOffset
+                        ? `Your WatchEvent feed is delayed by ${timeOffset} second${timeOffset !== 1 ? 's' : ''}`
+                        : ''
+                    }
+                </div>
                 
                 <section className="mt-3">
                     <div className="container">
@@ -58,7 +65,7 @@ export const Party = props => {
                             </div>
                             <div className="col-2 text-right">
                                 <i className="fas fa-cog party-control-button" onClick={() => setShowCalibrationForm(!showCalibrationForm)}></i>
-                                <input type="number" id="offset" onChange={offsetInputHandler}></input>
+                                {/* <input type="number" id="offset" onChange={offsetInputHandler}></input> */}
                             </div>
                         </div>
                     </div>
@@ -72,7 +79,6 @@ export const Party = props => {
                 </section>
             </div>
             <section className="party-room-body">
-                {/* <ChatCalibrator formOpen={showCalibrationForm} setFormOpen={setShowCalibrationForm} calibratorOpen={showCalibrator} setCalibratorOpen={setShowCalibrator}/> */}
                 <ChatRoom party={party} timeOffset={timeOffset * 1000} setTimeOffset={setTimeOffset} showCalibrationForm={showCalibrationForm} setShowCalibrationForm={setShowCalibrationForm} showCalibrator={showCalibrator} setShowCalibrator={setShowCalibrator}/>
             </section>
         </main>
