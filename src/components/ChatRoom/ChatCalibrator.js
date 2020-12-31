@@ -47,13 +47,13 @@ export const ChatCalibrator = (props) => {
                     </div>
                 :   <div className="calibrator-live">
                     {props.calibrationMessage.full_name} 
-                    <span> wants you to click 'Calibrate NOW' when: </span> 
+                    <span> wants you to click 'Calibrate NOW' when this happens: </span> 
                     <h6 className="text-center">
                     {props.calibrationMessage.content}
                     </h6>
                     <button className="btn btn-danger w-100 mt-3" onClick={() => {
                         props.setCalibratorOpen(false)
-                        // props.sendCalibrationAnswer({message: calibrationMessage})
+                        props.sendCalibrationResponse(props.calibrationMessage.id)
                         }}>
                             Calibrate NOW!
                     </button>
@@ -71,6 +71,21 @@ export const ChatCalibrator = (props) => {
                         }}>
                             Do not sync my feed
                     </button>
+                    {
+                        props.calibrationMessage.senderId === props.profile.id
+                        ?   <button className="btn btn-dark w-100 mt-3" onClick={() => {
+                                props.setCalibratorOpen(false)
+                                props.deleteCalibration(props.calibrationMessage.id)
+                            }}>
+                                Cancel Calibration Request
+                            </button>
+                        : ''
+                    }
+                    {
+                        props.memberOffsets.length > 0
+                        ? <div>{props.memberOffsets.map((m) => <small> {m.fullName}: {m.offsetAmount} seconds</small>)}</div>
+                        : ''
+                    }
                     </div>
             }
             

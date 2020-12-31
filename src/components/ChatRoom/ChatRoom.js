@@ -22,6 +22,8 @@ export const ChatRoom = (props) => {
     const endOfFeed = useRef();
     const [calibrationMessage, setCalibrationMessage] = useState({})
 
+    const [memberOffsets, setMemberOffsets] = useState([])
+
 
     const { profile } = useContext(ProfileContext)
 
@@ -42,12 +44,13 @@ export const ChatRoom = (props) => {
             let calibratorOpen = false
             let calibrateMessage = null
 
+            // check to see if a calibration request exists:
             messages.forEach((m) => {
                 if (m.systemMessage) {
                     if (m.messageType === 'calibration_call') {
                         if (calibrateMessage) {
+                            // if an old calibration request exists, delete it:
                             if (m.id !== calibrateMessage.id) {
-                                // delete old message (calibrateMessage.id)
                                 deleteMessage(calibrateMessage.id)
                             }
                         }
@@ -55,19 +58,38 @@ export const ChatRoom = (props) => {
                         calibratorOpen = true
                         console.log(calibrateMessage)
                     }
-                    if (m.messageType === 'calibration_response' && m.senderId === profile.id && m.responseTo === calibrateMessage.id) {
-                        calibrateMessage = m
-                        calibratorOpen = false
-                        // calculate my offset time
-                    }
                 }
             })
-            setCalibrationMessage(calibrateMessage)
             if (calibratorOpen) {
-                console.log('FIRE UP THE CALIBRATOR')
+                // check to see if others have responded to the calibration request:
+                const responses = []
                 
-                props.setShowCalibrator(true)
+                messages.forEach((m) => { 
+                    if (m.systemMessage) {
+                        if (m.messageType === 'calibration_response' && m.responseTo === calibrateMessage.id) {
+                            if (m.createdAt) {
+                                responses.push({ memberId: m.senderId, fullName: m.full_name, createdAt: m.createdAt.seconds })
+                            }
+                        }
+                    }
+                    
+                })
+                // calculate everyone's offset times (OR AFTER FOR EACH LOOP?):
+                responses.sort((a, b) => a.createdAt > b.createdAt)
+                responses.forEach((res) => {
+                    res.offsetAmount = res.createdAt - responses[0].createdAt
+                })
+                setMemberOffsets(responses)
+                // check if user has responded to calibration request:
+                responses.forEach((m) => {
+                    if (m.memberId === profile.id) {
+                        props.setTimeOffset(m.offsetAmount)
+                        calibratorOpen=false
+                    }
+                })
             }
+            setCalibrationMessage(calibrateMessage)
+            props.setShowCalibrator(calibratorOpen)
         }
     }, [messages])
 
@@ -113,6 +135,32 @@ export const ChatRoom = (props) => {
         });
     }
 
+    const sendCalibrationResponse = async(calId) => {
+        await messagesRef.add({
+        createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+        partyId: props.party.id,
+        senderId: profile.id,
+        full_name: profile.full_name,
+        profile_pic: profile.profile_pic,
+        systemMessage: true,
+        messageType: 'calibration_response',
+        responseTo: calId
+        });
+    }
+
+    const deleteCalibration = (messageId) => {
+        // TODO: Fix bug where app crashes on other machines who have responded on cancel
+        props.setShowCalibrationForm(false)
+        props.setShowCalibrator(false)
+        messagesRef.doc(messageId).delete()
+        messages.forEach((m) => {
+            if (m.systemMessage && m.responseTo === messageId) {
+                messagesRef.doc(m.id).delete()
+            }
+        })
+        setCalibrationMessage({})
+    };
+
     const deleteMessage = (messageId) => {
         messagesRef.doc(messageId).delete()
     };
@@ -128,14 +176,22 @@ export const ChatRoom = (props) => {
     
     return (
         <>
-        <ChatCalibrator 
-            formOpen={props.showCalibrationForm} 
-            setFormOpen={props.setShowCalibrationForm} 
-            calibratorOpen={props.showCalibrator} 
-            setCalibratorOpen={props.setShowCalibrator}
-            sendCalibrationCall={sendCalibrationCall}
-            calibrationMessage={calibrationMessage}
-        />
+        {
+            props.showCalibrator || props.showCalibrationForm
+            ? <ChatCalibrator 
+                formOpen={props.showCalibrationForm} 
+                setFormOpen={props.setShowCalibrationForm} 
+                calibratorOpen={props.showCalibrator} 
+                setCalibratorOpen={props.setShowCalibrator}
+                sendCalibrationCall={sendCalibrationCall}
+                sendCalibrationResponse={sendCalibrationResponse}
+                calibrationMessage={calibrationMessage}
+                deleteCalibration={deleteCalibration}
+                profile={profile}
+                memberOffsets={memberOffsets}
+            />
+            : ''
+        }
 
         <div className="chatroom-container">
             <div className="chat-feed">
