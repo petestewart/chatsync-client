@@ -4,6 +4,7 @@ import dayjs from 'dayjs'
 import { PartyContext } from "../Party/PartyProvider"
 
 import { ChatRoom } from "../ChatRoom/ChatRoom"
+// import { ChatCalibrator } from "../ChatRoom/ChatCalibrator"
 import { InviteForm } from "../UI/InviteForm/InviteForm"
 import { PartyForm } from "../Party/PartyForm"
 
@@ -14,6 +15,10 @@ export const Party = props => {
     const [showInviteForm, setShowInviteForm] = useState(false)
 
     const [partyIsLive, setPartyIsLive] = useState(false)
+
+    const [showCalibrationForm, setShowCalibrationForm] = useState(false)
+    const [showCalibrator, setShowCalibrator] = useState(false)
+
 
     const [timeOffset, setTimeOffset] = useState(0)
 
@@ -52,7 +57,7 @@ export const Party = props => {
                                 {party.description}
                             </div>
                             <div className="col-2 text-right">
-                                <i className="fas fa-cog party-control-button"></i>
+                                <i className="fas fa-cog party-control-button" onClick={() => setShowCalibrationForm(!showCalibrationForm)}></i>
                                 <input type="number" id="offset" onChange={offsetInputHandler}></input>
                             </div>
                         </div>
@@ -67,7 +72,8 @@ export const Party = props => {
                 </section>
             </div>
             <section className="party-room-body">
-                <ChatRoom party={party} timeOffset={timeOffset * 1000} setTimeOffset={setTimeOffset} />
+                {/* <ChatCalibrator formOpen={showCalibrationForm} setFormOpen={setShowCalibrationForm} calibratorOpen={showCalibrator} setCalibratorOpen={setShowCalibrator}/> */}
+                <ChatRoom party={party} timeOffset={timeOffset * 1000} setTimeOffset={setTimeOffset} showCalibrationForm={showCalibrationForm} setShowCalibrationForm={setShowCalibrationForm} showCalibrator={showCalibrator} setShowCalibrator={setShowCalibrator}/>
             </section>
         </main>
             
