@@ -1,7 +1,7 @@
 .calibrator {
     position: fixed;
     right: 0;
-    top: 30;
+    top: 40;
     z-index: 205;
     background-color: lightgrey;
     border: 1px solid black;
