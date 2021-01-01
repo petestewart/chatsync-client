@@ -31,7 +31,10 @@ export const SideDrawer = (props) => {
                 </li>
                 <hr />
                 <li className="my-3"><span className="menu-icon"><i className="fas fa-hashtag"></i></span>My Channels</li>
-                <li className="sidemenu-item my-3">
+                <li className="sidemenu-item my-3" onClick={() => {
+                    props.closedHandler()
+                    props.history.push("/channels/create")
+                    }}>
                     <span className="menu-icon"><i className="fas fa-users"></i></span>Create Channel
                 </li>
                 <hr />

@@ -23,6 +23,7 @@ export const ProfileProvider = (props) => {
         })
             .then(response => response.json())
             .then(setProfile)
+            .then((res) => {return(res)})
     }
 
     const getAllProfiles = () => {

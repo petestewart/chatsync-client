@@ -53,7 +53,7 @@ export const Home = props => {
         
         
     
-        return <>{livePartiesMessage}{upcomingPartiesMessage}</>
+        return <>{livePartiesMessage}{upcomingParties.length - livePartyList.length > 0 ? upcomingPartiesMessage : ''}</>
     };
 
 
