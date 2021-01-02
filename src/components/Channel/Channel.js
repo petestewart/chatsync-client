@@ -9,11 +9,13 @@ import './Channel.css'
 import { matchPath } from "react-router-dom"
 
 export const Channel = props => {
-    const { channel, getChannel, createChannelMember } = useContext(ChannelContext)
+    const { channel, deleteChannelMember, getChannel, createChannelMember } = useContext(ChannelContext)
     const { profile, getProfile, allProfiles, getAllProfiles } = useContext(ProfileContext)
 
     const [showInviteForm, setShowInviteForm] = useState(false)
     const [availableInvitees, setAvailableInvitees] = useState([])
+
+    const [showLeaveWarning, setShowLeaveWarning] = useState(false)
 
     useEffect(() => {
         getChannel(props.match.params.id)
@@ -41,6 +43,11 @@ export const Channel = props => {
     const addMember = (memberId) => {
         createChannelMember(channel.id, memberId)
             .then(() => getChannel(channel.id))
+    };
+
+    const leaveChannel = () => {
+        deleteChannelMember(channel.id, profile.id)
+            .then(() => props.history.push("/"))
     };
 
     return (
@@ -94,7 +101,16 @@ export const Channel = props => {
                     }
                     
                     <button className="btn btn-primary w-100 mt-3" onClick={() => {setShowInviteForm(!showInviteForm)}}><i className="fas fa-user-plus"></i> Invite Members</button>
-                    <button className="btn btn-secondary w-100 mt-3" onClick={() => {}}><i className="fas fa-users-slash"></i> Leave Channel</button>
+                    {
+                        showLeaveWarning
+                        ?   <div className="alert alert-danger mt-3" role="alert">
+                                Leave #{channel.name}?
+                                <button className="btn-sm btn-danger ml-3" onClick={leaveChannel}>Leave</button>
+                                <button className="btn-sm btn-light ml-3" onClick={() => {setShowLeaveWarning(false)}}>Cancel</button>
+                            </div>
+                        :   <button className="btn btn-secondary w-100 mt-3" onClick={() => {setShowLeaveWarning(true)}}><i className="fas fa-users-slash"></i> Leave Channel</button>
+                    }
+                    
                 </div>
             </div>
         </div>

@@ -51,9 +51,25 @@ export const ChannelProvider = (props) => {
             .then(data => {return(data)})
     };
 
+    const deleteChannelMember = (channelId, memberId) => {
+        return fetch(`http://localhost:8000/channelmembers/${channelId}`, {
+            method : "DELETE",
+            headers: {
+                "Authorization": `Token ${localStorage.getItem("watchparty_token")}`,
+                "Content-Type": "application/json",
+                "Accept": "application/json"
+            },
+            body: JSON.stringify({
+                member_id: memberId
+            })
+        })
+            .then(response => response.json())
+            .then(data => {return(data)})
+    };
+
     return (
         <ChannelContext.Provider value={{
-            channel, createChannel, createChannelMember, getChannel
+            channel, createChannel, createChannelMember, deleteChannelMember, getChannel, 
         }} >
             {props.children}
         </ChannelContext.Provider>
