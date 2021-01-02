@@ -6,7 +6,21 @@ export const ChannelProvider = (props) => {
 
     const [channel, setChannel] = useState({})
 
-    const createChannel = (partyInfo) => {
+    const getChannel = (channelId) => {
+        return fetch(`http://localhost:8000/channels/${channelId}`, {
+            method : "GET",
+            headers: {
+                "Authorization": `Token ${localStorage.getItem("watchparty_token")}`,
+                "Content-Type": "application/json",
+                "Accept": "application/json"
+            }
+        })
+            .then(response => response.json())
+            .then(setChannel)
+            .then(data => {return(data)})
+    };
+
+    const createChannel = (channelInfo) => {
         return fetch('http://localhost:8000/channels', {
             method : "POST",
             headers: {
@@ -14,7 +28,7 @@ export const ChannelProvider = (props) => {
                 "Content-Type": "application/json",
                 "Accept": "application/json"
             },
-            body: JSON.stringify(partyInfo)
+            body: JSON.stringify(channelInfo)
         })
             .then(response => response.json())
             .then(data => {return(data)})
@@ -39,7 +53,7 @@ export const ChannelProvider = (props) => {
 
     return (
         <ChannelContext.Provider value={{
-            channel, createChannel, createChannelMember
+            channel, createChannel, createChannelMember, getChannel
         }} >
             {props.children}
         </ChannelContext.Provider>

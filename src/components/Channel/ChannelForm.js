@@ -38,12 +38,24 @@ export const ChannelForm = props => {
 
     const handleFormSubmission = (e) => {
         e.preventDefault()
+        let channelId = 0
         createChannel(channelInfo)
         .then((res) => {
-            createChannelMember(res.id, profile.id)
-            channelMembers.forEach(memberId => {
-                createChannelMember(res.id, memberId)
+            channelId = res.id
+            createChannelMember(channelId, profile.id)
+            const promises = []
+            channelMembers.forEach((memberId) => {
+                promises.push(new Promise((resolve, reject) => {
+                    createChannelMember(channelId, memberId)
+                        .then(() => resolve({channelId, memberId}))
+                        .catch((err) => reject(err))
+                }) )
             })
+            Promise.all(promises)
+                .then(() => {
+                    console.log('done')
+                    props.history.push(`/channels/${channelId}`)
+                })
         })
     };
 
@@ -62,18 +74,6 @@ export const ChannelForm = props => {
                 {channelMember.full_name}
             </span>) }
     }
-
-    const makeChannel = (e) => {
-        e.preventDefault()
-        createChannel(channelInfo)
-            .then((res) => {
-                createChannelMember(res.id, profile.id)
-                channelMembers.forEach(memberId => {
-                    createChannelMember(res.id, memberId)
-                })
-            })
-    }
-
 
 
     return(

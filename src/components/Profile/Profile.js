@@ -31,12 +31,12 @@ export const Profile = props => {
                         {profile.location}
                     </div>
                 </div>
-            <div className="profile-bio row mt-2">
-                <div className="col-12">
-                    {profile.bio}
+                <div className="profile-bio row mt-2">
+                    <div className="col-12">
+                        {profile.bio}
+                    </div>
                 </div>
             </div>
-            </div>
-    </main>
+        </main>
     )
 }

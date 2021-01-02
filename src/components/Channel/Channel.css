@@ -1,0 +1,8 @@
+.avatar_sm {
+    height: 20px;
+    border-radius: 50%;
+}
+
+.channel-members-list {
+    list-style-type: none;
+}

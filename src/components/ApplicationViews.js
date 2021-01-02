@@ -8,6 +8,7 @@ import { ChatProvider } from './ChatRoom/ChatProvider'
 import { PartyProvider } from './Party/PartyProvider'
 import { ProfileProvider } from './Profile/ProfileProvider'
 
+import { Channel } from "./Channel/Channel"
 import { ChannelForm } from "./Channel/ChannelForm"
 import { Home } from "./Home/Home"
 import { Party } from "./Party/Party"
@@ -46,6 +47,10 @@ export const ApplicationViews = (props) => {
                         {/* Create Channel */}
                         <ScrollToTop />
                         <Route exact path="/channels/create" render={ props => <ChannelForm history={props.history} {...props} />} />
+                        
+                        {/* View Channel */}
+                        <ScrollToTop />
+                        <Route exact path="/channels/:id(\d+)" render={ props => <Channel history={props.history} {...props} />} />
 
                         {/* Home */}
                         <ScrollToTop />
