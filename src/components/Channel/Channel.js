@@ -1,25 +1,49 @@
 import React, { useContext, useState, useEffect } from "react"
+import dayjs from 'dayjs'
+
 
 import { MemberSelector } from '../UI/MemberSelector/MemberSelector'
 
 import { ChannelContext } from "../Channel/ChannelProvider"
+import { PartyContext } from "../Party/PartyProvider"
 import { ProfileContext } from "../Profile/ProfileProvider"
 
 import './Channel.css'
-import { matchPath } from "react-router-dom"
+// import { matchPath } from "react-router-dom"
 
 export const Channel = props => {
     const { channel, deleteChannelMember, getChannel, createChannelMember } = useContext(ChannelContext)
     const { profile, getProfile, allProfiles, getAllProfiles } = useContext(ProfileContext)
+    const { getPartiesByChannel } = useContext(PartyContext)
 
     const [showInviteForm, setShowInviteForm] = useState(false)
     const [availableInvitees, setAvailableInvitees] = useState([])
+    const [channelParties, setChannelParties] = useState([])
 
     const [showLeaveWarning, setShowLeaveWarning] = useState(false)
 
+    const [isMember, setIsMember] = useState(false)
+
     useEffect(() => {
+        let status = false
+        if (channel.members) {
+            channel.members.forEach((member) => {
+                if (member.member_id === profile.id) {
+                    status = true
+                }
+            })
+        }
+        setIsMember(status)
+    }, [channel.members, profile])
+
+
+
+    useEffect(() => {
+        getProfile()
         getChannel(props.match.params.id)
         getAllProfiles()
+        getPartiesByChannel(props.match.params.id)
+            .then((res) => setChannelParties(res))
     }, [])
 
     useEffect(() => {
@@ -75,22 +99,40 @@ export const Channel = props => {
             </div>
             <div className="channel-events row mt-2">
                 <div className="col-12">
-                    <h6>Upcoming Events:</h6>
-                <button className="btn btn-success w-100 mt-3" onClick={() => {}}><i className="fas fa-calendar-plus"></i> Create Channel Event</button>
+                {
+                    channelParties
+                    ? <>
+                        <h6>Upcoming Events:</h6>
+                        {channelParties.map((party) => 
+                            <div className="sidemenu-item ml-1" 
+                                key={party.id}
+                                onClick={() => {props.history.push(`/party/${party.id}`)
+                            }}>
+                                <i className="far fa-calendar ml-1 mr-2"></i>
+                                {party.title} 
+                                <small>
+                                    {dayjs(party.datetime).format(' MM/D/YY h:mmA ')}
+                                </small>
+                            </div>)}
+                    </>
+                    : ''
+                }
+                    
+                <button className="btn btn-primary w-100 mt-3" onClick={() => {}}><i className="fas fa-calendar-plus"></i> Create Channel Event</button>
                 </div>
             </div>
             <div className="channel-members row mt-2">
                 <div className="col-12">
                     <h6>Members:</h6>
-                    <ul className="channel-members-list">
+                    <div className="channel-members-list">
 
                     {   channel.members
-                        ?   channel.members.map((m) => <li key={m.member_id}>
-                            <img src={m.profile_pic} alt="" className="avatar_sm mr-2"/>
+                        ?   channel.members.map((m) => <div className="sidemenu-item ml-1" key={m.member_id} onClick={() => {props.history.push(`/profile/${m.member_id}`)}}>
+                            <img src={m.profile_pic} alt="" className="avatar_sm mx-2"/>
                             {m.full_name}
-                            </li>)
+                            </div>)
                         : ''}
-                    </ul>
+                    </div>
                     {
                         showInviteForm
                         ? <MemberSelector 
@@ -99,17 +141,38 @@ export const Channel = props => {
                         />
                         : ''
                     }
-                    
-                    <button className="btn btn-primary w-100 mt-3" onClick={() => {setShowInviteForm(!showInviteForm)}}><i className="fas fa-user-plus"></i> Invite Members</button>
                     {
-                        showLeaveWarning
-                        ?   <div className="alert alert-danger mt-3" role="alert">
-                                Leave #{channel.name}?
-                                <button className="btn-sm btn-danger ml-3" onClick={leaveChannel}>Leave</button>
-                                <button className="btn-sm btn-light ml-3" onClick={() => {setShowLeaveWarning(false)}}>Cancel</button>
-                            </div>
-                        :   <button className="btn btn-secondary w-100 mt-3" onClick={() => {setShowLeaveWarning(true)}}><i className="fas fa-users-slash"></i> Leave Channel</button>
+                        isMember
+                        ?   <>
+                            <button className="btn btn-primary w-100 mt-3"
+                                onClick={() => {setShowInviteForm(!showInviteForm)}}>
+                                <i className="fas fa-user-plus"></i> Invite Members
+                            </button>
+                            {
+                                showLeaveWarning
+                                ?   <div className="alert alert-danger mt-3" role="alert">
+                                        Leave #{channel.name}?
+                                        <button className="btn-sm btn-danger ml-3"
+                                            onClick={leaveChannel}>
+                                            Leave
+                                        </button>
+                                        <button className="btn-sm btn-light ml-3"
+                                            onClick={() => {setShowLeaveWarning(false)}}>
+                                            Cancel
+                                        </button>
+                                    </div>
+                                :   <button className="btn btn-secondary w-100 mt-3"
+                                        onClick={() => {setShowLeaveWarning(true)}}>
+                                            <i className="fas fa-users-slash"></i> Leave Channel
+                                        </button>
+                            }
+                            </>
+                        :   <button className="btn btn-dark w-100 mt-3"
+                            onClick={() => {addMember(profile.id)}}>
+                            <i className="fas fa-user-plus"></i> Join Channel
+                        </button>
                     }
+                    
                     
                 </div>
             </div>

@@ -20,16 +20,20 @@ import { ProfileForm } from "./Profile/ProfileForm"
 export const ApplicationViews = (props) => {
     return (
         <>
-            <ProfileProvider>
+            {/* <ProfileProvider>
                 <ChannelProvider>
-                    <PartyProvider>
+                    <PartyProvider> */}
                         {/* Edit Profile */}
                         <ScrollToTop />
                         <Route exact path="/profile/edit" render={ props => <ProfileForm history={props.history} {...props} />} />
 
-                        {/* View Profile */}
+                        {/* View Own Profile */}
                         <ScrollToTop />
                         <Route exact path="/profile" render={ props => <Profile history={props.history} {...props} />} />
+
+                        {/* View User Profile */}
+                        <ScrollToTop />
+                        <Route exact path="/profile/:id(\d+)" render={ props => <Profile history={props.history} {...props} />} />
 
                         {/* View Parties List */}
                         <ScrollToTop />
@@ -56,9 +60,9 @@ export const ApplicationViews = (props) => {
                         <ScrollToTop />
                         <Route exact path="/" render={ props => <Home history={props.history} {...props} />} />
 
-                    </PartyProvider>
+                    {/* </PartyProvider>
                 </ChannelProvider>
-            </ProfileProvider>
+            </ProfileProvider> */}
         </>
     )
 };

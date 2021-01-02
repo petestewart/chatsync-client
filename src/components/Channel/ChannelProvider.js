@@ -5,6 +5,7 @@ export const ChannelContext = React.createContext()
 export const ChannelProvider = (props) => {
 
     const [channel, setChannel] = useState({})
+    const [memberChannels, setMemberChannels] = useState([])
 
     const getChannel = (channelId) => {
         return fetch(`http://localhost:8000/channels/${channelId}`, {
@@ -18,6 +19,19 @@ export const ChannelProvider = (props) => {
             .then(response => response.json())
             .then(setChannel)
             .then(data => {return(data)})
+    };
+
+    const getChannelsByMember = (memberId) => {
+        return fetch(`http://localhost:8000/channels?member_id=${memberId}`, {
+            method : "GET",
+            headers: {
+                "Authorization": `Token ${localStorage.getItem("watchparty_token")}`,
+                "Content-Type": "application/json",
+                "Accept": "application/json"
+            }
+        })
+            .then(response => response.json())
+            .then(data => {return(data.sort((a, b) => a.name.toUpperCase() > b.name.toUpperCase() ? 1 : -1))})
     };
 
     const createChannel = (channelInfo) => {
@@ -69,7 +83,7 @@ export const ChannelProvider = (props) => {
 
     return (
         <ChannelContext.Provider value={{
-            channel, createChannel, createChannelMember, deleteChannelMember, getChannel, 
+            channel, createChannel, createChannelMember, deleteChannelMember, getChannel, getChannelsByMember, memberChannels
         }} >
             {props.children}
         </ChannelContext.Provider>

@@ -1,4 +1,5 @@
 import React, { useState } from "react"
+import dayjs from 'dayjs'
 
 export const PartyContext = React.createContext()
 
@@ -26,6 +27,19 @@ export const PartyProvider = (props) => {
         })
             .then(response => response.json())
             .then(setParty)
+    }
+
+    const getPartiesByChannel = (channelId) => {
+        return fetch(`http://localhost:8000/parties?channel_id=${channelId}`, {
+            headers: {
+                "Authorization": `Token ${localStorage.getItem("watchparty_token")}`
+            }
+        })
+            .then(response => response.json())
+            .then(data => {return(data.sort(
+                (a,b) => 
+                (dayjs(a.datetime).valueOf()) - (dayjs(b.datetime).valueOf())
+                ))})
     }
 
     const getPartyGuests = (partyId) => {
@@ -118,7 +132,7 @@ export const PartyProvider = (props) => {
 
     return (
         <PartyContext.Provider value={{
-            party, getUpcomingParties, getParty, updateParty, createParty, upcomingParties, getPartyGuests, addPartyGuest, deletePartyGuest
+            party, getUpcomingParties, getParty, updateParty, createParty, upcomingParties, getPartyGuests, addPartyGuest, deletePartyGuest, getPartiesByChannel
         }}>
             {props.children}
         </PartyContext.Provider>

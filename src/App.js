@@ -6,6 +6,9 @@ import { Layout } from './components/Layout/Layout'
 import { Login } from './components/Auth/Login'
 
 import { AuthProvider } from './components/Auth/AuthProvider'
+import { ChannelProvider } from './components/Channel/ChannelProvider'
+import { PartyProvider } from './components/Party/PartyProvider'
+import { ProfileProvider } from './components/Profile/ProfileProvider'
 
 import { Register } from './components/Auth/Register'
 
@@ -17,7 +20,13 @@ export const App = () => (
         if (localStorage.getItem("watchparty_token")) {
             return (
                 <AuthProvider {...props}>
-                    <Layout {...props} />
+                    <ProfileProvider {...props}>
+                        <ChannelProvider {...props}>
+                            <PartyProvider {...props}>
+                                <Layout {...props} />
+                            </PartyProvider>
+                        </ChannelProvider>
+                    </ProfileProvider>
                 </AuthProvider>
                 )
             } else {

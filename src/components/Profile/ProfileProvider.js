@@ -26,6 +26,16 @@ export const ProfileProvider = (props) => {
             .then((res) => {return(res)})
     }
 
+    const getProfileById = (memberId) => {
+        return fetch(`http://localhost:8000/members/${memberId}`, {
+            headers: {
+                "Authorization": `Token ${localStorage.getItem("watchparty_token")}`
+            }
+        })
+            .then(response => response.json())
+            .then((res) => {return(res)})
+    }
+
     const getAllProfiles = () => {
         return fetch("http://localhost:8000/members", {
             headers: {
@@ -56,7 +66,7 @@ export const ProfileProvider = (props) => {
 
     return (
         <ProfileContext.Provider value={{
-            profile, getProfile, updateProfile, allProfiles, getAllProfiles
+            profile, getProfile, updateProfile, allProfiles, getAllProfiles, getProfileById
         }}>
             {props.children}
         </ProfileContext.Provider>
