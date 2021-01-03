@@ -16,9 +16,11 @@ export const ChannelProvider = (props) => {
                 "Accept": "application/json"
             }
         })
-            .then(response => response.json())
-            .then(setChannel)
-            .then(data => {return(data)})
+            .then(response => response.json()
+            .then(res => {
+                setChannel(res)
+                return(res)}
+            ))
     };
 
     const getChannelsByMember = (memberId) => {
