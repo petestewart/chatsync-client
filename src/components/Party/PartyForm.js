@@ -8,12 +8,14 @@ import { ProfileContext } from "../Profile/ProfileProvider"
 
 export const PartyForm = props => {
     const { getChannelsByMember, getChannel } = useContext(ChannelContext)
-    const { createParty, setPartyGuestList, party, getParty, getPartyGuests, updateParty } = useContext(PartyContext)
+    const { createParty, setPartyGuestList, party, getParty, deleteParty, updateParty } = useContext(PartyContext)
     const { profile, getProfile, allProfiles, getAllProfiles } = useContext(ProfileContext)
 
     const [userChannels, setUserChannels] = useState([])
     const [guests, setGuests] = useState([])
     const [editMode, setEditMode] = useState(false)
+    const [showDeleteWarning, setShowDeleteWarning] = useState(false)
+
 
     const [partyInfo, setPartyInfo] = useState({
         title: '',
@@ -35,15 +37,23 @@ export const PartyForm = props => {
     useEffect(() => {
         if (editMode) {
             getParty(props.match.params.id)
-                .then(() => {
+                .then((res) => {
+                    let channel = ''
+                    if (party.channel) {
+                        channel = party.channel.id
+                    }
                     setPartyInfo({
                         title: party.title,
                         description: party.description,
                         datetime: party.datetime,
                         is_public: party.is_public,
-                        channel_id: party.channel.id || '',
-                        id: party.id
+                        id: party.id,
+                        channel_id: channel
                     })
+                })
+                .catch((err) => {
+                    console.log(err)
+                    props.history.push('/')
                 })
         }
     }, [editMode, props.match.params.id])
@@ -164,6 +174,7 @@ export const PartyForm = props => {
     };
 
     const handleFormSubmission = (e) => {
+        console.log('handleFormSubmission')
         e.preventDefault()
         const party = {...partyInfo}
         if (partyInfo.channel_id) {
@@ -225,7 +236,7 @@ export const PartyForm = props => {
                         addSelection={addGuest} />
                 </div>
 
-            <form className="profile-form my-5" onSubmit={handleFormSubmission}>
+            <form className="profile-form my-5" >
                 <div className="form-group">
                     <label htmlFor="title">Name Of Event</label>
                     <input onChange={handleFormInput} type="text" id="title" className="form-control" value={partyInfo.title} required autoFocus />
@@ -257,14 +268,39 @@ export const PartyForm = props => {
                     <input onChange={handlePublicCheckbox} type="checkbox" className="form-check-input" id="is_public" checked={partyInfo.is_public}/>
                     <label className="form-check-label" htmlFor="is_public"><small>Public Event (Anyone with link may attend)</small></label>
                 </div>
-
-                <button className="btn btn-success w-100" onClick={handleFormSubmission}> 
-                { editMode ? 'Update' : 'Create' } WatchParty
-                </button>
-
-                <button className="btn btn-secondary w-100 mt-3" onClick={() => {props.history.push("/")}}>Cancel</button>
-                
+                {
+                    showDeleteWarning
+                    ?   ''
+                    :   <>
+                            <button className="btn btn-success w-100" onClick={handleFormSubmission}> 
+                                { editMode ? 'Update' : 'Create' } WatchParty
+                            </button>
+            
+                            <button className="btn btn-secondary w-100 mt-3" onClick={() => {props.history.goBack()}}>Cancel</button>
+            
+                            {
+                                editMode && party.creator.id === profile.id
+                                ? <button className="btn btn-outline-danger w-100 mt-3" onClick={() => {setShowDeleteWarning(true)}}>Delete Event</button>
+                                : ''
+                            }
+                        </>
+                }
             </form>
+            {
+                showDeleteWarning
+                ? <div className="alert alert-danger mt-3" role="alert">
+                    Delete {partyInfo.title}?
+                    <button className="btn-sm btn-danger ml-3"
+                        onClick={() => deleteParty(party.id).then(() => {props.history.push("/parties/upcoming")})}> 
+                        Delete
+                    </button>
+                    <button className="btn-sm btn-light ml-3"
+                        onClick={() => {setShowDeleteWarning(false)}}>
+                        Cancel
+                    </button>
+                </div>
+                : ''
+            }
         </section>
     </main>
     )
