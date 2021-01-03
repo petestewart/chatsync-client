@@ -5,7 +5,7 @@ export const PartyContext = React.createContext()
 
 export const PartyProvider = (props) => {
 
-    const [upcomingParties, setUpcomingParties] = useState([], [])
+    const [upcomingParties, setUpcomingParties] = useState([])
 
 
     const [party, setParty] = useState({
@@ -26,7 +26,10 @@ export const PartyProvider = (props) => {
             }
         })
             .then(response => response.json()
-            .then(setParty))
+                .then((res) => {
+                    setParty(res)
+                    return(res)}
+                    ))
     }
 
     const getPartiesByChannel = (channelId) => {
@@ -163,13 +166,23 @@ export const PartyProvider = (props) => {
         })
             .then(response => response.json())
             .then(setParty)
-            .then(data => {return(data)})
+                .then(data => {return(data)})
+    };
+
+    const deleteParty = (partyId) => {
+        return fetch(`http://localhost:8000/parties/${partyId}`, {
+            method : "DELETE",
+            headers: {
+                "Authorization": `Token ${localStorage.getItem("watchparty_token")}`
+            }
+        })
+            .then(response => {return})
     };
 
 
     return (
         <PartyContext.Provider value={{
-            party, getUpcomingParties, getParty, updateParty, createParty, upcomingParties, getPartyGuests, addPartyGuest, deletePartyGuest, getPartiesByChannel, setPartyGuestList
+            party, getUpcomingParties, getParty, updateParty, createParty, upcomingParties, getPartyGuests, addPartyGuest, deletePartyGuest, getPartiesByChannel, setPartyGuestList, deleteParty
         }}>
             {props.children}
         </PartyContext.Provider>
