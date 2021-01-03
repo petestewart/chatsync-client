@@ -99,7 +99,7 @@ export const ChannelForm = props => {
 
     return(
         <main className="channel-container px-3">
-        <h3 className="mt-3 text-center">Create Channel</h3>
+        <h3 className="mt-3 text-center">{ props.editExisting ? 'Edit' : 'Create' } Channel</h3>
             <section>
 
             <div className="profile-form my-5" onSubmit={handleFormSubmission}>
