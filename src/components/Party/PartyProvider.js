@@ -1,4 +1,5 @@
 import React, { useState } from "react"
+import dayjs from 'dayjs'
 
 export const PartyContext = React.createContext()
 
@@ -28,14 +29,27 @@ export const PartyProvider = (props) => {
             .then(setParty)
     }
 
+    const getPartiesByChannel = (channelId) => {
+        return fetch(`http://localhost:8000/parties?channel_id=${channelId}`, {
+            headers: {
+                "Authorization": `Token ${localStorage.getItem("watchparty_token")}`
+            }
+        })
+            .then(response => response.json())
+            .then(data => {return(data.sort(
+                (a,b) => 
+                (dayjs(a.datetime).valueOf()) - (dayjs(b.datetime).valueOf())
+                ))})
+    }
+
     const getPartyGuests = (partyId) => {
         return fetch(`http://localhost:8000/partyguests/${partyId}`, {
             headers: {
                 "Authorization": `Token ${localStorage.getItem("watchparty_token")}`
             }
         })
-            .then(response => response.json())
-            .then(data => {return(data)})
+            .then(response => response.json()
+                .then(data => {return(data)}))
     }
 
     const addPartyGuest = (partyId, guestId) => {
@@ -57,6 +71,7 @@ export const PartyProvider = (props) => {
             .then(response => response.json())
             .then(data => {return(data)})
     }
+
     const deletePartyGuest = (partyId, guestId) => {
         return fetch(`http://localhost:8000/partyguests/${partyId}`, {
             method : "DELETE",
@@ -81,8 +96,8 @@ export const PartyProvider = (props) => {
                 "Authorization": `Token ${localStorage.getItem("watchparty_token")}`
             }
         })
-            .then(response => response.json())
-            .then(setUpcomingParties)
+            .then(response => response.json()
+            .then((res) => setUpcomingParties(res)))
     }
 
     const createParty = (partyInfo) => {
@@ -95,10 +110,46 @@ export const PartyProvider = (props) => {
             },
             body: JSON.stringify(partyInfo)
         })
-            .then(response => response.json())
-            .then(setParty)
-            .then(data => {return(data)})
+            .then(response => response.json()
+                .then((res) => {
+                    setParty(res)
+                    return(res)}
+                    ))
     };
+
+    const setPartyGuestList = (partyId, newGuests) => {
+        getPartyGuests(partyId)
+            .then((guestList) => {
+                const promises = []
+                // create array of pre-existing guests' ids
+                const currentGuests = []
+                guestList.forEach((g) => currentGuests.push(g.guest_id))
+                // add all new guests that aren't already pre-existing guests
+                newGuests.forEach((g) => {
+                    if (!currentGuests.includes(g)) {
+                        promises.push(new Promise((resolve, reject) => {
+                            addPartyGuest(partyId, g)
+                                .then(() => resolve(g))
+                                .catch((err) => reject(err))
+                        }))
+                    }
+                })
+                // delete all pre-existing guests not in new guest list
+                currentGuests.forEach((g) => {
+                    if (!newGuests.includes(g)) {
+                        promises.push(new Promise((resolve, reject) => {
+                            deletePartyGuest(partyId, g)
+                                .then(() => resolve(g))
+                                .catch((err) => reject(err))
+                        }))
+                    }
+                })
+                Promise.all(promises)
+                    .then((res) => {
+                        return(res)
+                    })
+            })
+    }
 
     const updateParty = (partyInfo) => {
         return fetch(`http://localhost:8000/parties/${partyInfo.id}`, {
@@ -118,7 +169,7 @@ export const PartyProvider = (props) => {
 
     return (
         <PartyContext.Provider value={{
-            party, getUpcomingParties, getParty, updateParty, createParty, upcomingParties, getPartyGuests, addPartyGuest, deletePartyGuest
+            party, getUpcomingParties, getParty, updateParty, createParty, upcomingParties, getPartyGuests, addPartyGuest, deletePartyGuest, getPartiesByChannel, setPartyGuestList
         }}>
             {props.children}
         </PartyContext.Provider>

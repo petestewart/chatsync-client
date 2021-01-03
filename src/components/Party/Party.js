@@ -4,9 +4,7 @@ import dayjs from 'dayjs'
 import { PartyContext } from "../Party/PartyProvider"
 
 import { ChatRoom } from "../ChatRoom/ChatRoom"
-// import { ChatCalibrator } from "../ChatRoom/ChatCalibrator"
 import { InviteForm } from "../UI/InviteForm/InviteForm"
-import { PartyForm } from "../Party/PartyForm"
 
 import "./Party.css"
 
@@ -32,9 +30,9 @@ export const Party = props => {
             (dayjs(party.datetime).valueOf()) <= (dayjs(new Date()).valueOf())
         )}, [party])
 
-    const offsetInputHandler = (e) => {
-        setTimeOffset(e.target.value)
-    };
+    // const offsetInputHandler = (e) => {
+    //     setTimeOffset(e.target.value)
+    // };
 
 
     return (

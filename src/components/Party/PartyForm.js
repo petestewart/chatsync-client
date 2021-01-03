@@ -1,15 +1,49 @@
 import React, { useContext, useState, useEffect } from "react"
 
+import { MemberSelector } from '../UI/MemberSelector/MemberSelector'
+
+import { ChannelContext } from "../Channel/ChannelProvider"
 import { PartyContext } from "../Party/PartyProvider"
+import { ProfileContext } from "../Profile/ProfileProvider"
 
 export const PartyForm = props => {
-    const { createParty, getParty, updateParty } = useContext(PartyContext)
+    const { getChannelsByMember, getChannel } = useContext(ChannelContext)
+    const { createParty, setPartyGuestList } = useContext(PartyContext)
+    const { profile, getProfile, allProfiles, getAllProfiles } = useContext(ProfileContext)
+
+    const [userChannels, setUserChannels] = useState([])
+    const [guests, setGuests] = useState([])
+
+    const orderedGuests = () => {
+        const sortedGuests = [...guests]
+        sortedGuests.sort((a, b) => {
+            const [guestA] = allProfiles.filter(m => m.id === a)
+            const [guestB] = allProfiles.filter(m => m.id === b)
+            if (guestA.full_name > guestB.full_name) {
+                return 1
+            } else { return -1}
+        })
+        return(sortedGuests)
+    }
+
+    useEffect(() => {
+        getProfile()
+            .then(() => {
+                if (profile.id) {
+                    getChannelsByMember(profile.id)
+                        .then((res) => setUserChannels(res))
+                    setGuests([profile.id])
+                }
+            })
+    }, [profile.id])
+
 
     const [partyInfo, setPartyInfo] = useState({
         title: '',
         description: '',
         datetime: '',
-        is_public: true
+        is_public: true,
+        channel_id: ''
     })
 
     const [datetimeInput, setDatetimeInput] = useState({
@@ -17,7 +51,7 @@ export const PartyForm = props => {
         time: ''
     })
 
-    const [utcDatetime, setUtcDatetime] = useState('')
+    // const [utcDatetime, setUtcDatetime] = useState('')
 
     const getUTCDatetime = () => {
         // create Date object from user form (local time)
@@ -41,8 +75,8 @@ export const PartyForm = props => {
 
     const getCurrentDatetime = () => {
         const currentTime = new Date()
-        const month = currentTime.getMonth() + 1
-        const day = currentTime.getDate()
+        const month = ('0' + (currentTime.getMonth() + 1)).substr(-2)
+        const day = ('0' + currentTime.getDate()).substr(-2)
         const year = currentTime.getFullYear()
         const hours = ('0' + currentTime.getHours()).substr(-2)
         const minutes = ('0' + currentTime.getMinutes()).substr(-2)
@@ -57,6 +91,16 @@ export const PartyForm = props => {
         setDatetimeInput({ date, time })
     }, [])
 
+    useEffect(getAllProfiles, [])
+
+    const addGuest = (guest) => {
+        setGuests([...guests, guest])
+    };
+
+    const removeGuest = (guest) => {
+        setGuests([...guests].filter(g => g !== guest))
+    };
+
     
     const handleFormInput = (e) => {
         e.preventDefault()
@@ -65,14 +109,37 @@ export const PartyForm = props => {
         setPartyInfo(formInfo)
         };
 
+    const handleChannelSelection = (e) => {
+        setPartyInfo({ ...partyInfo, channel_id: e.target.value })
+        if (e.target.value !== '') {
+            getChannel(e.target.value)
+                        .then((res) => {
+                            // console.log(res)
+                            const autoGuests = []
+                            res.members.forEach((member) => autoGuests.push(member.member_id))
+                            setGuests(autoGuests)
+                        })
+        }
+    };
+
     const handlePublicCheckbox = (e) => {
         setPartyInfo({ ...partyInfo, is_public: e.target.checked })
     };
 
     const handleFormSubmission = (e) => {
         e.preventDefault()
-        createParty(partyInfo)
-            .then(() => {props.history.push("/parties/upcoming")})
+        const party = {...partyInfo}
+        if (partyInfo.channel_id) {
+            party.channel_id = Number(partyInfo.channel_id)
+        } else {
+            party.channel_id = null
+        }
+        createParty(party)
+            .then((res) => {
+                console.log(res)
+                setPartyGuestList(res.id, guests)
+                props.history.push("/parties/upcoming")
+            })
     };
 
     const handleDateTimeInput = (e) => {
@@ -86,22 +153,54 @@ export const PartyForm = props => {
         setPartyInfo({ ...partyInfo, datetime: utcDatetimeValue})
     }, [datetimeInput])
 
+    const guestIcon = (guestId) => {
+        const guest = allProfiles.find((member) => guestId === member.id)
+        if (guest)  { return (
+        <span 
+            className="selected-option"
+            key={guestId}>
+                <span className="mr-1 remove-selection-button" aria-hidden="true" onClick={() => {removeGuest(guestId)}}>&times;</span>
+                {guest.full_name}
+            </span>) }
+    };
+
 
     return (
         <main className="profile-container px-3">
         <h3 className="mt-3 text-center">Create Party</h3>
             <section>
+            <div className="form-group guests-selector">
+                    <label htmlFor="guests">Guests</label>
+                    <div className="guest-list mb-2">
+                        {orderedGuests().map((m) => guestIcon(m))}
+                    </div>
+                    <MemberSelector 
+                        options={allProfiles} 
+                        selected={guests} 
+                        addSelection={addGuest} />
+                </div>
 
             <form className="profile-form my-5" onSubmit={handleFormSubmission}>
                 <div className="form-group">
                     <label htmlFor="title">Name Of Event</label>
                     <input onChange={handleFormInput} type="text" id="title" className="form-control" value={partyInfo.title} required autoFocus />
                 </div>
+                {
+                    userChannels.length > 0
+                    ?    <div className="form-group">
+                            <label htmlFor="channel_id">Channel:</label>
+                            <select className="ml-2" name="channel_id" id="channel_id" value={partyInfo.channel_id} onChange={handleChannelSelection}>
+                                <option value=''>none</option>
+                                {userChannels.map((c) => <option key={c.id} value={c.id}>{c.name}</option>)}
+                            </select>
+                        </div>
+                    :   ''
+                }
                 <div className="form-group">
                     <label htmlFor="date">Date</label>
                     <input onChange={handleDateTimeInput} type="date" id="date" className="form-control" value={datetimeInput.date} required />
                 </div>
-                <div className="form-group mb-5">
+                <div className="form-group mb-4">
                     <label htmlFor="time">Time</label>
                     <input onChange={handleDateTimeInput} type="time" id="time" className="form-control" value={datetimeInput.time} required />
                 </div>
@@ -109,11 +208,10 @@ export const PartyForm = props => {
                     <label htmlFor="description">Event Description and Info</label>
                     <textarea onChange={handleFormInput} className="form-control" id="description" rows="3" value={partyInfo.description}></textarea>
                 </div>
-                <div className="form-group form-check d-flex align-items-center mb-5">
+                <div className="form-group form-check d-flex align-items-center mb-2">
                     <input onChange={handlePublicCheckbox} type="checkbox" className="form-check-input" id="is_public" checked={partyInfo.is_public}/>
                     <label className="form-check-label" htmlFor="is_public"><small>Public Event (Anyone with link may attend)</small></label>
                 </div>
-
                 <button className="btn btn-success w-100" onClick={handleFormSubmission}>Create WatchParty</button>
                 <button className="btn btn-secondary w-100 mt-3" onClick={() => {props.history.push("/")}}>Cancel</button>
             </form>

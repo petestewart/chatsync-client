@@ -1,4 +1,4 @@
-import React, { useContext } from "react"
+import React, { useContext, useState, useEffect } from "react"
 
 import { AuthContext } from "../Auth/AuthProvider"
 
@@ -8,6 +8,16 @@ import "./SideDrawer.css"
 
 export const SideDrawer = (props) => {
     const {logoutUser} = useContext(AuthContext)
+
+    const [sortedChannels, setSortedChannels] = useState([])
+
+    useEffect(() => {
+        if (props.userChannels) {
+            const channelList = [...props.userChannels]
+            channelList.sort((a, b) => a.name.toUpperCase() > b.name.toUpperCase() ? 1 : -1)
+            setSortedChannels(channelList)
+        }
+    }, [props.userChannels])
 
     return (
         <>
@@ -31,7 +41,20 @@ export const SideDrawer = (props) => {
                 </li>
                 <hr />
                 <li className="my-3"><span className="menu-icon"><i className="fas fa-hashtag"></i></span>My Channels</li>
-                <li className="sidemenu-item my-3">
+                {
+                    props.userChannels
+                    ?   sortedChannels.map((channel) => <li className="sidemenu-item my-3" key={channel.id} onClick={() => {
+                        props.closedHandler()
+                        props.history.push(`/channels/${channel.id}`)
+                        }}><span className="menu-icon"><i className="fas"></i></span>#{channel.name}</li>)
+                        // props.userChannels.map((channel) => <li className="my-3" key={channel.id}><span className="menu-icon"><i className="fas"></i></span>#{channel.name}</li>)
+                    
+                    : ''
+                }
+                <li className="sidemenu-item my-3" onClick={() => {
+                    props.closedHandler()
+                    props.history.push("/channels/create")
+                    }}>
                     <span className="menu-icon"><i className="fas fa-users"></i></span>Create Channel
                 </li>
                 <hr />
