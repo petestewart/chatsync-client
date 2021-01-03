@@ -9,3 +9,9 @@
 .selector-close-menu-button:hover {
     cursor: pointer;
 }
+
+.dropdown-toggle {
+    border: 1px solid #ced4da;
+    border-radius: 0.25rem;
+    line-height: 1.5;
+}

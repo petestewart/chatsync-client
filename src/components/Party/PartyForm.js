@@ -8,22 +8,70 @@ import { ProfileContext } from "../Profile/ProfileProvider"
 
 export const PartyForm = props => {
     const { getChannelsByMember, getChannel } = useContext(ChannelContext)
-    const { createParty, setPartyGuestList } = useContext(PartyContext)
+    const { createParty, setPartyGuestList, party, getParty, getPartyGuests, updateParty } = useContext(PartyContext)
     const { profile, getProfile, allProfiles, getAllProfiles } = useContext(ProfileContext)
 
     const [userChannels, setUserChannels] = useState([])
     const [guests, setGuests] = useState([])
+    const [editMode, setEditMode] = useState(false)
+
+    const [partyInfo, setPartyInfo] = useState({
+        title: '',
+        description: '',
+        datetime: '',
+        is_public: true,
+        channel_id: ''
+    })
+
+    const [datetimeInput, setDatetimeInput] = useState({
+        date: '',
+        time: ''
+    })
+
+    useEffect(() => {
+        setEditMode(props.history.location.pathname.includes('edit'))
+    }, [])
+
+    useEffect(() => {
+        if (editMode) {
+            getParty(props.match.params.id)
+                .then(() => {
+                    setPartyInfo({
+                        title: party.title,
+                        description: party.description,
+                        datetime: party.datetime,
+                        is_public: party.is_public,
+                        channel_id: party.channel.id || '',
+                        id: party.id
+                    })
+                })
+        }
+    }, [editMode, props.match.params.id])
+
+    useEffect(() => {
+        if (editMode && partyInfo.id) {
+            const partyGuests = []
+            party.guests.forEach((g) => {
+                partyGuests.push(g.id)
+            })
+            setGuests(partyGuests)
+        }
+    }, [partyInfo.id])
+
 
     const orderedGuests = () => {
-        const sortedGuests = [...guests]
-        sortedGuests.sort((a, b) => {
-            const [guestA] = allProfiles.filter(m => m.id === a)
-            const [guestB] = allProfiles.filter(m => m.id === b)
-            if (guestA.full_name > guestB.full_name) {
-                return 1
-            } else { return -1}
-        })
-        return(sortedGuests)
+        if (allProfiles) {
+            const sortedGuests = [...guests]
+            sortedGuests.sort((a, b) => {
+                const [guestA] = allProfiles.filter(m => m.id === a)
+                const [guestB] = allProfiles.filter(m => m.id === b)
+                if (guestA.full_name > guestB.full_name) {
+                    return 1
+                } else { return -1}
+            })
+            return(sortedGuests) 
+        }
+        
     }
 
     useEffect(() => {
@@ -38,18 +86,7 @@ export const PartyForm = props => {
     }, [profile.id])
 
 
-    const [partyInfo, setPartyInfo] = useState({
-        title: '',
-        description: '',
-        datetime: '',
-        is_public: true,
-        channel_id: ''
-    })
 
-    const [datetimeInput, setDatetimeInput] = useState({
-        date: '',
-        time: ''
-    })
 
     // const [utcDatetime, setUtcDatetime] = useState('')
 
@@ -134,12 +171,20 @@ export const PartyForm = props => {
         } else {
             party.channel_id = null
         }
-        createParty(party)
-            .then((res) => {
-                console.log(res)
-                setPartyGuestList(res.id, guests)
-                props.history.push("/parties/upcoming")
-            })
+        if (editMode) {
+            updateParty(party)
+                .then((res) => {
+                    setPartyGuestList(party.id, guests)
+                    props.history.goBack()
+                })
+        } else {
+            createParty(party)
+                .then((res) => {
+                    setPartyGuestList(res.id, guests)
+                    props.history.push("/parties/upcoming")
+                }) 
+        }
+        
     };
 
     const handleDateTimeInput = (e) => {
@@ -167,7 +212,7 @@ export const PartyForm = props => {
 
     return (
         <main className="profile-container px-3">
-        <h3 className="mt-3 text-center">Create Party</h3>
+        <h3 className="mt-3 text-center">{ editMode ? 'Edit' : 'Create'} Party</h3>
             <section>
             <div className="form-group guests-selector">
                     <label htmlFor="guests">Guests</label>
@@ -212,8 +257,13 @@ export const PartyForm = props => {
                     <input onChange={handlePublicCheckbox} type="checkbox" className="form-check-input" id="is_public" checked={partyInfo.is_public}/>
                     <label className="form-check-label" htmlFor="is_public"><small>Public Event (Anyone with link may attend)</small></label>
                 </div>
-                <button className="btn btn-success w-100" onClick={handleFormSubmission}>Create WatchParty</button>
+
+                <button className="btn btn-success w-100" onClick={handleFormSubmission}> 
+                { editMode ? 'Update' : 'Create' } WatchParty
+                </button>
+
                 <button className="btn btn-secondary w-100 mt-3" onClick={() => {props.history.push("/")}}>Cancel</button>
+                
             </form>
         </section>
     </main>
