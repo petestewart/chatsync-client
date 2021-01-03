@@ -25,8 +25,8 @@ export const PartyProvider = (props) => {
                 "Authorization": `Token ${localStorage.getItem("watchparty_token")}`
             }
         })
-            .then(response => response.json())
-            .then(setParty)
+            .then(response => response.json()
+            .then(setParty))
     }
 
     const getPartiesByChannel = (channelId) => {

@@ -80,7 +80,7 @@ export const Party = props => {
                             </div>
                             <div className="col-2 text-right">
                                 <i className="fas fa-cog party-control-button" 
-                                onClick={() => setShowCalibrationForm(!showCalibrationForm)}></i>
+                                onClick={() => props.history.push(`/party/edit/${party.id}`)}></i>
                                 {/* <input type="number" id="offset" onChange={offsetInputHandler}></input> */}
                             </div>
                         </div>

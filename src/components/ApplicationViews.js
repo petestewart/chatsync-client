@@ -45,6 +45,10 @@ export const ApplicationViews = (props) => {
                         <ScrollToTop />
                         <Route exact path="/parties/create" render={ props => <PartyForm history={props.history} {...props} />} />
                         
+                        {/* Edit Party */}
+                        <ScrollToTop />
+                        <Route exact path="/party/edit/:id(\d+)" render={ props => <PartyForm history={props.history} {...props} />} />
+                        
                         {/* Create Channel */}
                         <ScrollToTop />
                         <Route exact path="/channels/create" render={ props => <ChannelForm history={props.history} {...props} />} />
