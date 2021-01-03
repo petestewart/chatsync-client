@@ -53,6 +53,10 @@ export const ApplicationViews = (props) => {
                         <ScrollToTop />
                         <Route exact path="/channels/create" render={ props => <ChannelForm history={props.history} {...props} />} />
                         
+                        {/* Edit Channel */}
+                        <ScrollToTop />
+                        <Route exact path="/channels/edit/:id(\d+)" render={ props => <ChannelForm history={props.history} editExisting={true} {...props} />} />
+                        
                         {/* View Channel */}
                         <ScrollToTop />
                         <Route exact path="/channels/:id(\d+)" render={ props => <Channel history={props.history} {...props} />} />
