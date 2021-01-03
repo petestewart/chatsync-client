@@ -33,7 +33,7 @@ export const ChatRoom = (props) => {
 
     // get messages
     const messagesRef = firestore.collection(`party-${props.party.id}`);
-    const query = messagesRef.orderBy('createdAt').limit(25);
+    const query = messagesRef.orderBy('createdAt');
 
     // listen for new messages
     const [messages] = useCollectionData(query, {idField: 'id'});

@@ -5,6 +5,7 @@ import { PartyContext } from "../Party/PartyProvider"
 
 import { ChatRoom } from "../ChatRoom/ChatRoom"
 import { InviteForm } from "../UI/InviteForm/InviteForm"
+import { ShareModal } from "../UI/ShareModal/ShareModal"
 
 import "./Party.css"
 
@@ -19,6 +20,7 @@ export const Party = props => {
 
 
     const [timeOffset, setTimeOffset] = useState(0)
+    const [showShareMsg, setShowShareMsg] = useState(false)
 
 
     useEffect(() => {
@@ -38,36 +40,73 @@ export const Party = props => {
     return (
         <main className="party-container">
             <div className="party-header">
-                <h2 className="mt-3 text-center">{party.title}</h2>
-                <h6 className={`text-center ${partyIsLive ? 'text-primary' : ''}`}>
+                <h3 className="mt-3 mb-0 text-center">{party.title}</h3>
+                {/* {
+                    party.channel
+                    ? <div className="text-center"><small>#{party.channel.name}</small></div>
+                    : ''
+                } */}
+                <h6 className={`mb-0 text-center ${partyIsLive ? 'text-primary' : ''}`}>
                     {partyIsLive
                     ? 'LIVE '
                     : ''}
-                    Watch Party</h6>
-                <div className="text-center text-success">
                     {
-                        timeOffset
-                        ? `Your WatchEvent feed is delayed by ${timeOffset} second${timeOffset !== 1 ? 's' : ''}`
-                        : ''
+                    party.channel
+                    ? `#${party.channel.name} `
+                    : ''
                     }
+                    Watch Party</h6>
+                <div className="text-center ">
+                    <small>
+                    {party.description}
+                    
+                    </small>
                 </div>
                 
-                <section className="mt-3">
+                <section className="mt-0">
                     <div className="container">
                         <div className="row">
                             <div className="col-2 text-left">
-                                <i className="fas fa-users party-control-button" onClick={() => {setShowInviteForm(!showInviteForm)}}></i>
+                                <i className="fas fa-users party-control-button" 
+                                onClick={() => {setShowInviteForm(!showInviteForm)}}></i>
                             </div>
-                            <div className="col-8 text-center">
-                                {party.description}
+                            <div className="col-4 text-center party-control-button">
+                                <i className="fas fa-share-square"
+                                onClick={() => setShowShareMsg(true)}></i>
+                            </div>
+                            <div className="col-4 text-center">
+                                <i className={`fas fa-stopwatch party-control-button ${timeOffset ? 'text-success' : ''}`}
+                                onClick={() => setShowCalibrationForm(!showCalibrationForm)}></i>
                             </div>
                             <div className="col-2 text-right">
-                                <i className="fas fa-cog party-control-button" onClick={() => setShowCalibrationForm(!showCalibrationForm)}></i>
+                                <i className="fas fa-cog party-control-button" 
+                                onClick={() => setShowCalibrationForm(!showCalibrationForm)}></i>
                                 {/* <input type="number" id="offset" onChange={offsetInputHandler}></input> */}
+                            </div>
+                        </div>
+                        <div className="row">
+                            <div className="col-12 text-center text-success">
+                                {
+                                    showShareMsg
+                                    ? <ShareModal 
+                                        link={`http://localhost8000.com/party/${party.id}`}
+                                        handleClose={() => {setShowShareMsg(false)}}
+                                        />
+                                    : ''
+                                }
+                                
+                            <small>
+                                {
+                                timeOffset
+                                ? `Feed delay: ${timeOffset} second${timeOffset !== 1 ? 's' : ''}`
+                                : ''
+                                }
+                            </small>
                             </div>
                         </div>
                     </div>
                 </section>
+
                 <section className="mt-3">
                     {
                         showInviteForm
