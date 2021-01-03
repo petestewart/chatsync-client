@@ -3,7 +3,7 @@ import React, { useContext, useState, useEffect } from "react"
 import { ProfileContext } from "../Profile/ProfileProvider"
 
 export const ProfileForm = props => {
-    const { profile, getProfile, updateProfile } = useContext(ProfileContext)
+    const { profile, updateProfile } = useContext(ProfileContext)
 
     const [profileInfo, setProfileInfo] = useState({
         first_name: '',

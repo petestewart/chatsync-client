@@ -7,7 +7,7 @@ import { ProfileContext } from "../Profile/ProfileProvider"
 
 export const ChannelForm = props => {
 
-    const { channel, createChannel, createChannelMember } = useContext(ChannelContext)
+    const { createChannel, createChannelMember } = useContext(ChannelContext)
     const { profile, getProfile, allProfiles, getAllProfiles } = useContext(ProfileContext)
 
     const [channelInfo, setChannelInfo] = useState({ name: '', description: '', image: '' })

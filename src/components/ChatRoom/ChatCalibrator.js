@@ -1,9 +1,6 @@
-import React, { useContext, useState } from "react"
-
-import { AuthContext } from "../Auth/AuthProvider"
+import React, { useState } from "react"
 
 import "./ChatCalibrator.css"
-
 
 export const ChatCalibrator = (props) => {
     // const [calibratorOpen, setCalibratorOpen] = useState(false)

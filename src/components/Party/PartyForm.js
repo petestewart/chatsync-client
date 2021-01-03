@@ -7,8 +7,8 @@ import { PartyContext } from "../Party/PartyProvider"
 import { ProfileContext } from "../Profile/ProfileProvider"
 
 export const PartyForm = props => {
-    const { getChannelsByMember, getChannel, channel } = useContext(ChannelContext)
-    const { createParty, setPartyGuestList, getParty, updateParty } = useContext(PartyContext)
+    const { getChannelsByMember, getChannel } = useContext(ChannelContext)
+    const { createParty, setPartyGuestList } = useContext(PartyContext)
     const { profile, getProfile, allProfiles, getAllProfiles } = useContext(ProfileContext)
 
     const [userChannels, setUserChannels] = useState([])

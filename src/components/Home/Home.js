@@ -1,15 +1,11 @@
-import React, { useContext, useState, useEffect } from "react"
+import React, { useContext, useEffect } from "react"
 import { Link } from "react-router-dom"
 import dayjs from 'dayjs'
 
 import { PartyContext } from "../Party/PartyProvider"
-import { ProfileContext } from "../Profile/ProfileProvider"
 
 export const Home = props => {
     const { getUpcomingParties, upcomingParties } = useContext(PartyContext)
-    const { profile, getProfile } = useContext(ProfileContext)
-
-
 
     useEffect(getUpcomingParties, [])
 

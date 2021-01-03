@@ -3,10 +3,7 @@ import { Route } from "react-router-dom"
 
 import ScrollToTop from './UI/ScrollToTop/ScrollToTop'
 
-import { ChannelProvider } from './Channel/ChannelProvider'
 import { ChatProvider } from './ChatRoom/ChatProvider'
-import { PartyProvider } from './Party/PartyProvider'
-import { ProfileProvider } from './Profile/ProfileProvider'
 
 import { Channel } from "./Channel/Channel"
 import { ChannelForm } from "./Channel/ChannelForm"

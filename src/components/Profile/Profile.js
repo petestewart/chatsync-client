@@ -23,9 +23,11 @@ export const Profile = props => {
     }, [props.match.params.id, profile])
     
     useEffect(() => {
-        getChannelsByMember(userProfile.id)
-            .then((res) => setUserChannels(res))
-    }, [userProfile])
+        if (userProfile.id) {
+            getChannelsByMember(userProfile.id)
+            .then((res) => setUserChannels(res))}
+        }
+        , [userProfile])
 
     return (
         <main className="profile-container container px-3">

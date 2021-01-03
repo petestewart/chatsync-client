@@ -5,7 +5,6 @@ export const ChannelContext = React.createContext()
 export const ChannelProvider = (props) => {
 
     const [channel, setChannel] = useState({})
-    const [memberChannels, setMemberChannels] = useState([])
 
     const getChannel = (channelId) => {
         return fetch(`http://localhost:8000/channels/${channelId}`, {
@@ -85,7 +84,7 @@ export const ChannelProvider = (props) => {
 
     return (
         <ChannelContext.Provider value={{
-            channel, createChannel, createChannelMember, deleteChannelMember, getChannel, getChannelsByMember, memberChannels
+            channel, createChannel, createChannelMember, deleteChannelMember, getChannel, getChannelsByMember
         }} >
             {props.children}
         </ChannelContext.Provider>
