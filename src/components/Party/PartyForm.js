@@ -1,4 +1,5 @@
 import React, { useContext, useState, useEffect } from "react"
+import { useLocation } from "react-router-dom"
 
 import { MemberSelector } from '../UI/MemberSelector/MemberSelector'
 
@@ -7,7 +8,18 @@ import { PartyContext } from "../Party/PartyProvider"
 import { ProfileContext } from "../Profile/ProfileProvider"
 
 export const PartyForm = props => {
-    const { getChannelsByMember, getChannel } = useContext(ChannelContext)
+
+    const useQuery = () => new URLSearchParams(useLocation().search)
+
+    const query = useQuery()
+    // console.log(query.get("channel_id"))
+    // if(query.get("channel_id")) {
+    //     console.log("query exists")
+    // } else {
+    //     console.log("no query result")
+    // }
+
+    const { getChannelsByMember, getChannel, channel } = useContext(ChannelContext)
     const { createParty, setPartyGuestList, party, getParty, deleteParty, updateParty } = useContext(PartyContext)
     const { profile, getProfile, allProfiles, getAllProfiles } = useContext(ProfileContext)
 
@@ -15,6 +27,27 @@ export const PartyForm = props => {
     const [guests, setGuests] = useState([])
     const [editMode, setEditMode] = useState(false)
     const [showDeleteWarning, setShowDeleteWarning] = useState(false)
+    const [channelLocked, setChannelLocked] = useState(false)
+
+    useEffect(() => {
+        if(query.get("channel_id")) {
+            setChannelLocked(true)
+    }}, [])
+
+    useEffect(() => {
+        if (channelLocked) {
+            getChannel(query.get("channel_id"))
+                        .then((res) => {
+                            setPartyInfo({ ...partyInfo, channel_id: query.get("channel_id") })
+                            getAllProfiles()
+                            console.log(res)
+                            const autoGuests = []
+                            res.members.forEach((member) => autoGuests.push(member.member_id))
+                            setGuests(autoGuests)
+                        })
+                        .catch((err) => props.history.push("/parties/create"))
+        }
+    }, [channelLocked])
 
 
     const [partyInfo, setPartyInfo] = useState({
@@ -223,7 +256,7 @@ export const PartyForm = props => {
 
     return (
         <main className="profile-container px-3">
-        <h3 className="mt-3 text-center">{ editMode ? 'Edit' : 'Create'} Party</h3>
+        <h3 className="mt-3 text-center">{ editMode ? 'Edit' : 'Create'} { channelLocked ? `#${channel.name}` : '' } Party</h3>
             <section>
             <div className="form-group guests-selector">
                     <label htmlFor="guests">Guests</label>
@@ -242,7 +275,7 @@ export const PartyForm = props => {
                     <input onChange={handleFormInput} type="text" id="title" className="form-control" value={partyInfo.title} required autoFocus />
                 </div>
                 {
-                    userChannels.length > 0
+                    userChannels.length > 0 && !channelLocked
                     ?    <div className="form-group">
                             <label htmlFor="channel_id">Channel:</label>
                             <select className="ml-2" name="channel_id" id="channel_id" value={partyInfo.channel_id} onChange={handleChannelSelection}>
@@ -273,7 +306,7 @@ export const PartyForm = props => {
                     ?   ''
                     :   <>
                             <button className="btn btn-success w-100" onClick={handleFormSubmission}> 
-                                { editMode ? 'Update' : 'Create' } WatchParty
+                                { editMode ? 'Update' : 'Create' } { channelLocked ? `#${channel.name}` : '' } WatchParty
                             </button>
             
                             <button className="btn btn-secondary w-100 mt-3" onClick={() => {props.history.goBack()}}>Cancel</button>

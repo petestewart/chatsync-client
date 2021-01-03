@@ -118,7 +118,10 @@ export const Channel = props => {
                     : ''
                 }
                     
-                <button className="btn btn-primary w-100 mt-3" onClick={() => {}}><i className="fas fa-calendar-plus"></i> Create Channel Event</button>
+                <button className="btn btn-primary w-100 mt-3" onClick={() => {
+                    props.history.push(`/parties/create?channel_id=${channel.id}`)}}>
+                        <i className="fas fa-calendar-plus"></i> Create Channel Event
+                </button>
                 </div>
             </div>
             <div className="channel-members row mt-2">
