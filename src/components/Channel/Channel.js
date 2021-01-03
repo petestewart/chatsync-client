@@ -83,7 +83,7 @@ export const Channel = props => {
             </div>
             <div className="col-2 ">
                 {/* <Link to={'channel/edit'}> */}
-                    <i className="fas fa-cog edit-channel-btn" onClick={() => props.history.push("channel/edit")}></i>
+                    <i className="fas fa-cog edit-channel-btn" onClick={() => props.history.push(`/channels/edit/${channel.id}`)}></i>
                 {/* </Link> */}
             </div>
 

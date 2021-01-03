@@ -7,7 +7,7 @@ import { ProfileContext } from "../Profile/ProfileProvider"
 
 export const ChannelForm = props => {
 
-    const { createChannel, createChannelMember } = useContext(ChannelContext)
+    const { createChannel, createChannelMember, getChannel, updateChannel, setChannelMemberList } = useContext(ChannelContext)
     const { profile, getProfile, allProfiles, getAllProfiles } = useContext(ProfileContext)
 
     const [channelInfo, setChannelInfo] = useState({ name: '', description: '', image: '' })
@@ -15,6 +15,21 @@ export const ChannelForm = props => {
 
     useEffect(getAllProfiles, [])
     useEffect(getProfile, [])
+
+    useEffect(() => {
+        if (props.editExisting) {
+            getChannel(props.match.params.id)
+                .then((res) => {
+                    setChannelInfo({
+                        name: res.name,
+                        description: res.description,
+                        image: res.image,
+                        id: props.match.params.id
+                    })
+                    setChannelMembers(res.members.map(m => m.member_id))
+                })
+        }
+    }, [])
 
     const addMember = (memberId) => {
         const members = [...channelMembers]
@@ -37,11 +52,8 @@ export const ChannelForm = props => {
         };
 
     const handleFormSubmission = (e) => {
-        e.preventDefault()
-        let channelId = 0
-        createChannel(channelInfo)
-        .then((res) => {
-            channelId = res.id
+        const handleMemberList = (chId) => {
+            channelId = chId
             createChannelMember(channelId, profile.id)
             const promises = []
             channelMembers.forEach((memberId) => {
@@ -56,7 +68,17 @@ export const ChannelForm = props => {
                     console.log('done')
                     props.history.push(`/channels/${channelId}`)
                 })
-        })
+        }
+        e.preventDefault()
+        let channelId = 0
+        if (props.editExisting) {
+            updateChannel(channelInfo)
+                .then(() => setChannelMemberList(channelInfo.id, [...channelMembers, profile.id]))
+                .then(() => props.history.push(`/channels/${channelInfo.id}`))
+        } else {
+            createChannel(channelInfo)
+                .then((res) => handleMemberList(res.id))
+        }
     };
 
     const getMember = (memberId) => {
@@ -74,7 +96,6 @@ export const ChannelForm = props => {
                 {channelMember.full_name}
             </span>) }
     }
-
 
     return(
         <main className="channel-container px-3">
@@ -100,13 +121,15 @@ export const ChannelForm = props => {
                 <div className="channel-members-selector pb-4">
                     <label htmlFor="members">Channel Members</label>
                     <div className="members list mb-2">
-                        {[profile.id, ...channelMembers].map((m) => getMember(m))}
+                        {[...new Set([profile.id, ...channelMembers])].map((m) => getMember(m))}
                     </div>
                     <MemberSelector options={allProfiles} selected={[...channelMembers, profile.id]} addSelection={addMember} />
 
                 </div>
 
-                <button className="btn btn-success w-100" onClick={handleFormSubmission}>Create Channel</button>
+                <button className="btn btn-success w-100" onClick={handleFormSubmission}>
+                    { props.editExisting ? 'Update' : 'Create' } Channel
+                    </button>
                 <button className="btn btn-secondary w-100 mt-3" onClick={() => {props.history.push("/home")}}>Cancel</button>
             </div>
         </section>
