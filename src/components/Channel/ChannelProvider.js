@@ -22,6 +22,20 @@ export const ChannelProvider = (props) => {
             ))
     };
 
+    const deleteChannel = (channelId) => {
+        return fetch(`http://localhost:8000/channels/${channelId}`, {
+            method : "DELETE",
+            headers: {
+                "Authorization": `Token ${localStorage.getItem("watchparty_token")}`,
+                "Content-Type": "application/json",
+                "Accept": "application/json"
+            }
+        })
+            .then(res => {
+                return(res)}
+            )
+    };
+
     const getChannelsByMember = (memberId) => {
         return fetch(`http://localhost:8000/channels?member_id=${memberId}`, {
             method : "GET",
@@ -132,7 +146,7 @@ export const ChannelProvider = (props) => {
 
     return (
         <ChannelContext.Provider value={{
-            channel, createChannel, createChannelMember, deleteChannelMember, getChannel, getChannelsByMember, updateChannel, setChannelMemberList
+            channel, createChannel, createChannelMember, deleteChannelMember, getChannel, getChannelsByMember, updateChannel, setChannelMemberList, deleteChannel
         }} >
             {props.children}
         </ChannelContext.Provider>

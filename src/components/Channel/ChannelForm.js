@@ -7,13 +7,16 @@ import { ProfileContext } from "../Profile/ProfileProvider"
 
 export const ChannelForm = props => {
 
-    const { createChannel, createChannelMember, getChannel, updateChannel, setChannelMemberList } = useContext(ChannelContext)
+    const { createChannel, createChannelMember, getChannel, updateChannel, setChannelMemberList, deleteChannel, channel } = useContext(ChannelContext)
     const { profile, getProfile, allProfiles, getAllProfiles } = useContext(ProfileContext)
 
     const [base64, setBase64] = useState(null)
 
     const [channelInfo, setChannelInfo] = useState({ name: '', description: '', image: '' })
     const [channelMembers, setChannelMembers] = useState([])
+
+    const [showDeleteWarning, setShowDeleteWarning] = useState(false)
+
 
     useEffect(getAllProfiles, [])
     useEffect(getProfile, [])
@@ -132,11 +135,6 @@ export const ChannelForm = props => {
                     <label htmlFor="image">Channel Image</label>
                     <input onChange={createImageString} type="file" id="image" className="form-control"  />
                 </div>
-{/* 
-                <div className="form-group">
-                    <label htmlFor="image">Channel Image URL</label>
-                    <input onChange={handleFormInput} type="text" id="image" className="form-control" value={channelInfo.image} required autoFocus />
-                </div> */}
 
                 <div className="channel-members-selector pb-4">
                     <label htmlFor="members">Channel Members</label>
@@ -147,10 +145,38 @@ export const ChannelForm = props => {
 
                 </div>
 
-                <button className="btn btn-success w-100" onClick={handleFormSubmission}>
-                    { props.editExisting ? 'Update' : 'Create' } Channel
-                    </button>
-                <button className="btn btn-secondary w-100 mt-3" onClick={() => {props.history.push("/home")}}>Cancel</button>
+                {
+                    showDeleteWarning
+                    ? ''
+                    :   <>
+                            <button className="btn btn-success w-100" onClick={handleFormSubmission}>
+                                { props.editExisting ? 'Update' : 'Create' } Channel
+                            </button>
+                            <button className="btn btn-secondary w-100 mt-3 mb-3" onClick={() => {props.history.push("/home")}}>Cancel</button>
+                            {
+                                props.editExisting && channel.creator.id === profile.id
+                                ? <button className="btn btn-outline-danger w-100 mt-3 mb-3" onClick={() => {setShowDeleteWarning(true)}}>Delete Channel</button>
+                                : ''
+                            }
+                        </>
+                }
+
+                {
+                    showDeleteWarning
+                    ? <div className="alert alert-danger mt-3" role="alert">
+                        Delete this channel?
+                        <button className="btn-sm btn-danger ml-3"
+                            onClick={() => deleteChannel(channelInfo.id).then(() => {props.history.push("/")})}> 
+                            Delete
+                        </button>
+                        <button className="btn-sm btn-light ml-3"
+                            onClick={() => {setShowDeleteWarning(false)}}>
+                            Cancel
+                        </button>
+                    </div>
+                    : ''
+                }
+                
             </div>
         </section>
     </main>
