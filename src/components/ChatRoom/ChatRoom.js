@@ -19,11 +19,16 @@ firebase.initializeApp(firebaseInfo)
 const firestore = firebase.firestore()
 
 export const ChatRoom = (props) => {
+    let clearStatus
+
     const endOfFeed = useRef();
     const [calibrationMessage, setCalibrationMessage] = useState({})
 
     const [memberOffsets, setMemberOffsets] = useState([])
 
+    const [statusMessage, setStatusMessage] = useState(' ')
+    const [lastTyped, setLastTyped] = useState(0)
+    const [currentTypistOffset, setCurrentTypistOffset] = useState(0)
 
     const { profile } = useContext(ProfileContext)
 
@@ -40,6 +45,7 @@ export const ChatRoom = (props) => {
 
     // *** CHECK FOR SYSTEM MESSAGES ***
     useEffect(() => {
+        let statusMessages = 0
         if (messages) {
             let calibratorOpen = false
             let calibrateMessage = null
@@ -56,6 +62,12 @@ export const ChatRoom = (props) => {
                         }
                         calibrateMessage = m
                         calibratorOpen = true
+                    }
+                    if (m.messageType === 'isTyping' && m.senderId !== profile.id) {
+                        statusMessages += 1
+                        const offset = ((m.createdAt.seconds * 1000) + props.timeOffset - m.timeOffset) - Math.floor(new Date().getTime())
+                        setCurrentTypistOffset(offset)
+                        setTimeout(() => {setStatusMessage(`${m.full_name} is typing...`)}, (offset))
                     }
                 }
             })
@@ -89,6 +101,9 @@ export const ChatRoom = (props) => {
             }
             setCalibrationMessage(calibrateMessage)
             props.setShowCalibrator(calibratorOpen)
+            if (statusMessages === 0) {
+                setTimeout(() => setStatusMessage(' '), currentTypistOffset)
+            }
         }
     }, [messages])
 
@@ -99,12 +114,20 @@ export const ChatRoom = (props) => {
     const handleKeystroke = (e) => {
         if (e.keyCode === 13 && e.shiftKey === false) {
             sendMessage()
+        } else {
+            if ((new Date().getTime() / 1000) > (lastTyped + 15)) {
+                clearTimeout(clearStatus)
+                sendIsTypingMessage()
+                setLastTyped(new Date().getTime() / 1000)
+                clearStatus = setTimeout(() => {deleteMessage(`status-user${profile.id}`)}, 15000)
+            }
         }
     };
 
     // for sending a message
     const [formValue, setFormValue] = useState('');
     const sendMessage = async(e) => {
+        deleteMessage(`status-user${profile.id}`)
         await messagesRef.add({
         content: formValue,
         createdAt: firebase.firestore.FieldValue.serverTimestamp(),
@@ -145,6 +168,19 @@ export const ChatRoom = (props) => {
         messageType: 'calibration_response',
         responseTo: calId
         });
+    }
+
+    const sendIsTypingMessage = async() => {
+        await messagesRef.doc(`status-user${profile.id}`).set({
+            createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+            partyId: props.party.id,
+            senderId: profile.id,
+            full_name: profile.full_name,
+            profile_pic: profile.profile_pic,
+            systemMessage: true,
+            messageType: 'isTyping',
+            timeOffset: props.timeOffset
+            });
     }
 
     const deleteCalibration = (messageId) => {
@@ -209,6 +245,9 @@ export const ChatRoom = (props) => {
                 <span ref={endOfFeed}></span>
             </div>
             <div className="chat-footer">
+                <div className="status-ticker">
+                    <small>{statusMessage}</small>
+                </div>
                 <form className="chat-message-form w-100" onSubmit={sendMessage}>
                     <textarea 
                         className="chat-text-input-window w-100"

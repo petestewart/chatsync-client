@@ -35,11 +35,11 @@ export const ChatMessage = (props) => {
     useEffect(() => {
         const m = props.message
         if (m.createdAt) {
-            if (((m.createdAt.seconds * 1000) - m.timeOffset) <= ((new Date().getTime()) + props.delay)) {
+            // if (((m.createdAt.seconds * 1000) - m.timeOffset) <= ((new Date().getTime()) + props.delay)) {
                 setTimeout(() => {
                     setHideMessage(false)
                 }, (((m.createdAt.seconds * 1000) + props.delay - m.timeOffset) - Math.floor(new Date().getTime())))
-            }
+            // }
         }
     }, [props.delay, props.message])
 
