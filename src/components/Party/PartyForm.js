@@ -1,11 +1,15 @@
 import React, { useContext, useState, useEffect } from "react"
 import { useLocation } from "react-router-dom"
+import dayjs from 'dayjs'
 
 import { MemberSelector } from '../UI/MemberSelector/MemberSelector'
 
 import { ChannelContext } from "../Channel/ChannelProvider"
 import { PartyContext } from "../Party/PartyProvider"
 import { ProfileContext } from "../Profile/ProfileProvider"
+
+var utc = require('dayjs/plugin/utc')
+dayjs.extend(utc)
 
 export const PartyForm = props => {
 
@@ -28,11 +32,13 @@ export const PartyForm = props => {
     const [editMode, setEditMode] = useState(false)
     const [showDeleteWarning, setShowDeleteWarning] = useState(false)
     const [channelLocked, setChannelLocked] = useState(false)
+    const [duration, setDuration] = useState(0.5)
 
     useEffect(() => {
         if(query.get("channel_id")) {
             setChannelLocked(true)
     }}, [])
+
 
     useEffect(() => {
         if (channelLocked) {
@@ -54,6 +60,7 @@ export const PartyForm = props => {
         title: '',
         description: '',
         datetime: '',
+        datetime_end: '',
         is_public: true,
         channel_id: ''
     })
@@ -67,6 +74,12 @@ export const PartyForm = props => {
         setEditMode(props.history.location.pathname.includes('edit'))
     }, [])
 
+
+    useEffect(() => {
+        const endTime = dayjs(partyInfo.datetime).add(duration, 'hour').format('YYYY-M-D HH:mm')
+        setPartyInfo({...partyInfo, datetime_end: endTime})
+    }, [duration, partyInfo.datetime])
+
     useEffect(() => {
         if (editMode) {
             getParty(props.match.params.id)
@@ -78,11 +91,15 @@ export const PartyForm = props => {
                     setPartyInfo({
                         title: party.title,
                         description: party.description,
-                        datetime: party.datetime,
+                        datetime: `${party.datetime.substring(0,10)} ${party.datetime.substring(11,16)}`,
+                        datetime_end: `${party.datetime_end.substring(0,10)} ${party.datetime_end.substring(11,16)}`,
                         is_public: party.is_public,
                         id: party.id,
                         channel_id: channel
                     })
+                    setDuration(
+                        (Math.round(dayjs(party.datetime_end).diff(dayjs(party.datetime), 'hour', true) * 2) / 2).toFixed(1)
+                    )
                 })
                 .catch((err) => {
                     console.log(err)
@@ -90,6 +107,19 @@ export const PartyForm = props => {
                 })
         }
     }, [editMode, props.match.params.id])
+
+    useEffect(() => {
+        if (editMode && party) {
+        const localTime = new Date(party.datetime)
+        setDatetimeInput({
+            date: dayjs(localTime).format('YYYY-MM-DD'),
+            time: dayjs(localTime).format('HH:mm')
+        })
+    } else {
+        const { date, time } = getCurrentDatetime()
+        setDatetimeInput({ date, time })
+    }
+    }, [editMode])
 
     useEffect(() => {
         if (editMode && partyInfo.id) {
@@ -166,10 +196,10 @@ export const PartyForm = props => {
         return({ datetime, date, time })
     };
 
-    useEffect(() => {
-        const { date, time } = getCurrentDatetime()
-        setDatetimeInput({ date, time })
-    }, [])
+    // useEffect(() => {
+    //     const { date, time } = getCurrentDatetime()
+    //     setDatetimeInput({ date, time })
+    // }, [])
 
     useEffect(getAllProfiles, [])
 
@@ -237,6 +267,10 @@ export const PartyForm = props => {
         setDatetimeInput(dateTimeValues)
     };
 
+    const handleDurationInput = (e) => {
+        setDuration(e.target.value)
+    }
+
     useEffect(() => {
         const utcDatetimeValue = getUTCDatetime()
         setPartyInfo({ ...partyInfo, datetime: utcDatetimeValue})
@@ -290,8 +324,23 @@ export const PartyForm = props => {
                     <input onChange={handleDateTimeInput} type="date" id="date" className="form-control" value={datetimeInput.date} required />
                 </div>
                 <div className="form-group mb-4">
-                    <label htmlFor="time">Time</label>
+                    <label htmlFor="time">Start Time</label>
                     <input onChange={handleDateTimeInput} type="time" id="time" className="form-control" value={datetimeInput.time} required />
+                </div>
+                <div className="form-group mb-4">
+                    <label htmlFor="time">End Time</label>
+                    
+                    <select id="inputState" class="form-control" onChange={handleDurationInput} value={duration}>
+                        {[...new Array(48)].map((d, i) => (
+                            <option value={(i+1)/2}>{
+                                `${dayjs(`${datetimeInput.date} ${datetimeInput.time}`).add(((i+1)/2), 'hour').format('hh:mm')} (${(i+1)/2} hours)`
+                                }</option>
+                        ))}
+                        <option>...</option>
+                    </select>
+
+
+                    {/* <input onChange={handleEndTimeInput} type="time" id="time" className="form-control" value={duration} required /> */}
                 </div>
                 <div className="form-group">
                     <label htmlFor="description">Event Description and Info</label>
@@ -313,7 +362,7 @@ export const PartyForm = props => {
             
                             {
                                 editMode && party.creator.id === profile.id
-                                ? <button className="btn btn-outline-danger w-100 mt-3" onClick={() => {setShowDeleteWarning(true)}}>Delete Event</button>
+                                ? <button className="btn btn-outline-danger w-100 mt-3 mb-3" onClick={() => {setShowDeleteWarning(true)}}>Delete Event</button>
                                 : ''
                             }
                         </>
