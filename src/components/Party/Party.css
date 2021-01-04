@@ -34,3 +34,9 @@
     cursor: pointer;
     color: rgb(2, 212, 2);
 }
+
+.party-avatar {
+    max-height: 30px;
+    max-width: 30px;
+    border-radius: 50%;
+}

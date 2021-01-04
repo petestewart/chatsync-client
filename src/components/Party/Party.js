@@ -42,23 +42,22 @@ export const Party = props => {
     return (
         <main className="party-container">
             <div className="party-header">
-                <h3 className="mt-3 mb-0 text-center">{party.title}</h3>
-                {/* {
-                    party.channel
-                    ? <div className="text-center"><small>#{party.channel.name}</small></div>
-                    : ''
-                } */}
+                <h3 className="mt-0 mb-0 text-center">{party.title}</h3>
+                <div className="text-center">
+
+                <small>{dayjs(party.datetime).format('MM/DD/YY h:mma ')} - {dayjs(party.datetime_end).format(' h:mma')}</small>
+                </div>
                 <h6 className={`mb-0 text-center ${partyIsLive ? 'text-primary' : ''}`}>
                     {partyIsLive
                     ? 'LIVE '
                     : ''}
                     {
                     party.channel
-                    ? `#${party.channel.name} `
+                    ? <><img className="party-avatar" src={party.channel.image} alt="channel" /> #{party.channel.name} </>
                     : ''
                     }
-                    Watch Party</h6>
-                <div className="text-center ">
+                    Event</h6>
+                <div className="text-center">
                     <small>
                     {party.description}
                     
