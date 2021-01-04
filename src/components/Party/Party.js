@@ -30,6 +30,8 @@ export const Party = props => {
     useEffect(() => {
         setPartyIsLive(
             (dayjs(party.datetime).valueOf()) <= (dayjs(new Date()).valueOf())
+            && 
+            (dayjs(party.datetime_end).valueOf()) >= (dayjs(new Date()).valueOf())
         )}, [party])
 
     // const offsetInputHandler = (e) => {

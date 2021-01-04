@@ -43,7 +43,7 @@ export const SideDrawer = (props) => {
                 <li className="my-3"><span className="menu-icon"><i className="fas fa-hashtag"></i></span>My Channels</li>
                 {
                     props.userChannels
-                    ?   sortedChannels.map((channel) => <li className="sidemenu-item my-3" key={channel.id} onClick={() => {
+                    ?   [...new Set([...sortedChannels])].map((channel) => <li className="sidemenu-item my-3" key={channel.id} onClick={() => {
                         props.closedHandler()
                         props.history.push(`/channels/${channel.id}`)
                         }}><span className="menu-icon"><i className="fas"></i></span>#{channel.name}</li>)

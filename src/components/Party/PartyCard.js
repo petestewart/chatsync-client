@@ -6,10 +6,18 @@ import './PartyCard.css'
 
 export const PartyCard = (props) => {
 
+    const happeningNow = (
+        (dayjs(props.party.datetime).valueOf()) <= (dayjs(new Date()).valueOf())
+            && 
+        (dayjs(props.party.datetime_end).valueOf()) >= (dayjs(new Date()).valueOf())
+    )
+
     return (
     <div className="party-card card mb-3">
         <div className="card-body" onClick={() => {props.history.push(`/party/${props.party.id}`)}}>
-            <h5 className="card-title">{props.party.title}</h5>
+            <h5 className={`card-title ${happeningNow ? 'text-danger' : ''}`}>
+                {props.party.title} {happeningNow ? <small> -- NOW LIVE!</small> : ''}
+            </h5>
             <p className="card-text">{dayjs(props.party.datetime).format('dddd MMMM D, YYYY  h:mmA')}</p>
             <p className="card-text">{props.party.description}</p>
             {props.party.rsvp
