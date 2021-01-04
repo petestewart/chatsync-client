@@ -28,6 +28,7 @@ export const ChatRoom = (props) => {
 
     const [statusMessage, setStatusMessage] = useState(' ')
     const [lastTyped, setLastTyped] = useState(0)
+    const [currentTypistOffset, setCurrentTypistOffset] = useState(0)
 
     const { profile } = useContext(ProfileContext)
 
@@ -44,7 +45,7 @@ export const ChatRoom = (props) => {
 
     // *** CHECK FOR SYSTEM MESSAGES ***
     useEffect(() => {
-        setStatusMessage(' ')
+        let statusMessages = 0
         if (messages) {
             let calibratorOpen = false
             let calibrateMessage = null
@@ -63,7 +64,10 @@ export const ChatRoom = (props) => {
                         calibratorOpen = true
                     }
                     if (m.messageType === 'isTyping' && m.senderId !== profile.id) {
-                        setStatusMessage(`${m.full_name} is typing...`)
+                        statusMessages += 1
+                        const offset = ((m.createdAt.seconds * 1000) + props.timeOffset - m.timeOffset) - Math.floor(new Date().getTime())
+                        setCurrentTypistOffset(offset)
+                        setTimeout(() => {setStatusMessage(`${m.full_name} is typing...`)}, (offset))
                     }
                 }
             })
@@ -97,6 +101,9 @@ export const ChatRoom = (props) => {
             }
             setCalibrationMessage(calibrateMessage)
             props.setShowCalibrator(calibratorOpen)
+            if (statusMessages === 0) {
+                setTimeout(() => setStatusMessage(' '), currentTypistOffset)
+            }
         }
     }, [messages])
 
@@ -120,6 +127,7 @@ export const ChatRoom = (props) => {
     // for sending a message
     const [formValue, setFormValue] = useState('');
     const sendMessage = async(e) => {
+        deleteMessage(`status-user${profile.id}`)
         await messagesRef.add({
         content: formValue,
         createdAt: firebase.firestore.FieldValue.serverTimestamp(),
@@ -133,7 +141,6 @@ export const ChatRoom = (props) => {
         });
         setFormValue('');
         endOfFeed.current.scrollIntoView({ behavior: 'smooth' })
-        deleteMessage(`status-user${profile.id}`)
     }
 
     const sendCalibrationCall = async(cal) => {
