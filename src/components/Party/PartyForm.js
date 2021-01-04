@@ -371,7 +371,7 @@ export const PartyForm = props => {
             {
                 showDeleteWarning
                 ? <div className="alert alert-danger mt-3" role="alert">
-                    Delete {partyInfo.title}?
+                    Delete this event?
                     <button className="btn-sm btn-danger ml-3"
                         onClick={() => deleteParty(party.id).then(() => {props.history.push("/parties/upcoming")})}> 
                         Delete
