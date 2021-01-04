@@ -98,7 +98,7 @@ export const PartyForm = props => {
                         channel_id: channel
                     })
                     setDuration(
-                        (Math.round(dayjs(party.datetime_end).diff(dayjs(party.datetime), 'hour', true) * 2) / 2).toFixed(1)
+                        dayjs(party.datetime_end).diff(dayjs(party.datetime), 'hour', true)
                     )
                 })
                 .catch((err) => {

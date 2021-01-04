@@ -12,15 +12,11 @@ export const PartyList = props => {
     useEffect(getUpcomingParties, [])
 
     useEffect(() => {
-        // sort upcoing parties in order by date
+        // sort upcoming parties in order by date
         if (upcomingParties.length > 0) {
             setPartyList([...upcomingParties].sort((a, b) => dayjs(a.datetime).valueOf() > dayjs(b.datetime).valueOf() ? 1 : -1))
         }
     }, [upcomingParties])
-
-
-    
-
 
     return (
         <main className="partylist-container px-3">
