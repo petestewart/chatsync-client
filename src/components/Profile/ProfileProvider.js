@@ -52,8 +52,7 @@ export const ProfileProvider = (props) => {
             method : "PUT",
             headers: {
                 "Authorization": `Token ${localStorage.getItem("watchparty_token")}`,
-                "Content-Type": "application/json",
-                "Accept": "application/json"
+                "Content-Type": "application/json"
             },
             body: JSON.stringify(profileInfo)
         })

@@ -10,6 +10,8 @@ export const ChannelForm = props => {
     const { createChannel, createChannelMember, getChannel, updateChannel, setChannelMemberList } = useContext(ChannelContext)
     const { profile, getProfile, allProfiles, getAllProfiles } = useContext(ProfileContext)
 
+    const [base64, setBase64] = useState(null)
+
     const [channelInfo, setChannelInfo] = useState({ name: '', description: '', image: '' })
     const [channelMembers, setChannelMembers] = useState([])
 
@@ -23,13 +25,26 @@ export const ChannelForm = props => {
                     setChannelInfo({
                         name: res.name,
                         description: res.description,
-                        image: res.image,
+                        image: '',
                         id: props.match.params.id
                     })
                     setChannelMembers(res.members.map(m => m.member_id))
                 })
         }
     }, [])
+
+    const getBase64 = (file, callback) => {
+        const reader = new FileReader()
+        reader.addEventListener('load', () => callback(reader.result))
+        reader.readAsDataURL(file)
+    }
+
+    const createImageString = (event) => {
+        getBase64(event.target.files[0], (base64ImageString) => {
+            console.log("Base64 of file is", base64ImageString)
+            setBase64(base64ImageString)
+        })
+    }
 
     const addMember = (memberId) => {
         const members = [...channelMembers]
@@ -72,11 +87,11 @@ export const ChannelForm = props => {
         e.preventDefault()
         let channelId = 0
         if (props.editExisting) {
-            updateChannel(channelInfo)
+            updateChannel({...channelInfo, image: base64})
                 .then(() => setChannelMemberList(channelInfo.id, [...channelMembers, profile.id]))
                 .then(() => props.history.push(`/channels/${channelInfo.id}`))
         } else {
-            createChannel(channelInfo)
+            createChannel({...channelInfo, image: base64})
                 .then((res) => handleMemberList(res.id))
         }
     };
@@ -114,9 +129,14 @@ export const ChannelForm = props => {
                 </div>
 
                 <div className="form-group">
+                    <label htmlFor="image">Channel Image</label>
+                    <input onChange={createImageString} type="file" id="image" className="form-control"  />
+                </div>
+{/* 
+                <div className="form-group">
                     <label htmlFor="image">Channel Image URL</label>
                     <input onChange={handleFormInput} type="text" id="image" className="form-control" value={channelInfo.image} required autoFocus />
-                </div>
+                </div> */}
 
                 <div className="channel-members-selector pb-4">
                     <label htmlFor="members">Channel Members</label>

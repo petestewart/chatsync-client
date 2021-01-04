@@ -5,6 +5,8 @@ import { ProfileContext } from "../Profile/ProfileProvider"
 export const ProfileForm = props => {
     const { profile, updateProfile } = useContext(ProfileContext)
 
+    const [base64, setBase64] = useState(null)
+
     const [profileInfo, setProfileInfo] = useState({
         first_name: '',
         last_name: '',
@@ -28,6 +30,20 @@ export const ProfileForm = props => {
             })
         }
     }, [profile])
+
+    const getBase64 = (file, callback) => {
+        const reader = new FileReader()
+        reader.addEventListener('load', () => callback(reader.result))
+        reader.readAsDataURL(file)
+    }
+
+    const createImageString = (event) => {
+        getBase64(event.target.files[0], (base64ImageString) => {
+            console.log("Base64 of file is", base64ImageString)
+            setBase64(base64ImageString)
+        })
+    }
+
     
     const handleFormInput = (e) => {
         e.preventDefault()
@@ -38,7 +54,7 @@ export const ProfileForm = props => {
 
     const handleFormSubmission = (e) => {
         e.preventDefault()
-        updateProfile(profileInfo)
+        updateProfile({...profileInfo, profile_pic: base64})
             .then(() => {props.history.push("/profile")})
     };
 
@@ -62,9 +78,13 @@ export const ProfileForm = props => {
                     <label htmlFor="email">Email address</label>
                     <input onChange={handleFormInput} type="email" id="email" className="form-control" value={profileInfo.email} required />
                 </div>
-                <div className="form-group">
+                {/* <div className="form-group">
                     <label htmlFor="profile_pic">Profile Pic</label>
                     <input onChange={handleFormInput} type="text" id="profile_pic" className="form-control" value={profileInfo.profile_pic} />
+                </div> */}
+                <div className="form-group">
+                    <label htmlFor="image">Profile Pic</label>
+                    <input onChange={createImageString} type="file" id="image" className="form-control" />
                 </div>
                 <div className="form-group">
                     <label htmlFor="location">Location</label>
