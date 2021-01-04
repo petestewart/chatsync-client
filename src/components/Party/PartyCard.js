@@ -20,13 +20,15 @@ export const PartyCard = (props) => {
             </h5>
             <p className="card-text">{dayjs(props.party.datetime).format('dddd MMMM D, YYYY  h:mmA')}</p>
             <p className="card-text">{props.party.description}</p>
-            {props.party.rsvp
+            {props.party.channel
+            ? <><img className="party-avatar" src={props.party.channel.image} alt="channel" /> <small className="text-secondary">#{props.party.channel.name} </small> </>
+            : ' '
+            }
+            {/* {props.party.rsvp
             ? <><i className="fas fa-calendar-check text-success"></i> <small className="text-secondary">Attending </small> </>
             : <><i className="fas fa-calendar-times"></i> <small>Not Attending </small></>
-            }
-            {/* <i class="fas fa-minus-circle text-danger"></i> <small>Delete Invitation </small> */}
-            {/* <button className="btn-sm btn-light w-25" onClick={(e) => {e.stopPropagation()}}>Attending</button>
-            <button className="btn-sm btn-light w-25" onClick={(e) => {e.stopPropagation()}}>Delete</button> */}
+            } */}
+
         </div>
     </div>
 )};
