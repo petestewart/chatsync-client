@@ -67,7 +67,7 @@ export const Home = props => {
             <section className="mt-5 text-center">
                 {userPartiesMessage()}
                 <button className="btn btn-primary w-100 mt-3" onClick={() => {props.history.push('/parties/create')}}>Schedule WatchParty</button>
-                <button className="btn btn-primary w-100 mt-3" onClick={() => {props.history.push('/parties/create')}}>Launch Instant WatchParty</button>
+                <button className="btn btn-primary w-100 mt-3 mb-3" onClick={() => {props.history.push('/parties/create')}}>Launch Instant WatchParty</button>
                 
             </section>
         </main>
