@@ -37,11 +37,8 @@ export const PartyProvider = (props) => {
                     channel_id: null
                 }
                 createParty(partyInfo)
-                    .then(party => {
-                        addPartyGuest(party.id, profile.id)
-                            .then(() => {
-                                resolve(party)
-                            })
+                    .then(() => {
+                        resolve(party)
                     })
             })
             .catch((err) => reject)
