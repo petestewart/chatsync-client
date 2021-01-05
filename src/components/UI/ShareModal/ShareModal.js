@@ -33,7 +33,7 @@ export const ShareModal = (props) => {
                         ref={(ref) => (myInput = ref)}
                     />
                 </small>
-                <button type="button" class="close" data-dismiss="alert" aria-label="Close" onClick={props.handleClose}>
+                <button type="button" className="close" data-dismiss="alert" aria-label="Close" onClick={props.handleClose}>
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>

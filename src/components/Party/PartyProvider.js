@@ -1,5 +1,7 @@
-import React, { useState } from "react"
+import React, { useState, useContext } from "react"
 import dayjs from 'dayjs'
+
+import { ProfileContext } from "../Profile/ProfileProvider"
 
 export const PartyContext = React.createContext()
 
@@ -7,16 +9,42 @@ export const PartyProvider = (props) => {
 
     const [upcomingParties, setUpcomingParties] = useState([])
 
+    const { profile, getProfile } = useContext(ProfileContext)
 
     const [party, setParty] = useState({
         id: 0,
-        guests: {},
+        guests: [],
         url: '',
         title: '',
         creator: {},
         description: '',
         datetime: '',
+        datetime_end: '',
         is_public: false
+    })
+
+    const createInstantParty = () => new Promise((resolve, reject) => {
+        getProfile()
+            .then(() => {
+                const partyInfo = {
+                    id: profile.id,
+                    guests: [],
+                    title: `${profile.full_name}'s Party`,
+                    description: '',
+                    datetime: dayjs(new Date().toUTCString()).format('YYYY-M-D HH:mm'),
+                    datetime_end: dayjs(new Date().toUTCString()).add(4, 'hour').format('YYYY-M-D HH:mm'),
+                    is_public: true,
+                    channel_id: null
+                }
+                createParty(partyInfo)
+                    .then(party => {
+                        addPartyGuest(party.id, profile.id)
+                            .then(() => {
+                                resolve(party)
+                            })
+                    })
+            })
+            .catch((err) => reject)
     })
 
     const getParty = (partyId) => {
@@ -182,7 +210,7 @@ export const PartyProvider = (props) => {
 
     return (
         <PartyContext.Provider value={{
-            party, getUpcomingParties, getParty, updateParty, createParty, upcomingParties, getPartyGuests, addPartyGuest, deletePartyGuest, getPartiesByChannel, setPartyGuestList, deleteParty
+            party, getUpcomingParties, getParty, updateParty, createParty, upcomingParties, getPartyGuests, addPartyGuest, deletePartyGuest, getPartiesByChannel, setPartyGuestList, deleteParty, createInstantParty
         }}>
             {props.children}
         </PartyContext.Provider>
