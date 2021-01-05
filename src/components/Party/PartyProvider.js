@@ -10,7 +10,7 @@ export const PartyProvider = (props) => {
 
     const [party, setParty] = useState({
         id: 0,
-        guests: {},
+        guests: [],
         url: '',
         title: '',
         creator: {},

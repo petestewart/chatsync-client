@@ -2,6 +2,7 @@ import React, { useContext, useState, useEffect } from "react"
 import dayjs from 'dayjs'
 
 import { PartyContext } from "../Party/PartyProvider"
+import { ProfileContext } from "../Profile/ProfileProvider"
 
 import { ChatRoom } from "../ChatRoom/ChatRoom"
 import { InviteForm } from "../UI/InviteForm/InviteForm"
@@ -11,6 +12,7 @@ import "./Party.css"
 
 export const Party = props => {
     const { getParty, party } = useContext(PartyContext)
+    const { profile } = useContext(ProfileContext)
     const [showInviteForm, setShowInviteForm] = useState(false)
 
     const [partyIsLive, setPartyIsLive] = useState(false)
@@ -26,6 +28,12 @@ export const Party = props => {
     useEffect(() => {
         getParty(props.match.params.id)
     }, [])
+
+    useEffect(() => {
+        if (party && party.guests && !party.is_public && !party.guests.map(g => g.id).includes(profile.id)) {
+            props.history.push('/party/restricted_access')
+        }
+    }, [party, profile])
 
     useEffect(() => {
         setPartyIsLive(
