@@ -16,12 +16,6 @@ export const PartyForm = props => {
     const useQuery = () => new URLSearchParams(useLocation().search)
 
     const query = useQuery()
-    // console.log(query.get("channel_id"))
-    // if(query.get("channel_id")) {
-    //     console.log("query exists")
-    // } else {
-    //     console.log("no query result")
-    // }
 
     const { getChannelsByMember, getChannel, channel } = useContext(ChannelContext)
     const { createParty, setPartyGuestList, party, getParty, deleteParty, updateParty } = useContext(PartyContext)
@@ -287,6 +281,7 @@ export const PartyForm = props => {
             </span>) }
     };
 
+    const testFunction = () => { return ('test response')};
 
     return (
         <main className="profile-container px-3">
@@ -330,7 +325,7 @@ export const PartyForm = props => {
                 <div className="form-group mb-4">
                     <label htmlFor="time">End Time</label>
                     
-                    <select id="inputState" class="form-control" onChange={handleDurationInput} value={duration}>
+                    <select id="inputState" className="form-control" onChange={handleDurationInput} value={duration}>
                         {[...new Array(48)].map((d, i) => (
                             <option value={(i+1)/2}>{
                                 `${dayjs(`${datetimeInput.date} ${datetimeInput.time}`).add(((i+1)/2), 'hour').format('hh:mm')} (${(i+1)/2} hours)`

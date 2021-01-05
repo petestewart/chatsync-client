@@ -1,13 +1,16 @@
 import React, { useContext, useState, useEffect } from "react"
 
 import { AuthContext } from "../Auth/AuthProvider"
+import { PartyContext } from "../Party/PartyProvider"
 
 import Backdrop from '../UI/Backdrop/Backdrop';
+
 
 import "./SideDrawer.css"
 
 export const SideDrawer = (props) => {
     const {logoutUser} = useContext(AuthContext)
+    const { createInstantParty } = useContext(PartyContext)
 
     const [sortedChannels, setSortedChannels] = useState([])
 
@@ -36,7 +39,11 @@ export const SideDrawer = (props) => {
                     }}>
                     <span className="menu-icon"><i className="fas fa-calendar-plus"></i></span>Schedule Party
                 </li>
-                <li className="sidemenu-item my-3">
+                <li className="sidemenu-item my-3" onClick={() => {createInstantParty()
+                    .then((res) => {
+                    props.closedHandler()
+                    props.history.push(`/party/${res.id}`)}
+                    )}}>
                     <span className="menu-icon"><i className="fas fa-comments"></i></span>Host Instant Party
                 </li>
                 <hr />
