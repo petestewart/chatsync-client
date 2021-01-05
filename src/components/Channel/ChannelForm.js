@@ -152,7 +152,7 @@ export const ChannelForm = props => {
                             <button className="btn btn-success w-100" onClick={handleFormSubmission}>
                                 { props.editExisting ? 'Update' : 'Create' } Channel
                             </button>
-                            <button className="btn btn-secondary w-100 mt-3 mb-3" onClick={() => {props.history.push("/home")}}>Cancel</button>
+                            <button className="btn btn-secondary w-100 mt-3 mb-3" onClick={() => {props.history.push("/")}}>Cancel</button>
                             {
                                 props.editExisting && channel.creator.id === profile.id
                                 ? <button className="btn btn-outline-danger w-100 mt-3 mb-3" onClick={() => {setShowDeleteWarning(true)}}>Delete Channel</button>

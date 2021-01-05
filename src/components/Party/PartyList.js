@@ -24,7 +24,7 @@ export const PartyList = props => {
             <section className="mt-5 mb-3">
                 { upcomingParties.length > 0
                     ? partyList.map((party, index) => <PartyCard party={party} key={index} {...props} />)
-                    : ''
+                    : <div className="text-center">You have no upcoming events</div> 
                 }
             </section>
         </main>
