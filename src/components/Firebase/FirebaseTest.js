@@ -4,14 +4,14 @@ import { FirebaseContext } from "../Firebase/FirebaseProvider"
 
 export const FirebaseTest = props => {
 
-    const { createNotification, markNotificationRead, notifications, unreadWarning, setUnreadWarning } = useContext(FirebaseContext)
+    const { sendNotification, createNotification, deleteNotification, markAllNotificationsRead, markNotificationRead, notifications, unreadWarning, setUnreadWarning } = useContext(FirebaseContext)
 
     return (
         <div>
 
             {
                 notifications
-                ? notifications.map(n => <p className={`${n.isRead ? '' : 'text-danger'}`}>{n.content}</p>)
+                ? notifications.map(n => <p key={n.id} className={`${n.isRead ? '' : 'text-danger'}`}>{n.content}</p>)
                 : ''
             }
 <p></p>
@@ -24,8 +24,21 @@ export const FirebaseTest = props => {
             </strong>
             <p></p>
 
-            <button onClick={() => {createNotification('Test Notification')}}>Create Notification</button>
+            <button onClick={() => {sendNotification({content: 'Hello There!', link: '/'}, 6)}}>Send Bernie Notification</button>
+            <p></p>
+
+            <button onClick={() => {createNotification({content: 'Test Notification', link: '/'})}}>Create Notification</button>
+            <p></p>
+
             <button onClick={() => {markNotificationRead(notifications[0].id)}}>Read Notification</button>
+            <p></p>
+
+            <button onClick={() => {deleteNotification(notifications[0].id)}}>Delete Notification</button>
+            <p></p>
+
+            <button onClick={() => {markAllNotificationsRead()}}>Mark All Read</button>
+            <p></p>
+
             <button onClick={() => {setUnreadWarning(!unreadWarning)}}>Set Warning</button>
         </div>
     )

@@ -32,20 +32,39 @@ export const FirebaseProvider = props => {
 
     const { profile } = useContext(ProfileContext)
 
-    const [unreadWarning, setUnreadWarning] = useState(true)
-
+    const [unreadWarning, setUnreadWarning] = useState(false)
+    
     // get notifications
     const notificationsRef = firestore.collection(`notifications-${profile.id}`);
     const query = notificationsRef.orderBy('createdAt');
-
+    
     // listen for new notifications
     const [notifications] = useCollectionData(query, {idField: 'id'});
 
-    const createNotification = async(content) => {
+    useEffect(() => {
+        if (notifications && !notifications.every(n => n.isRead)) {
+            setUnreadWarning(true)
+        } else {
+            setUnreadWarning(false)
+        }
+    }, [notifications])
+
+    const createNotification = async(n) => {
         await notificationsRef.add({
-        content: content,
-        createdAt: firebase.firestore.FieldValue.serverTimestamp(),
-        isRead: false,
+            content: n.content,
+            link: n.link,
+            createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+            isRead: false,
+        });
+    }
+
+    const sendNotification = async(n, recipientId) => {
+        const recipientRef = firestore.collection(`notifications-${recipientId}`)
+        recipientRef.add({
+            content: n.content,
+            link: n.link,
+            createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+            isRead: false,
         });
     }
 
@@ -55,12 +74,18 @@ export const FirebaseProvider = props => {
         });
     }
 
+    const markAllNotificationsRead = async() => {
+        notifications.forEach((n) => {
+            markNotificationRead(n.id)
+        })
+    }
+
     const deleteNotification = async(notificationId) => {
         notificationsRef.doc(notificationId).delete();
     }
 
     return (
-        <FirebaseContext.Provider value={{firebaseInfo, createNotification, markNotificationRead, notifications, unreadWarning, setUnreadWarning}}>
+        <FirebaseContext.Provider value={{firebaseInfo, createNotification, sendNotification, deleteNotification, markAllNotificationsRead, markNotificationRead, notifications, unreadWarning, setUnreadWarning}}>
             {props.children}
         </FirebaseContext.Provider>
     )

@@ -69,6 +69,7 @@ export const Home = props => {
                 <button className="btn btn-primary w-100 mt-3" onClick={() => {props.history.push('/parties/create')}}>Schedule WatchParty</button>
                 <button className="btn btn-primary w-100 mt-3 mb-3" onClick={() => {createInstantParty()
                     .then((res) => {
+                        console.log(res)
                     props.history.push(`/party/${res.id}`)}
                     )}}>Launch Instant WatchParty</button>
                 

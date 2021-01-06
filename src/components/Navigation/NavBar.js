@@ -1,4 +1,8 @@
 import React, { useState, useEffect, useContext } from "react"
+
+import { FirebaseContext } from "../Firebase/FirebaseProvider"
+
+
 // import firebase from 'firebase/app'
 // import 'firebase/firestore'
 // import 'firebase/auth'
@@ -18,6 +22,9 @@ import "./NavBar.css"
 // const firestore = firebase.firestore()
 
 export const NavBar = (props) => {
+    const { markNotificationRead, notifications, unreadWarning } = useContext(FirebaseContext)
+
+
     // const { profile } = useContext(ProfileContext)
 
     // const [unreadWarning, setUnreadWarning] = useState(true)
@@ -43,12 +50,14 @@ export const NavBar = (props) => {
                 <i className={`fas fa-bars fa-2x nav-item ${props.sideDrawerOpen ? 'nav-item-active' : ''}`} onClick={props.toggleSideDrawerHandler}></i>
                 <i className="fas fa-home fa-2x nav-item" onClick={() => props.history.push("/")}></i>
                 <div className="notification-bell">
-                    <i className="fas fa-bell fa-2x nav-item">
-                        {/* {
+                    <i className="fas fa-bell fa-2x nav-item" onClick={
+                        () => {}
+                    }>
+                        {
                             unreadWarning
                             ? <span className="notification-dot">🔴</span>
                             : ''
-                        } */}
+                        }
                     </i>
                 </div>
                 <i className="fas fa-user-circle fa-2x nav-item" onClick={() => props.history.push("/profile")}></i>

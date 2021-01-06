@@ -27,8 +27,6 @@ export const PartyProvider = (props) => {
         getProfile()
             .then(() => {
                 const partyInfo = {
-                    id: profile.id,
-                    guests: [],
                     title: `${profile.full_name}'s Party`,
                     description: '',
                     datetime: dayjs(new Date().toUTCString()).format('YYYY-M-D HH:mm'),
@@ -37,8 +35,8 @@ export const PartyProvider = (props) => {
                     channel_id: null
                 }
                 createParty(partyInfo)
-                    .then(() => {
-                        resolve(party)
+                    .then((res) => {
+                        resolve(res)
                     })
             })
             .catch((err) => reject)
