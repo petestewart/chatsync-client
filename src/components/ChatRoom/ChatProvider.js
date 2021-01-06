@@ -61,18 +61,19 @@ export const ChatProvider = (props) => {
     }
     
     return (
-        <ChatContext.Provider value={{firebaseInfo, getReactionsByMessage, reactionTypes, getAllReactionTypes, toggleReaction}}>
+        // <ChatContext.Provider value={{firebaseInfo, getReactionsByMessage, reactionTypes, getAllReactionTypes, toggleReaction}}>
+        <ChatContext.Provider value={{getReactionsByMessage, reactionTypes, getAllReactionTypes, toggleReaction}}>
             {props.children}
         </ChatContext.Provider>
     )
 }
 
-export const firebaseInfo = {
-            apiKey: "AIzaSyALgLboaRpdiz584kKvzJ0qJNd-6SahHA4",
-            authDomain: "superchat-fced2.firebaseapp.com",
-            databaseURL: "https://superchat-fced2.firebaseio.com",
-            projectId: "superchat-fced2",
-            storageBucket: "superchat-fced2.appspot.com",
-            messagingSenderId: "81562913345",
-            appId: "1:81562913345:web:66125db20cee23cd3494c0"
-    }
+// export const firebaseInfo = {
+//             apiKey: "AIzaSyALgLboaRpdiz584kKvzJ0qJNd-6SahHA4",
+//             authDomain: "superchat-fced2.firebaseapp.com",
+//             databaseURL: "https://superchat-fced2.firebaseio.com",
+//             projectId: "superchat-fced2",
+//             storageBucket: "superchat-fced2.appspot.com",
+//             messagingSenderId: "81562913345",
+//             appId: "1:81562913345:web:66125db20cee23cd3494c0"
+//     }

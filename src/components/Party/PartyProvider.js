@@ -20,7 +20,7 @@ export const PartyProvider = (props) => {
         description: '',
         datetime: '',
         datetime_end: '',
-        is_public: false
+        is_public: true
     })
 
     const createInstantParty = () => new Promise((resolve, reject) => {

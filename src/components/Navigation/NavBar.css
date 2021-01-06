@@ -16,3 +16,15 @@
 .nav-item-active {
     color: rgb(2, 212, 2);
 }
+
+.notification-bell {
+    width: 40px;
+}
+
+.notification-dot {
+    position: relative;
+    top: -5px;
+    left: -8px;
+    font-size: 9px;
+    vertical-align: super;
+    }

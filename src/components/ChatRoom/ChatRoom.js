@@ -9,16 +9,18 @@ import "./ChatRoom.css"
 import { ChatCalibrator } from "./ChatCalibrator"
 import { ChatMessage } from './ChatMessage'
 
-import { firebaseInfo } from "./ChatProvider"
+
+// import { firebaseInfo } from "./ChatProvider"
 import { ChatContext } from "./ChatProvider"
+import { FirebaseContext } from "../Firebase/FirebaseProvider"
 import { ProfileContext } from "../Profile/ProfileProvider"
 
 
-firebase.initializeApp(firebaseInfo)
-
-const firestore = firebase.firestore()
 
 export const ChatRoom = (props) => {
+
+    const firestore = firebase.firestore()
+
     let clearStatus
 
     const endOfFeed = useRef();
@@ -31,8 +33,15 @@ export const ChatRoom = (props) => {
     const [currentTypistOffset, setCurrentTypistOffset] = useState(0)
 
     const { profile } = useContext(ProfileContext)
+    const { firebaseInfo } = useContext(FirebaseContext)
 
     const { getAllReactionTypes, reactionTypes } = useContext(ChatContext)
+
+    if (!firebase.apps.length) {
+        firebase.initializeApp(firebaseInfo);
+    } else {
+        firebase.app(); // if already initialized, use that one
+    }
 
     useEffect(getAllReactionTypes, [])
 
