@@ -34,20 +34,7 @@ export const PartyForm = props => {
     }}, [])
 
 
-    useEffect(() => {
-        if (channelLocked) {
-            getChannel(query.get("channel_id"))
-                        .then((res) => {
-                            setPartyInfo({ ...partyInfo, channel_id: query.get("channel_id") })
-                            getAllProfiles()
-                            console.log(res)
-                            const autoGuests = []
-                            res.members.forEach((member) => autoGuests.push(member.member_id))
-                            setGuests(autoGuests)
-                        })
-                        .catch((err) => props.history.push("/parties/create"))
-        }
-    }, [channelLocked])
+
 
 
     const [partyInfo, setPartyInfo] = useState({
@@ -124,6 +111,23 @@ export const PartyForm = props => {
             setGuests(partyGuests)
         }
     }, [partyInfo.id])
+
+    useEffect(() => {
+        if (channelLocked) {
+            getChannel(query.get("channel_id"))
+                        .then((res) => {
+                            setPartyInfo({ ...partyInfo, channel_id: query.get("channel_id") })
+                            const { date, time } = getCurrentDatetime()
+                            setDatetimeInput({ date, time })
+                            getAllProfiles()
+                            console.log(res)
+                            const autoGuests = []
+                            res.members.forEach((member) => autoGuests.push(member.member_id))
+                            setGuests(autoGuests)
+                        })
+                        .catch((err) => props.history.push("/parties/create"))
+        }
+    }, [channelLocked])
 
 
     const orderedGuests = () => {
