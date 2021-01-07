@@ -10,3 +10,10 @@
     cursor: pointer;
     color: rgb(2, 212, 2);
 }
+
+.profile-page-pic {
+    object-fit: cover;
+    height: 150px;
+    width: 150px;
+    border-radius: 50%;
+}

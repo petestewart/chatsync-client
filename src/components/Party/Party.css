@@ -36,7 +36,8 @@
 }
 
 .party-avatar {
-    max-height: 30px;
-    max-width: 30px;
+    object-fit: cover;
+    height: 25px;
+    width: 25px;
     border-radius: 50%;
 }

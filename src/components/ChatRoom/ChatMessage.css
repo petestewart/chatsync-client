@@ -8,10 +8,17 @@
 }
 
 .message-avatar {
+    object-fit: cover;
+    height: 30px;
+    width: 30px;
+    border-radius: 50%;
+}
+/* 
+.message-avatar {
     max-height: 30px;
     max-width: 30px;
     border-radius: 50%;
-}
+} */
 
 .react-to-message-button {
     color: grey;

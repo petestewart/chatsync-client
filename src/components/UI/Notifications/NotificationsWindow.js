@@ -8,7 +8,7 @@ export const NotificationsWindow = (props) => {
 
     return ( 
         <>
-        { props.notifications
+        { props.notifications.length > 0
             ?    <div className="notifications-window">
                     {props.notifications.slice(0, 7).map((n) => 
                     <div 

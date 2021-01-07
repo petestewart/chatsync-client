@@ -50,8 +50,8 @@ export const Profile = props => {
             </div>
             <div className="mt-3">
                 <div className="profile-header row">
-                    <div className="col-4">
-                        <img className="profile-page-pic w-100" src={userProfile.profile_pic !== '' ? userProfile.profile_pic : 'https://cdn3.iconfinder.com/data/icons/web-ui-3/128/Account-2-256.png'} alt="profile pic"/>
+                    <div className="col-4 profile-page-pic">
+                        <img className="profile-page-pic" src={userProfile.profile_pic !== '' ? userProfile.profile_pic : 'https://cdn3.iconfinder.com/data/icons/web-ui-3/128/Account-2-256.png'} alt="profile pic"/>
                     </div>
                     <div className="col-8">
                         <h3 className="my-0">{userProfile.full_name}</h3>
