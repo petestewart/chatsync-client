@@ -34,20 +34,7 @@ export const PartyForm = props => {
     }}, [])
 
 
-    useEffect(() => {
-        if (channelLocked) {
-            getChannel(query.get("channel_id"))
-                        .then((res) => {
-                            setPartyInfo({ ...partyInfo, channel_id: query.get("channel_id") })
-                            getAllProfiles()
-                            console.log(res)
-                            const autoGuests = []
-                            res.members.forEach((member) => autoGuests.push(member.member_id))
-                            setGuests(autoGuests)
-                        })
-                        .catch((err) => props.history.push("/parties/create"))
-        }
-    }, [channelLocked])
+
 
 
     const [partyInfo, setPartyInfo] = useState({
@@ -124,6 +111,23 @@ export const PartyForm = props => {
             setGuests(partyGuests)
         }
     }, [partyInfo.id])
+
+    useEffect(() => {
+        if (channelLocked) {
+            getChannel(query.get("channel_id"))
+                        .then((res) => {
+                            setPartyInfo({ ...partyInfo, channel_id: query.get("channel_id") })
+                            const { date, time } = getCurrentDatetime()
+                            setDatetimeInput({ date, time })
+                            getAllProfiles()
+                            console.log(res)
+                            const autoGuests = []
+                            res.members.forEach((member) => autoGuests.push(member.member_id))
+                            setGuests(autoGuests)
+                        })
+                        .catch((err) => props.history.push("/parties/create"))
+        }
+    }, [channelLocked])
 
 
     const orderedGuests = () => {
@@ -308,7 +312,7 @@ export const PartyForm = props => {
                     ?    <div className="form-group">
                             <label htmlFor="channel_id">Channel:</label>
                             <select className="ml-2" name="channel_id" id="channel_id" value={partyInfo.channel_id} onChange={handleChannelSelection}>
-                                <option value=''>none</option>
+                                <option key={0} value=''>none</option>
                                 {userChannels.map((c) => <option key={c.id} value={c.id}>{c.name}</option>)}
                             </select>
                         </div>
@@ -327,11 +331,10 @@ export const PartyForm = props => {
                     
                     <select id="inputState" className="form-control" onChange={handleDurationInput} value={duration}>
                         {[...new Array(48)].map((d, i) => (
-                            <option value={(i+1)/2}>{
+                            <option key={i} value={(i+1)/2}>{
                                 `${dayjs(`${datetimeInput.date} ${datetimeInput.time}`).add(((i+1)/2), 'hour').format('hh:mm')} (${(i+1)/2} hours)`
                                 }</option>
                         ))}
-                        <option>...</option>
                     </select>
 
 

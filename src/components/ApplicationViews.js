@@ -15,12 +15,18 @@ import { RestrictedPartyMessage } from "./Party/RestrictedPartyMessage"
 import { Profile } from "./Profile/Profile"
 import { ProfileForm } from "./Profile/ProfileForm"
 
+import { FirebaseTest } from './Firebase/FirebaseTest'
+
 export const ApplicationViews = (props) => {
     return (
         <>
             {/* <ProfileProvider>
                 <ChannelProvider>
                     <PartyProvider> */}
+                        {/* TEST */}
+                        <ScrollToTop />
+                        <Route exact path="/firebasetest" render={ props => <FirebaseTest history={props.history} {...props} />} />
+
                         {/* Edit Profile */}
                         <ScrollToTop />
                         <Route exact path="/profile/edit" render={ props => <ProfileForm history={props.history} {...props} />} />

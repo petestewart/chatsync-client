@@ -7,6 +7,7 @@ import { Login } from './components/Auth/Login'
 
 import { AuthProvider } from './components/Auth/AuthProvider'
 import { ChannelProvider } from './components/Channel/ChannelProvider'
+import { FirebaseProvider } from './components/Firebase/FirebaseProvider'
 import { PartyProvider } from './components/Party/PartyProvider'
 import { ProfileProvider } from './components/Profile/ProfileProvider'
 
@@ -21,11 +22,13 @@ export const App = () => (
             return (
                 <AuthProvider {...props}>
                     <ProfileProvider {...props}>
-                        <ChannelProvider {...props}>
-                            <PartyProvider {...props}>
-                                <Layout {...props} />
-                            </PartyProvider>
-                        </ChannelProvider>
+                        <FirebaseProvider {...props}>
+                            <ChannelProvider {...props}>
+                                <PartyProvider {...props}>
+                                    <Layout {...props} />
+                                </PartyProvider>
+                            </ChannelProvider>
+                        </FirebaseProvider>
                     </ProfileProvider>
                 </AuthProvider>
                 )

@@ -3,7 +3,6 @@ import React, { useState } from "react"
 import "./ChatCalibrator.css"
 
 export const ChatCalibrator = (props) => {
-    // const [calibratorOpen, setCalibratorOpen] = useState(false)
     const [calibrationMessage, setCalibrationMessage] = useState('')
 
     const formInputHandler = (e) => {

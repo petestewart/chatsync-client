@@ -30,7 +30,7 @@ export const Party = props => {
     }, [])
 
     useEffect(() => {
-        if (party && party.guests && !party.is_public && !party.guests.map(g => g.id).includes(profile.id)) {
+        if (profile && party && party.guests && !party.is_public && !party.guests.map(g => g.id).includes(profile.id)) {
             props.history.push('/party/restricted_access')
         }
     }, [party, profile])
@@ -98,7 +98,7 @@ export const Party = props => {
                                 {
                                     showShareMsg
                                     ? <ShareModal 
-                                        link={`http://localhost8000.com/party/${party.id}`}
+                                        link={`http://localhost:3000/party/${party.id}`}
                                         handleClose={() => {setShowShareMsg(false)}}
                                         />
                                     : ''

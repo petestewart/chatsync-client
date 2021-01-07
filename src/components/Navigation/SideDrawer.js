@@ -42,6 +42,7 @@ export const SideDrawer = (props) => {
                 <li className="sidemenu-item my-3" onClick={() => {createInstantParty()
                     .then((res) => {
                     props.closedHandler()
+                    console.log(res)
                     props.history.push(`/party/${res.id}`)}
                     )}}>
                     <span className="menu-icon"><i className="fas fa-comments"></i></span>Host Instant Party
