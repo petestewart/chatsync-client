@@ -2,47 +2,14 @@ import React, { useState, useEffect, useContext } from "react"
 
 import { FirebaseContext } from "../Firebase/FirebaseProvider"
 
-
-// import firebase from 'firebase/app'
-// import 'firebase/firestore'
-// import 'firebase/auth'
-// import { useCollectionData } from 'react-firebase-hooks/firestore'
-
-// import { firebaseInfo } from "../ChatRoom/ChatProvider"
-// import { ProfileContext } from "../Profile/ProfileProvider"
-
 import "./NavBar.css"
 
-// if (!firebase.apps.length) {
-//     firebase.initializeApp(firebaseInfo);
-// } else {
-//     firebase.app(); // if already initialized, use that one
-// }
-
-// const firestore = firebase.firestore()
+import { NotificationsWindow } from '../UI/Notifications/NotificationsWindow'
 
 export const NavBar = (props) => {
-    const { markNotificationRead, notifications, unreadWarning } = useContext(FirebaseContext)
+    const { deleteNotification, markAllNotificationsRead, notifications, unreadWarning } = useContext(FirebaseContext)
 
-
-    // const { profile } = useContext(ProfileContext)
-
-    // const [unreadWarning, setUnreadWarning] = useState(true)
-
-    // // get notifications
-    // const notificationsRef = firestore.collection(`notifications-${profile.id}`);
-    // const query = notificationsRef.orderBy('createdAt');
-
-    // // listen for new notifications
-    // const [notifications] = useCollectionData(query, {idField: 'id'});
-
-    // const saveNotification = async(n) => {
-    //     await notificationsRef.add({
-    //     content: n.content,
-    //     createdAt: firebase.firestore.FieldValue.serverTimestamp(),
-    //     isRead: false,
-    //     });
-    // }
+    const [showNotifications, setShowNotifications] = useState(false)
 
     return (
         <>
@@ -50,8 +17,14 @@ export const NavBar = (props) => {
                 <i className={`fas fa-bars fa-2x nav-item ${props.sideDrawerOpen ? 'nav-item-active' : ''}`} onClick={props.toggleSideDrawerHandler}></i>
                 <i className="fas fa-home fa-2x nav-item" onClick={() => props.history.push("/")}></i>
                 <div className="notification-bell">
-                    <i className="fas fa-bell fa-2x nav-item" onClick={
-                        () => {}
+                    <i className="fas fa-bell fa-2x nav-item" 
+                        onClick={
+                            () => {
+                                if (showNotifications) {
+                                    markAllNotificationsRead()
+                                }
+                                setShowNotifications(!showNotifications)
+                            }
                     }>
                         {
                             unreadWarning
@@ -59,9 +32,21 @@ export const NavBar = (props) => {
                             : ''
                         }
                     </i>
+                    
                 </div>
                 <i className="fas fa-user-circle fa-2x nav-item" onClick={() => props.history.push("/profile")}></i>
             </div>
+            {
+                showNotifications
+                ? <NotificationsWindow 
+                    {...props}
+                    notifications={notifications.sort((a,b) => (a.createdAt.seconds < b.createdAt.seconds) ? 1 : -1)}  
+                    setShowNotifications={setShowNotifications} 
+                    markAllNotificationsRead={markAllNotificationsRead}
+                    deleteNotification={deleteNotification} 
+                    />
+                : ''
+            }
         </>
     )
 };
