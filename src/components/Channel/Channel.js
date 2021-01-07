@@ -91,7 +91,7 @@ export const Channel = props => {
         <div className="mt-3">
             <div className="channel-header row">
                 <div className="col-4">
-                    <img className="channel-page-pic w-100" src={channel.image !== '' ? channel.image : 'https://cdn3.iconfinder.com/data/icons/web-ui-3/128/Account-2-256.png'} alt="channel pic"/>
+                    <img className="channel-page-pic" src={channel.image !== '' ? channel.image : 'https://cdn3.iconfinder.com/data/icons/web-ui-3/128/Account-2-256.png'} alt="channel pic"/>
                 </div>
                 <div className="col-8">
                     {channel.description}
