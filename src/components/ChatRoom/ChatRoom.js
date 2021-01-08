@@ -35,6 +35,8 @@ export const ChatRoom = (props) => {
     const { profile } = useContext(ProfileContext)
     const { firebaseInfo } = useContext(FirebaseContext)
 
+    const [currentMessageCount, setCurrentMessageCount] = useState(0)
+
     const { getAllReactionTypes, reactionTypes } = useContext(ChatContext)
 
     if (!firebase.apps.length) {
@@ -44,6 +46,11 @@ export const ChatRoom = (props) => {
     }
 
     useEffect(getAllReactionTypes, [])
+
+    // scroll to end of feed
+    const scrollToEnd = () => {
+        endOfFeed.current.scrollIntoView({ behavior: 'smooth' })
+    }
 
     // get messages
     const messagesRef = firestore.collection(`party-${props.party.id}`);
@@ -56,6 +63,13 @@ export const ChatRoom = (props) => {
     useEffect(() => {
         let statusMessages = 0
         if (messages) {
+
+            const newMessageCount = messages.filter(msg => !msg.systemMessage).length
+            if (newMessageCount !== currentMessageCount) {
+                setCurrentMessageCount(newMessageCount)
+            }
+
+
             let calibratorOpen = false
             let calibrateMessage = null
 
@@ -92,7 +106,6 @@ export const ChatRoom = (props) => {
                             }
                         }
                     }
-                    
                 })
                 // calculate everyone's offset times (OR AFTER FOR EACH LOOP?):
                 responses.sort((a, b) => a.createdAt > b.createdAt)
@@ -149,7 +162,7 @@ export const ChatRoom = (props) => {
         timeOffset: props.timeOffset
         });
         setFormValue('');
-        endOfFeed.current.scrollIntoView({ behavior: 'smooth' })
+        // endOfFeed.current.scrollIntoView({ behavior: 'smooth' })
     }
 
     const sendCalibrationCall = async(cal) => {
@@ -217,6 +230,25 @@ export const ChatRoom = (props) => {
             messagesRef.doc(messageId).update({ lastUpdated: firebase.firestore.FieldValue.serverTimestamp() })
         }
     };
+
+    // useEffect(() => {
+    //     if (messages) {
+    //         const newMessageCount = messages.filter(msg => !msg.systemMessage)
+    //         // if (newMessageCount > currentMessageCount) {
+    //         //     setTimeout(
+    //         //         () => {
+                        
+    //         //             endOfFeed.current.scrollIntoView({ behavior: 'smooth' })
+    //         //         }, 1000
+    //         //     )
+    //         // }
+    //         setCurrentMessageCount(newMessageCount)
+    //     }
+    // }, [messages])
+
+    useEffect(() => {
+        console.log('currentMessageCount updated')
+    }, [currentMessageCount])
     
     return (
         <>
@@ -239,7 +271,9 @@ export const ChatRoom = (props) => {
 
         <div className="chatroom-container">
             <div className="chat-feed">
-                {messages && messages.map(msg => 
+                <div className="messages">
+
+                {messages && messages.map((msg, i) => 
                     msg.systemMessage
                         ? ''
                         : <ChatMessage 
@@ -249,9 +283,13 @@ export const ChatRoom = (props) => {
                             deleteMessage={deleteMessage} 
                             updateMessage={updateMessage} 
                             reactionTypes={reactionTypes} 
-                            delay={props.timeOffset} />
+                            delay={props.timeOffset}
+                            isFinalMessage={i === currentMessageCount - 1}
+                            scrollToEnd={scrollToEnd}
+                            />
                             )}
-                <span ref={endOfFeed}></span>
+                </div>
+                <div ref={endOfFeed}></div>
             </div>
             <div className="chat-footer">
                 <div className="status-ticker">
@@ -266,7 +304,7 @@ export const ChatRoom = (props) => {
                         onChange={(e) => {handleFormData(e)}}/>
                 <div className="message-controls d-flex justify-content-around">
                     <i className="fas fa-paper-plane fa-2x message-button" onClick={sendMessage}></i>
-                    <i className="fas fa-smile fa-2x message-button"></i>
+                    {/* <i className="fas fa-smile fa-2x message-button"></i> */}
                 </div>
                 </form>
             </div>

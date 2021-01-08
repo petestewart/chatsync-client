@@ -37,7 +37,7 @@ export const Profile = props => {
                 ?  <>           
                         <div className="col-2"></div>
                         <div className="col-8">
-                            <h2 className="mt-3 text-center">Your Profile</h2>
+                            <h6 className="mt-3 text-center">Your Profile</h6>
                         </div>
                         <div className="col-2 ">
                             {/* <Link to={'profile/edit'}> */}
@@ -54,16 +54,22 @@ export const Profile = props => {
                         <img className="profile-page-pic" src={userProfile.profile_pic !== '' ? userProfile.profile_pic : 'https://cdn3.iconfinder.com/data/icons/web-ui-3/128/Account-2-256.png'} alt="profile pic"/>
                     </div>
                     <div className="col-8">
-                        <h3 className="my-0">{userProfile.full_name}</h3>
+                        <h4 className="my-0">{userProfile.full_name}</h4>
+                        <div>
+
                         <small>{userProfile.location}</small>
-                    </div>
+                        </div>
+                    {/* </div>
                 </div>
                 <div className="profile-bio row mt-2">
-                    <div className="col-12 text-center">
+                    <div className="col-12 text-center"> */}
+                        
                         <small>{userProfile.bio}</small>
                     </div>
                 </div>
-                <div className="profile-channel-list row mt-3">
+                {
+                    userChannels && userChannels.length > 0
+                    ? <div className="profile-channel-list row mt-3">
                     <div className="col-12">
                         <h6>My Channels:</h6>
                         <div>
@@ -75,6 +81,9 @@ export const Profile = props => {
                         </div>
                     </div>
                 </div>
+                    : ''
+                }
+                
             </div>
         </main>
     )

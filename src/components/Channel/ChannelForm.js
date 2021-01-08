@@ -57,7 +57,10 @@ export const ChannelForm = props => {
 
     const removeMember = (memberId) => {
         const members = [...channelMembers]
-        members.pop(memberId)
+        const index = members.indexOf(memberId)
+        if (index > -1) {
+            members.splice(index, 1)
+        }
         setChannelMembers(members)
     }
 
@@ -70,6 +73,7 @@ export const ChannelForm = props => {
         };
 
     const handleFormSubmission = (e) => {
+        // function to handle memberlist of new channel
         const handleMemberList = (chId) => {
             channelId = chId
             createChannelMember(channelId, profile.id)
@@ -87,12 +91,15 @@ export const ChannelForm = props => {
                     props.history.push(`/channels/${channelId}`)
                 })
         }
+        //
         e.preventDefault()
         let channelId = 0
         if (props.editExisting) {
             updateChannel({...channelInfo, image: base64})
                 .then(() => setChannelMemberList(channelInfo.id, [...channelMembers, profile.id]))
-                .then(() => props.history.push(`/channels/${channelInfo.id}`))
+                // .then(() => props.history.push(`/channels/${channelInfo.id}`)))
+                // TODO: .then isn't working for some reason here, so we are sending user to home page for now
+                props.history.push('/')
         } else {
             createChannel({...channelInfo, image: base64})
                 .then((res) => handleMemberList(res.id))

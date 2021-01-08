@@ -13,7 +13,7 @@
 
 .profile-page-pic {
     object-fit: cover;
-    height: 150px;
-    width: 150px;
+    height: 20vw;
+    width: 20vw;
     border-radius: 50%;
 }

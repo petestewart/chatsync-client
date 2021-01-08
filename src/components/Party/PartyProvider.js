@@ -29,8 +29,8 @@ export const PartyProvider = (props) => {
                 const partyInfo = {
                     title: `${profile.full_name}'s Party`,
                     description: '',
-                    datetime: dayjs(new Date().toUTCString()).format('YYYY-M-D HH:mm'),
-                    datetime_end: dayjs(new Date().toUTCString()).add(4, 'hour').format('YYYY-M-D HH:mm'),
+                    datetime: dayjs(new Date().toUTCString()).format('YYYY-M-D HH:mmZ'),
+                    datetime_end: dayjs(new Date().toUTCString()).add(4, 'hour').format('YYYY-M-D HH:mmZ'),
                     is_public: true,
                     channel_id: null
                 }

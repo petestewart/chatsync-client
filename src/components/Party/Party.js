@@ -50,12 +50,15 @@ export const Party = props => {
     return (
         <main className="party-container">
             <div className="party-header">
-                <h3 className="mt-0 mb-0 text-center">{party.title}</h3>
+                <div className="party-title">
+
+                    <h4 className="mt-0 mb-0 text-center">{party.title}</h4>
+                </div>
                 <div className="text-center">
 
-                <small>{dayjs(party.datetime).format('MM/DD/YY h:mma ')} - {dayjs(party.datetime_end).format(' h:mma')}</small>
+                <small className="party-tiny-header">{dayjs(party.datetime).format('M/D/YY h:mma ')} - {dayjs(party.datetime_end).format(' h:mma')}</small>
                 </div>
-                <h6 className={`mb-0 text-center ${partyIsLive ? 'text-primary' : ''}`}>
+                <div className={`mb-0 text-center event-status ${partyIsLive ? 'text-primary' : ''}`}>
                     {partyIsLive
                     ? 'LIVE '
                     : ''}
@@ -64,7 +67,7 @@ export const Party = props => {
                     ? <><img className="party-avatar" src={party.channel.image} alt="channel" /> #{party.channel.name} </>
                     : ''
                     }
-                    Event</h6>
+                    Event</div>
                 <div className="text-center">
                     <small>
                     {party.description}
@@ -94,7 +97,7 @@ export const Party = props => {
                             </div>
                         </div>
                         <div className="row">
-                            <div className="col-12 text-center text-success">
+                            <div className="col-12 text-center text-success feed-delay-message">
                                 {
                                     showShareMsg
                                     ? <ShareModal 

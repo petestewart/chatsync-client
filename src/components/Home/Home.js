@@ -25,7 +25,7 @@ export const Home = props => {
             livePartiesMessage = (<div>
             {livePartyList.length === 1
                 ? <span className="text-danger"><Link to={`party/${livePartyList[0].id}`}>{livePartyList[0].title}</Link> is happening now!</span>
-                : <span className="text-danger">You have {livePartyList.length} live WatchParties happening now!</span>
+                : <span className="text-danger">You have {livePartyList.length} live Events happening now!</span>
             }
             {
                 livePartyList.map((party) => (
@@ -37,15 +37,15 @@ export const Home = props => {
 
         const upcomingPartiesMessage = (
             <div className = "mt-5">
-                You have {upcomingParties.length - livePartyList.length} upcoming Watch
+                You have {upcomingParties.length - livePartyList.length} upcoming  
                 {upcomingParties.length - livePartyList.length === 1
-                    ? 'Party'
-                    : 'Parties'
+                    ? ' Event'
+                    : ' Events'
                 }
                 <button className="btn btn-primary w-100 mt-3" onClick={() => {props.history.push('/parties/upcoming')}}>
-                    View Upcoming Watch{upcomingParties.length - livePartyList.length === 1
-                    ? 'Party'
-                    : 'Parties'
+                    View Upcoming {upcomingParties.length - livePartyList.length === 1
+                    ? 'Event'
+                    : 'Events'
                 }
                 </button>
             </div>
@@ -63,15 +63,15 @@ export const Home = props => {
 
     return (
         <main className="home-container px-3">
-            <h2 className="mt-3 text-center">WatchParty</h2>
+            <h2 className="mt-3 text-center">ChatSync</h2>
             <section className="mt-5 text-center">
                 {userPartiesMessage()}
-                <button className="btn btn-primary w-100 mt-3" onClick={() => {props.history.push('/parties/create')}}>Schedule WatchParty</button>
+                <button className="btn btn-primary w-100 mt-3" onClick={() => {props.history.push('/parties/create')}}>Schedule Event</button>
                 <button className="btn btn-primary w-100 mt-3 mb-3" onClick={() => {createInstantParty()
                     .then((res) => {
                         console.log(res)
                     props.history.push(`/party/${res.id}`)}
-                    )}}>Launch Instant WatchParty</button>
+                    )}}>Launch Instant Event</button>
                 
             </section>
         </main>

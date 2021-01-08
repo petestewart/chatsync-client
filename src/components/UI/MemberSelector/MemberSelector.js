@@ -39,9 +39,10 @@ export const MemberSelector = (props) => {
             <form autoComplete="off" >
 
             <input 
-                className="dropdown-toggle w-100" 
+                className="selector-input dropdown-toggle w-100" 
                 type="div" 
                 id="dropdownMenuButton" 
+                defaultValue={""}
                 onChange={handleInput}
                 onClick={() => {setShowOptions(true)}}
                 // onBlur={() => {setShowOptions(false)}} ** NEED TO FIND SOLUTION TO THIS

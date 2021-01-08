@@ -39,7 +39,6 @@ export const ProfileForm = props => {
 
     const createImageString = (event) => {
         getBase64(event.target.files[0], (base64ImageString) => {
-            console.log("Base64 of file is", base64ImageString)
             setBase64(base64ImageString)
         })
     }

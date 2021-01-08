@@ -37,7 +37,26 @@
 
 .party-avatar {
     object-fit: cover;
-    height: 25px;
-    width: 25px;
+    height: 15px;
+    width: 15px;
     border-radius: 50%;
+}
+
+.feed-delay-message {
+    /* background-color: white; */
+    width: 100%;
+}
+
+.party-tiny-header {
+    font-size: .7rem;
+}
+
+.event-status {
+    font-size: 0.7rem;
+}
+
+.party-title {
+    background-color: black;
+    color: white;
+    padding: 2px;
 }

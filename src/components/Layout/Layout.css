@@ -1,6 +1,15 @@
+html {
+    overflow:   scroll;
+}
+::-webkit-scrollbar {
+    width: 0px;
+    background: transparent; /* make scrollbar transparent */
+}
+
 .Layout {
     height: 100vh;
     margin: 0;
+    background-color: rgb(250, 250, 250);
 }
 
 .navbar-container {

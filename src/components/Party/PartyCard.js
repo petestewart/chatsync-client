@@ -29,7 +29,7 @@ export const PartyCard = (props) => {
             <p className="card-text mb-0">{dayjs(props.party.datetime).format('dddd MMMM D, YYYY  h:mmA')}</p>
             <p className="card-text m-0"><small>
                 {props.party.channel
-                    ? <span className="text-primary">#{props.party.channel.name} </span>
+                    ? <span className="text-success">#{props.party.channel.name} </span>
                     : ''
                 }
                 {props.party.description}

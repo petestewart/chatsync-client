@@ -11,7 +11,14 @@
 
 .channel-page-pic {
     object-fit: cover;
-    height: 150px;
-    width: 150px;
+    height: 20vw;
+    width: 20vw;
     border-radius: 50%;
+}
+
+.channel-title {
+    background-color: black;
+    color: white;
+    /* padding: 1px; */
+    /* margin-top: 0 !important; */
 }

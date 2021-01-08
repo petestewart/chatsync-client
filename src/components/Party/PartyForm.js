@@ -324,7 +324,7 @@ export const PartyForm = props => {
                 </div>
                 <div className="form-group mb-4">
                     <label htmlFor="time">Start Time</label>
-                    <input onChange={handleDateTimeInput} type="time" id="time" className="form-control" value={datetimeInput.time} required />
+                    <input onChange={handleDateTimeInput} type="time" step="15" id="time" className="form-control" value={datetimeInput.time} required />
                 </div>
                 <div className="form-group mb-4">
                     <label htmlFor="time">End Time</label>
@@ -353,7 +353,7 @@ export const PartyForm = props => {
                     ?   ''
                     :   <>
                             <button className="btn btn-success w-100" onClick={handleFormSubmission}> 
-                                { editMode ? 'Update' : 'Create' } { channelLocked ? `#${channel.name}` : '' } WatchParty
+                                { editMode ? 'Update' : 'Create' } { channelLocked ? `#${channel.name}` : '' } Event
                             </button>
             
                             <button className="btn btn-secondary w-100 mt-3" onClick={() => {props.history.goBack()}}>Cancel</button>
@@ -368,7 +368,7 @@ export const PartyForm = props => {
             </form>
             {
                 showDeleteWarning
-                ? <div className="alert alert-danger mt-3" role="alert">
+                ? <div className="alert alert-danger " role="alert">
                     Delete this event?
                     <button className="btn-sm btn-danger ml-3"
                         onClick={() => deleteParty(party.id).then(() => {props.history.push("/parties/upcoming")})}> 
