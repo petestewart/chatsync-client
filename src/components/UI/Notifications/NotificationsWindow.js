@@ -2,12 +2,17 @@ import React, { useState } from "react"
 
 import "./NotificationsWindow.css"
 
+import Backdrop from '../Backdrop/Backdrop'
+
 export const NotificationsWindow = (props) => {
-
-
-
     return ( 
         <>
+        <Backdrop 
+            clear={true}
+            show={props.notifications.length > 0}
+            clicked={() => {
+                            props.setShowNotifications(false)
+                            props.markAllNotificationsRead()}} />
         { props.notifications.length > 0
             ?    <div className="notifications-window">
                     {props.notifications.slice(0, 7).map((n) => 

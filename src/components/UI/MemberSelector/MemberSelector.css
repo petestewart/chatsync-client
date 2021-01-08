@@ -15,3 +15,15 @@
     border-radius: 0.25rem;
     line-height: 1.5;
 }
+
+/* .dropdown-toggle {
+    color: grey;
+} */
+
+.selector-input {    
+    background: url("http://localhost:8000/media/images/avatars/profile_pic-3571fb11-ea43-431f-9a58-0b820c43a53b.png")  left     no-repeat;
+    height:30px;
+    padding-left:25px;
+    background-color: white;
+    height: 38px;
+    }

@@ -60,7 +60,7 @@ export const Register = props => {
 
     return (
         <main className="register-container px-3">
-        <h1 className="watchparty-logo mt-3 text-center">WatchParty</h1>
+        <h1 className="watchparty-logo mt-3 text-center">ChatSync</h1>
             <section>
 
             <form className="signup-form my-5" onSubmit={handleFormSubmission}>

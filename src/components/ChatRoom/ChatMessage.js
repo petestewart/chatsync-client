@@ -35,11 +35,13 @@ export const ChatMessage = (props) => {
     useEffect(() => {
         const m = props.message
         if (m.createdAt) {
-            // if (((m.createdAt.seconds * 1000) - m.timeOffset) <= ((new Date().getTime()) + props.delay)) {
                 setTimeout(() => {
                     setHideMessage(false)
+                    props.scrollToEnd()
                 }, (((m.createdAt.seconds * 1000) + props.delay - m.timeOffset) - Math.floor(new Date().getTime())))
-            // }
+                // if (props.isFinalMessage) {
+                //     setTimeout(props.scrollToEnd, (((m.createdAt.seconds * 1000) + props.delay - m.timeOffset + 1000)))
+                // }
         }
     }, [props.delay, props.message])
 
@@ -69,6 +71,7 @@ export const ChatMessage = (props) => {
                 setEditMessage(false)
             }
         };
+        
 
         
         return (

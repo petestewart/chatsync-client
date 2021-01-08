@@ -44,7 +44,7 @@ export const Channel = props => {
         getAllProfiles()
         getPartiesByChannel(props.match.params.id)
             .then((res) => setChannelParties(res))
-    }, [])
+    }, [props.match.params.id])
 
     useEffect(() => {
         if (channel.members) {
@@ -75,26 +75,26 @@ export const Channel = props => {
     };
 
     return (
-        <main className="channel-container container px-3">
-        <div className="row d-flex align-items-center">
-            <div className="col-2"></div>
-            <div className="col-8">
-                <h2 className="mt-3 text-center">#{channel.name}</h2>
-            </div>
-            <div className="col-2 ">
-                {/* <Link to={'channel/edit'}> */}
-                    <i className="fas fa-cog edit-channel-btn" onClick={() => props.history.push(`/channels/edit/${channel.id}`)}></i>
-                {/* </Link> */}
-            </div>
-
+        <>
+        <div className="text-center channel-title">
+                <h3>#{channel.name}</h3>
         </div>
+        <main className="channel-container container px-3">
+
+
+
+
+
         <div className="mt-3">
             <div className="channel-header row">
                 <div className="col-4">
                     <img className="channel-page-pic" src={channel.image !== '' ? channel.image : 'https://cdn3.iconfinder.com/data/icons/web-ui-3/128/Account-2-256.png'} alt="channel pic"/>
                 </div>
-                <div className="col-8">
+                <div className="col-7">
                     {channel.description}
+                </div>
+                <div className="col-1">
+                <i className="fas fa-cog edit-channel-btn" onClick={() => props.history.push(`/channels/edit/${channel.id}`)}></i>
                 </div>
             </div>
             <div className="channel-events row mt-2">
@@ -181,6 +181,7 @@ export const Channel = props => {
             </div>
         </div>
     </main>
+    </>
     )
 
 }

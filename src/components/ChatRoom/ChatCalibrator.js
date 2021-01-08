@@ -14,7 +14,7 @@ export const ChatCalibrator = (props) => {
 
         {
             props.formOpen || props.calibratorOpen
-            ? <div className={'calibrator'}>
+            ? <div className='calibrator'>
             {
                 props.formOpen
                 ?   <div className="calibrator-form form-group">
@@ -79,7 +79,7 @@ export const ChatCalibrator = (props) => {
                     }
                     {
                         props.memberOffsets.length > 0
-                        ? <div>{props.memberOffsets.map((m) => <small> {m.fullName}: {m.offsetAmount} seconds</small>)}</div>
+                        ? <div>{props.memberOffsets.map((m, i) => <small key={i}> {m.fullName}: {m.offsetAmount} seconds</small>)}</div>
                         : ''
                     }
                     </div>
