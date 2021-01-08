@@ -18,9 +18,9 @@ export const ChatCalibrator = (props) => {
             {
                 props.formOpen
                 ?   <div className="calibrator-form form-group">
-                    <label htmlFor="calibrationMessage" className="text-center">Enter event message you'd like to use to calibrate everyone's chat feed with</label>
+                    <label htmlFor="calibrationMessage" className="text-center font-weight-bold">Enter the message you'd like to use to calibrate everyone's chat feed with:</label>
                         <div className="mx-3">
-                        <small>Click when</small>
+                        <small className="font-italic">"Click your button when...</small>
                         <textarea className="form-control" id="calibrationMessage" rows="4" placeholder="The game clock reaches 15:00" value={calibrationMessage} onChange={formInputHandler}></textarea>
                         {
                             calibrationMessage === ''
@@ -41,25 +41,25 @@ export const ChatCalibrator = (props) => {
 
                         </div>
                     </div>
-                :   <div className="calibrator-live">
-                    {props.calibrationMessage.full_name} 
-                    <span> wants you to click 'Calibrate NOW' when this happens: </span> 
-                    <h6 className="text-center">
+                :   <div className="calibrator-live text-center">
+                    <span className="font-weight-bold">
+                        {`${props.calibrationMessage.full_name} `}  
+                    </span>
+                      wants you to click<br/> <span className="text-danger">'Calibrate NOW'</span> {'when '} <br />
+                    <span className="font-weight-bold">
                     {props.calibrationMessage.content}
-                    </h6>
+                    </span>
                     <button className="btn btn-danger w-100 mt-3" onClick={() => {
                         props.setCalibratorOpen(false)
                         props.sendCalibrationResponse(props.calibrationMessage.id)
                         }}>
                             Calibrate NOW!
                     </button>
-                    <button className="btn btn-primary w-100 mt-3" onClick={() => {
+                    {/* <button className="btn btn-primary w-100 mt-3" onClick={() => {
                         props.setCalibratorOpen(false)
-                        // props.sendCalibrationAnswer({message: calibrationMessage})
-                        // calculate createdAt with calibrationMessage time
                         }}>
                             Keep current time offset
-                    </button>
+                    </button> */}
                     <button className="btn btn-secondary w-100 mt-3" onClick={() => {
                         props.setCalibratorOpen(false)
                         // props.sendCalibrationAnswer({message: calibrationMessage})
