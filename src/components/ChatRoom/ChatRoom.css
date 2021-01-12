@@ -6,30 +6,34 @@
 
 .chat-feed {
     /* background-color: orange; */
-    height: calc(100vh - 338px); 
+    height: calc(100vh - 238px); 
     overflow-y: scroll;
-    margin: 0 0 150px; 
+    /* margin: 0 0 150px;  */
     width: 100%;
-    padding-top: 10px;
+    padding-top: 40px;
+    font-size: 1.1rem;
 }
 
-
 .chat-footer {
-    background-color: white;
+    background-color: #2E2E2E;
+    /* background-color: green; */
+    color: white;
     position: fixed;
     bottom: 0;
     left: 0;
     width: 100%; /* 100% of page width */
-    padding: 15px; /* standard edge margin (15px) */
-    height: 150px; /* space for input height (38px) + bottom padding (15px) */
+    padding: 0px; /* standard edge margin (15px) */
+    height: 105px; /* space for input height (38px) + bottom padding (15px) */
 }
 
 .chat-message-form {
+    /* width: 100%; */
     width: 100%;
+    text-align: center;
 }
 
 .chat-text-input-window {
-    width: 80vw;
+    width: 95vw !important;
 }
 
 
@@ -51,4 +55,6 @@
 
 .status-ticker {
     height: 20px;
+    margin: 0;
+    /* background-color: red; */
 }

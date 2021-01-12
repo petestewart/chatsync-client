@@ -1,0 +1,19 @@
+.image-preview-container {
+    height: 100px;
+    width: 100px;
+    margin-bottom: 5px;
+}
+
+
+.image-preview {
+    max-height: 100%;
+    object-fit: cover;
+    height: 100px;
+    width: 100px;
+    border-radius: 50%;
+}
+
+.image-field {
+    opacity: 0;
+    color: black;
+}

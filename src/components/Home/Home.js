@@ -63,7 +63,7 @@ export const Home = props => {
 
     return (
         <main className="home-container px-3">
-            <h2 className="mt-3 text-center">ChatSync</h2>
+            <h2 className="mt-3 text-center text-warning">ChatSync</h2>
             <section className="mt-5 text-center">
                 {userPartiesMessage()}
                 <button className="btn btn-primary w-100 mt-3" onClick={() => {props.history.push('/parties/create')}}>Schedule Event</button>

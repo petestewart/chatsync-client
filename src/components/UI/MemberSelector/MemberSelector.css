@@ -2,8 +2,9 @@
     border: 1px solid grey;
     box-shadow: 1px 1px 1px grey;
     z-index: 100;
-    position: fixed;
+    position: relative;
     background-color: white;
+    color: black;
 }
 
 .selector-close-menu-button:hover {
@@ -25,5 +26,10 @@
     height:30px;
     padding-left:25px;
     background-color: white;
+    color: black;
     height: 38px;
+    }
+
+    .dropdown-item:hover {
+        cursor: default;
     }

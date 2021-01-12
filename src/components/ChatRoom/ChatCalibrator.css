@@ -3,11 +3,13 @@
     right: 0;
     top: 40;
     z-index: 205;
-    background-color: lightgrey;
+    background-color: white;
+    color: black;
     border: 1px solid black;
     min-height: 300px;
     width: 350px;
     padding: 5px;
-    margin-right: 5px;
+    margin-right: calc(50vw - 175px);
+    margin-top: 50px;
 }
 

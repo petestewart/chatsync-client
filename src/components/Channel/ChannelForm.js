@@ -28,7 +28,7 @@ export const ChannelForm = props => {
                     setChannelInfo({
                         name: res.name,
                         description: res.description,
-                        image: '',
+                        image: res.image,
                         id: props.match.params.id
                     })
                     setChannelMembers(res.members.map(m => m.member_id))
@@ -124,7 +124,7 @@ export const ChannelForm = props => {
 
     return(
         <main className="channel-container px-3">
-        <h3 className="mt-3 text-center">{ props.editExisting ? 'Edit' : 'Create' } Channel</h3>
+        <h3 className="mt-3 text-center text-warning">{ props.editExisting ? 'Edit' : 'Create' } Channel</h3>
             <section>
 
             <div className="profile-form my-5" onSubmit={handleFormSubmission}>
@@ -138,10 +138,22 @@ export const ChannelForm = props => {
                     <textarea onChange={handleFormInput} className="form-control" id="description" rows="3" value={channelInfo.description}></textarea>
                 </div>
 
+                <div className="image-preview-container">
+                    {
+                        channelInfo.image || base64
+                        ? <img className="image-preview" src={base64 || channelInfo.image} alt=""/>
+                        : ''
+                    }
+                </div>
                 <div className="form-group">
+                    <label htmlFor="image">Profile Pic</label>
+                    <input onChange={createImageString} type="file" id="image" className="form-control" />
+                </div>
+
+                {/* <div className="form-group">
                     <label htmlFor="image">Channel Image</label>
                     <input onChange={createImageString} type="file" id="image" className="form-control"  />
-                </div>
+                </div> */}
 
                 <div className="channel-members-selector pb-4">
                     <label htmlFor="members">Channel Members</label>

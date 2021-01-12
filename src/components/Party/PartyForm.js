@@ -156,11 +156,6 @@ export const PartyForm = props => {
             })
     }, [profile.id])
 
-
-
-
-    // const [utcDatetime, setUtcDatetime] = useState('')
-
     const getUTCDatetime = () => {
         // create Date object from user form (local time)
         const dateTime = new Date()
@@ -222,7 +217,6 @@ export const PartyForm = props => {
         if (e.target.value !== '') {
             getChannel(e.target.value)
                         .then((res) => {
-                            // console.log(res)
                             const autoGuests = []
                             res.members.forEach((member) => autoGuests.push(member.member_id))
                             setGuests(autoGuests)
@@ -285,11 +279,9 @@ export const PartyForm = props => {
             </span>) }
     };
 
-    const testFunction = () => { return ('test response')};
-
     return (
         <main className="profile-container px-3">
-        <h3 className="mt-3 text-center">{ editMode ? 'Edit' : 'Create'} { channelLocked ? `#${channel.name}` : '' } Party</h3>
+        <h3 className="mt-3 text-center text-warning">{ editMode ? 'Edit' : 'Create'} { channelLocked ? `#${channel.name}` : '' } Event</h3>
             <section>
             <div className="form-group guests-selector">
                     <label htmlFor="guests">Guests</label>
@@ -336,9 +328,6 @@ export const PartyForm = props => {
                                 }</option>
                         ))}
                     </select>
-
-
-                    {/* <input onChange={handleEndTimeInput} type="time" id="time" className="form-control" value={duration} required /> */}
                 </div>
                 <div className="form-group">
                     <label htmlFor="description">Event Description and Info</label>

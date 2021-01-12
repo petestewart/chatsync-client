@@ -50,30 +50,41 @@ export const Party = props => {
     return (
         <main className="party-container">
             <div className="party-header">
-                <div className="party-title">
+                <div className="party-title mt-2 d-flex justify-content-between px-1">
 
-                    <h4 className="mt-0 mb-0 text-center">{party.title}</h4>
-                </div>
-                <div className="text-center">
-
-                <small className="party-tiny-header">{dayjs(party.datetime).format('M/D/YY h:mma ')} - {dayjs(party.datetime_end).format(' h:mma')}</small>
-                </div>
-                <div className={`mb-0 text-center event-status ${partyIsLive ? 'text-primary' : ''}`}>
-                    {partyIsLive
-                    ? 'LIVE '
-                    : ''}
+                    <h4 className="mt-0 mb-0 text-center text-warning">
+                    
+                    {party.title}</h4>
+                
+                <div className="m-0 text-center d-flex justify-content-between">
+                    <div className="channel-area text-center">
                     {
                     party.channel
-                    ? <><img className="party-avatar" src={party.channel.image} alt="channel" /> #{party.channel.name} </>
+                    ?   <>
+                        { party.channel.image ? <img className="party-avatar" src={party.channel.image} alt="channel" /> : '' }
+                        </>
                     : ''
                     }
-                    Event</div>
-                <div className="text-center">
-                    <small>
-                    {party.description}
-                    
-                    </small>
+                    </div>
+                    <div className="event-name-area">
+
+                <small className="party-tiny-header">
+                {partyIsLive
+                    ? <span className="text-primary">LIVE: </span>
+                    : ''}
+                    {dayjs(party.datetime).format(' M/D/YY h:mma ')} - {dayjs(party.datetime_end).format(' h:mma')}</small>
+                    </div>
+
+                    <div className="live-notice-area">
+                        
+                    </div>
                 </div>
+                </div>
+                {/* <div className="text-center party-description">
+                    <small>
+                        {party.description}
+                    </small>
+                </div> */}
                 
                 <section className="mt-0">
                     <div className="container">
@@ -97,7 +108,7 @@ export const Party = props => {
                             </div>
                         </div>
                         <div className="row">
-                            <div className="col-12 text-center text-success feed-delay-message">
+                            <div className="col-12 text-center text-success feed-delay-message" sttyle={{ backgroundColor: '#1B1D21' }}>
                                 {
                                     showShareMsg
                                     ? <ShareModal 
