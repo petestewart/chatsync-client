@@ -3,3 +3,7 @@
 A watch-party app with an integrated chatroom and spoiler-busting feature for when users are watching video feeds that aren't in sync with each other.
 
 (proper README coming shortly)
+
+
+
+![alt text](chatsync-preview.gif)
