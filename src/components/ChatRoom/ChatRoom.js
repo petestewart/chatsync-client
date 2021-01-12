@@ -2,6 +2,7 @@ import React, { useState, useContext, useRef, useEffect } from 'react'
 import firebase from 'firebase/app'
 import 'firebase/firestore'
 import 'firebase/auth'
+import 'firebase/database'
 import { useCollectionData } from 'react-firebase-hooks/firestore'
 
 import "./ChatRoom.css"
@@ -55,6 +56,20 @@ export const ChatRoom = (props) => {
     // get messages
     const messagesRef = firestore.collection(`party-${props.party.id}`);
     const query = messagesRef.orderBy('createdAt');
+
+    // check for online status?
+    // (works, but need to look at the database to get statuses)
+    // var ref = firebase.database().ref(`party-${props.party.id}`);
+    // const userOnlineObject = {}
+    // const userOfflineObject = {}
+    // userOnlineObject[profile.id] = true
+    // userOfflineObject[profile.id] = false
+    // ref.update({
+    //     ...userOnlineObject
+    // });
+    // ref.onDisconnect().update({
+    //     ...userOfflineObject
+    // });
 
     // listen for new messages
     const [messages] = useCollectionData(query, {idField: 'id'});
@@ -293,7 +308,7 @@ export const ChatRoom = (props) => {
             </div>
             <div className="chat-footer">
                 <div className="status-ticker">
-                    <small>{statusMessage}</small>
+                    <small className="ml-1">{statusMessage}</small>
                 </div>
                 <form className="chat-message-form w-100" onSubmit={sendMessage}>
                     <textarea 

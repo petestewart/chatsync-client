@@ -20,7 +20,7 @@ export const PartyList = props => {
 
     return (
         <main className="partylist-container px-3">
-            <h2 className="mt-3 text-center">Upcoming Events</h2>
+            <h2 className="mt-3 text-center text-warning">Upcoming Events</h2>
             <section className="mt-5 mb-3">
                 { upcomingParties.length > 0
                     ? partyList.map((party, index) => <PartyCard party={party} key={index} {...props} />)

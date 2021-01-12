@@ -1,11 +1,17 @@
 
 .nav-bar {
     height: 48px;
-    background-color: white;
+    /* background-color: white; */
+    /* background-color: rgb(240, 240, 240); */
+    /* background-color: #1B1D21; */
+    background-color: #2E2E2E;
+    color: white;
+    border-bottom: 1px solid #6C757D;
 }
 
 .nav-item {
-    color: rgb(46, 46, 46);
+    /* color: rgb(46, 46, 46); */
+    color: grey;
 }
 
 .nav-item:hover {

@@ -1,5 +1,6 @@
 .party-card {
     background-color: rgb(236, 236, 236);
+    color: black;
 }
 
 .party-card:hover {

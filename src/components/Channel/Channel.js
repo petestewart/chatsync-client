@@ -76,7 +76,7 @@ export const Channel = props => {
 
     return (
         <>
-        <div className="text-center channel-title">
+        <div className="text-center channel-title text-warning">
                 <h3>#{channel.name}</h3>
         </div>
         <main className="channel-container container px-3">
@@ -88,13 +88,17 @@ export const Channel = props => {
         <div className="mt-3">
             <div className="channel-header row">
                 <div className="col-4">
-                    <img className="channel-page-pic" src={channel.image !== '' ? channel.image : 'https://cdn3.iconfinder.com/data/icons/web-ui-3/128/Account-2-256.png'} alt="channel pic"/>
+                    {
+                        channel.image
+                        ? <img className="channel-page-pic" src={channel.image} alt=""/>
+                        : ''
+                    }
                 </div>
                 <div className="col-7">
                     {channel.description}
                 </div>
                 <div className="col-1">
-                <i className="fas fa-cog edit-channel-btn" onClick={() => props.history.push(`/channels/edit/${channel.id}`)}></i>
+                <i className="fas fa-cog edit-channel-btn mr-3" onClick={() => props.history.push(`/channels/edit/${channel.id}`)}></i>
                 </div>
             </div>
             <div className="channel-events row mt-2">
@@ -102,9 +106,9 @@ export const Channel = props => {
                 {
                     channelParties
                     ? <>
-                        <h6>Upcoming Events:</h6>
+                        <h6 className="muted-text">Upcoming Events:</h6>
                         {channelParties.map((party) => 
-                            <div className="sidemenu-item ml-1" 
+                            <div className="bright-hover ml-1" 
                                 key={party.id}
                                 onClick={() => {props.history.push(`/party/${party.id}`)
                             }}>
@@ -126,11 +130,11 @@ export const Channel = props => {
             </div>
             <div className="channel-members row mt-2">
                 <div className="col-12">
-                    <h6>Members:</h6>
+                    <h6 className="muted-text">Members:</h6>
                     <div className="channel-members-list">
 
                     {   channel.members
-                        ?   channel.members.map((m) => <div className="sidemenu-item ml-1" key={m.member_id} onClick={() => {props.history.push(`/profile/${m.member_id}`)}}>
+                        ?   channel.members.map((m) => <div className="bright-hover ml-1" key={m.member_id} onClick={() => {props.history.push(`/profile/${m.member_id}`)}}>
                             <img src={m.profile_pic} alt="" className="avatar_sm mx-2"/>
                             {m.full_name}
                             </div>)

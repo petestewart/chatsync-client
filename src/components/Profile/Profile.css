@@ -17,3 +17,7 @@
     width: 20vw;
     border-radius: 50%;
 }
+
+.muted-text {
+    color: #ababab;
+}

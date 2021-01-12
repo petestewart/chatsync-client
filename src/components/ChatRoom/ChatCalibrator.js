@@ -1,5 +1,7 @@
 import React, { useState } from "react"
 
+import Backdrop from '../UI/Backdrop/Backdrop'
+
 import "./ChatCalibrator.css"
 
 export const ChatCalibrator = (props) => {
@@ -11,6 +13,7 @@ export const ChatCalibrator = (props) => {
 
     return (
         <>
+        <Backdrop show={true} />
 
         {
             props.formOpen || props.calibratorOpen
@@ -25,14 +28,14 @@ export const ChatCalibrator = (props) => {
                         {
                             calibrationMessage === ''
                             ? ''
-                            : <button className="btn btn-primary w-100 mt-3" onClick={() => {
+                            : <button className="btn-sm btn-primary w-100 mt-3" onClick={() => {
                                 props.setFormOpen(false)
                                 props.sendCalibrationCall({message: calibrationMessage})
                                 }}>
                                     Start Calibration for Everyone
                                 </button>
                         }
-                            <button className="btn btn-secondary w-100 mt-3" onClick={() => {
+                            <button className="btn-sm btn-secondary w-100 mt-3" onClick={() => {
                                 setCalibrationMessage('')
                                 props.setCalibratorOpen(false)
                                 props.setFormOpen(false)}}>
@@ -45,7 +48,7 @@ export const ChatCalibrator = (props) => {
                     <span className="font-weight-bold">
                         {`${props.calibrationMessage.full_name} `}  
                     </span>
-                      wants you to click<br/> <span className="text-danger">'Calibrate NOW'</span> {'when '} <br />
+                    wants you to click<br/> <span className="text-danger">'Calibrate NOW'</span> {'when '} <br />
                     <span className="font-weight-bold">
                     {props.calibrationMessage.content}
                     </span>

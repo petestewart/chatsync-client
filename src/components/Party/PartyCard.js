@@ -15,13 +15,10 @@ export const PartyCard = (props) => {
     return (
     <div className="party-card card mb-3">
         <div className="card-body" onClick={() => {props.history.push(`/party/${props.party.id}`)}}>
-        {/* {props.party.channel
-            ? <div><img className="party-avatar" src={props.party.channel.image} alt="channel" /> <small className="text-secondary">#{props.party.channel.name} </small> </div>
-            : <div></div>
-            } */}
             <h5 className={`card-title ${happeningNow ? 'text-danger' : ''}`}>
-            {props.party.channel
-            ? <img className="party-avatar mr-1" src={props.party.channel.image} alt="channel" />
+            {props.party.channel && props.party.channel.image
+            ? props.party.channel.image ?
+            <img className="party-avatar mr-1" src={props.party.channel.image} alt="channel" /> : ''
             : ''
             }
                 {props.party.title} {happeningNow ? <small> -- NOW LIVE!</small> : ''}

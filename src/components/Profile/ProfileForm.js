@@ -2,6 +2,8 @@ import React, { useContext, useState, useEffect } from "react"
 
 import { ProfileContext } from "../Profile/ProfileProvider"
 
+import './ProfileForm.css'
+
 export const ProfileForm = props => {
     const { profile, updateProfile } = useContext(ProfileContext)
 
@@ -61,7 +63,7 @@ export const ProfileForm = props => {
 
     return (
         <main className="profile-container px-3">
-        <h3 className="mt-3 text-center">Your Profile</h3>
+        <h3 className="mt-3 text-center text-warning">Your Profile</h3>
             <section>
 
             <form className="profile-form my-5" onSubmit={handleFormSubmission}>
@@ -73,14 +75,17 @@ export const ProfileForm = props => {
                     <label htmlFor="last_name">Last Name</label>
                     <input onChange={handleFormInput} type="text" id="last_name" className="form-control" value={profileInfo.last_name} required />
                 </div>
-                <div className="form-group mb-5">
+                <div className="form-group mb-3">
                     <label htmlFor="email">Email address</label>
                     <input onChange={handleFormInput} type="email" id="email" className="form-control" value={profileInfo.email} required />
                 </div>
-                {/* <div className="form-group">
-                    <label htmlFor="profile_pic">Profile Pic</label>
-                    <input onChange={handleFormInput} type="text" id="profile_pic" className="form-control" value={profileInfo.profile_pic} />
-                </div> */}
+                <div className="image-preview-container">
+                    {
+                        profileInfo.profile_pic || base64
+                        ? <img className="image-preview" src={base64 || profileInfo.profile_pic} alt="preview"/>
+                        : ''
+                    }
+                </div>
                 <div className="form-group">
                     <label htmlFor="image">Profile Pic</label>
                     <input onChange={createImageString} type="file" id="image" className="form-control" />
