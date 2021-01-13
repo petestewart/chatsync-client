@@ -4,6 +4,8 @@ A watch party app with an integrated chatroom and spoiler-busting feature for wh
 
 Python server repo located [here](https://github.com/petestewart/chatsync-server)
 
+Video walkthrough demo [here](https://www.youtube.com/watch?v=9XOqC5OOMCA)
+
 (proper README coming shortly)
 
 ![alt text](chatsync-preview.gif)
