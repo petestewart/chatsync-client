@@ -7,8 +7,10 @@ import { PartyContext } from "../Party/PartyProvider"
 export const Home = props => {
     const { getUpcomingParties, upcomingParties, createInstantParty } = useContext(PartyContext)
 
+    // get all the user's upcoming events
     useEffect(getUpcomingParties, [])
 
+    // create a domstring for the user's live and upcoming events
     const userPartiesMessage = () => {
         let livePartiesMessage = ''
         const livePartyList = []

@@ -22,11 +22,6 @@ export const ChatMessage = (props) => {
 
     const [hideMessage, setHideMessage] = useState(true)
 
-    // useEffect(() => {
-    //     getReactionsByMessage(id)
-    //     .then((res) => setReactions(res))
-    // })
-
     useEffect(() => {
         getReactionsByMessage(id)
             .then((res) => setMessageReactions(res))
@@ -39,19 +34,15 @@ export const ChatMessage = (props) => {
                     setHideMessage(false)
                     props.scrollToEnd()
                 }, (((m.createdAt.seconds * 1000) + props.delay - m.timeOffset) - Math.floor(new Date().getTime())))
-                // if (props.isFinalMessage) {
-                //     setTimeout(props.scrollToEnd, (((m.createdAt.seconds * 1000) + props.delay - m.timeOffset + 1000)))
-                // }
         }
     }, [props.delay, props.message])
 
     const MessageForm = (props) => {
         const inputRef = useRef(null);
         const [newMessageContent, setNewMessageContent] = useState(props.origMessage)
-        
 
         useEffect(() => {
-            // Moving cursor to the end
+            // Move cursor to the end on load
             inputRef.current.selectionStart = inputRef.current.value.length;
             inputRef.current.selectionEnd = inputRef.current.value.length;
         }, []);
@@ -71,9 +62,7 @@ export const ChatMessage = (props) => {
                 setEditMessage(false)
             }
         };
-        
 
-        
         return (
             <div>
             <textarea

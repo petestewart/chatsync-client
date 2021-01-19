@@ -11,16 +11,14 @@ import "./Layout.css"
 
 
 export const Layout = (props) => {
-    const [showSideDrawer, setShowSideDrawer] = useState(false)
-
     const { profile, getProfile } = useContext(ProfileContext)
-
     const { getChannelsByMember } = useContext(ChannelContext)
-
+    
+    const [showSideDrawer, setShowSideDrawer] = useState(false)
     const [userChannels, setUserChannels] = useState([])
 
+    // get the user's profile and channels
     useEffect(getProfile, [])
-    
     useEffect(() => {
         if (profile.id) {
             getChannelsByMember(profile.id)
@@ -28,10 +26,10 @@ export const Layout = (props) => {
         }
     }, [showSideDrawer])
 
+    // handlers for the side drawer
     const sideDrawerClosedHandler = () => {
         setShowSideDrawer(false)
     };
-
     const sideDrawerToggleHandler = () => {
         setShowSideDrawer(!showSideDrawer)
     };
