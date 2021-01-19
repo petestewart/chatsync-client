@@ -1,6 +1,6 @@
 ### ChatSync
 
-This is a full-stack 'spoiler-preventing' chat room app I created using React, Python and Django where users can host viewing party type events to discuss live TV shows in real time. The app calculates time differences in each user's stream to delay the display of new messages on their chat feeds to prevent spoilers. I built this app using ReactJS and Python, as well as integrating Firebase for all instant chat and notifications. It was my final capstone project while enrolled at [Nashville Software School](http://nashvillesoftwareschool.com/).
+This is a full-stack 'spoiler-preventing' chat room app I created using React, Python, Django and Firebase where users can host viewing party type events to discuss live TV shows in real time. The app calculates time differences in each user's stream to delay the display of new messages on their chat feeds to prevent spoilers. It was my final capstone project while enrolled at [Nashville Software School](http://nashvillesoftwareschool.com/).
 
 After having countess touchdowns, goals, etc ruined for me in group text threads with my friends during games or TV shows, I decided to create this app as a solution to never have someone inform me of a moment I haven't seen yet. :)
 
