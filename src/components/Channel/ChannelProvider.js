@@ -1,5 +1,9 @@
 import React, { useState } from "react"
 
+import apiKeys from '../../helpers/apiKeys.json';
+
+const baseURL = apiKeys.chatSyncServer.baseURL;
+
 export const ChannelContext = React.createContext()
 
 export const ChannelProvider = (props) => {
@@ -7,7 +11,7 @@ export const ChannelProvider = (props) => {
     const [channel, setChannel] = useState({})
 
     const getChannel = (channelId) => {
-        return fetch(`http://localhost:8000/channels/${channelId}`, {
+        return fetch(`${baseURL}/channels/${channelId}`, {
             method : "GET",
             headers: {
                 "Authorization": `Token ${localStorage.getItem("watchparty_token")}`,
@@ -23,7 +27,7 @@ export const ChannelProvider = (props) => {
     };
 
     const deleteChannel = (channelId) => {
-        return fetch(`http://localhost:8000/channels/${channelId}`, {
+        return fetch(`${baseURL}/channels/${channelId}`, {
             method : "DELETE",
             headers: {
                 "Authorization": `Token ${localStorage.getItem("watchparty_token")}`,
@@ -37,7 +41,7 @@ export const ChannelProvider = (props) => {
     };
 
     const getChannelsByMember = (memberId) => {
-        return fetch(`http://localhost:8000/channels?member_id=${memberId}`, {
+        return fetch(`${baseURL}/channels?member_id=${memberId}`, {
             method : "GET",
             headers: {
                 "Authorization": `Token ${localStorage.getItem("watchparty_token")}`,
@@ -50,7 +54,7 @@ export const ChannelProvider = (props) => {
     };
 
     const createChannel = (channelInfo) => {
-        return fetch('http://localhost:8000/channels', {
+        return fetch(`${baseURL}/channels`, {
             method : "POST",
             headers: {
                 "Authorization": `Token ${localStorage.getItem("watchparty_token")}`,
@@ -64,7 +68,7 @@ export const ChannelProvider = (props) => {
     };
 
     const updateChannel = (channelInfo) => {
-        return fetch(`http://localhost:8000/channels/${channelInfo.id}`, {
+        return fetch(`${baseURL}/channels/${channelInfo.id}`, {
             method : "PUT",
             headers: {
                 "Authorization": `Token ${localStorage.getItem("watchparty_token")}`,
@@ -78,7 +82,7 @@ export const ChannelProvider = (props) => {
     };
 
     // const createChannelMember = (channelId, memberId) => new Promise((resolve, reject) => {
-    //     fetch('http://localhost:8000/channelmembers', {
+    //     fetch('${baseURL}/channelmembers', {
     //         method : "POST",
     //         headers: {
     //             "Authorization": `Token ${localStorage.getItem("watchparty_token")}`,
@@ -97,7 +101,7 @@ export const ChannelProvider = (props) => {
         
 
     // const createChannelMember = (channelId, memberId) => {
-    //     return fetch('http://localhost:8000/channelmembers', {
+    //     return fetch('${baseURL}/channelmembers', {
     //         method : "POST",
     //         headers: {
     //             "Authorization": `Token ${localStorage.getItem("watchparty_token")}`,
@@ -115,7 +119,7 @@ export const ChannelProvider = (props) => {
 
     const createChannelMember = async (channelId, memberId) => {
         console.log('createChannelMember')
-        const response = await fetch('http://localhost:8000/channelmembers', {
+        const response = await fetch(`${baseURL}/channelmembers`, {
             method: "POST",
             headers: {
                 "Authorization": `Token ${localStorage.getItem("watchparty_token")}`,
@@ -132,7 +136,7 @@ export const ChannelProvider = (props) => {
     };
 
     // const deleteChannelMember = (channelId, memberId) => new Promise((resolve, reject) => {
-    //     return fetch(`http://localhost:8000/channelmembers/${channelId}`, {
+    //     return fetch(`${baseURL}/channelmembers/${channelId}`, {
     //         method : "DELETE",
     //         headers: {
     //             "Authorization": `Token ${localStorage.getItem("watchparty_token")}`,
@@ -151,7 +155,7 @@ export const ChannelProvider = (props) => {
     const deleteChannelMember = async (channelId, memberId) => {
         console.log('createChannelMember')
 
-        const response = await fetch(`http://localhost:8000/channelmembers/${channelId}`, {
+        const response = await fetch(`${baseURL}/channelmembers/${channelId}`, {
             method: "DELETE",
             headers: {
                 "Authorization": `Token ${localStorage.getItem("watchparty_token")}`,
@@ -167,7 +171,7 @@ export const ChannelProvider = (props) => {
     };
 
     // const deleteChannelMember = (channelId, memberId) => {
-    //     return fetch(`http://localhost:8000/channelmembers/${channelId}`, {
+    //     return fetch(`${baseURL}/channelmembers/${channelId}`, {
     //         method : "DELETE",
     //         headers: {
     //             "Authorization": `Token ${localStorage.getItem("watchparty_token")}`,

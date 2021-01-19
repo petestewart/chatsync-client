@@ -1,0 +1,8 @@
+{
+    "chatSyncServer": {
+        "baseURL": "https://petestewart72.pythonanywhere.com"
+    },
+    "chatSyncClient": {
+        "baseURL": "https://superchat-fced2.web.app"
+    }
+}

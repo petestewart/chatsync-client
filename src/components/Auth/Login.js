@@ -2,7 +2,6 @@ import React, { useContext } from "react"
 
 import { AuthContext } from "./AuthProvider"
 
-
 import './Auth.css'
 
 export const Login = props => {

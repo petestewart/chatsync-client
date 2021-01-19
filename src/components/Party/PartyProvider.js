@@ -3,6 +3,10 @@ import dayjs from 'dayjs'
 
 import { ProfileContext } from "../Profile/ProfileProvider"
 
+import apiKeys from '../../helpers/apiKeys.json';
+
+const baseURL = apiKeys.chatSyncServer.baseURL;
+
 export const PartyContext = React.createContext()
 
 export const PartyProvider = (props) => {
@@ -43,7 +47,7 @@ export const PartyProvider = (props) => {
     })
 
     const getParty = (partyId) => {
-        return fetch(`http://localhost:8000/parties/${partyId}`, {
+        return fetch(`${baseURL}/parties/${partyId}`, {
             headers: {
                 "Authorization": `Token ${localStorage.getItem("watchparty_token")}`
             }
@@ -56,7 +60,7 @@ export const PartyProvider = (props) => {
     }
 
     const getPartiesByChannel = (channelId) => {
-        return fetch(`http://localhost:8000/parties?channel_id=${channelId}`, {
+        return fetch(`${baseURL}/parties?channel_id=${channelId}`, {
             headers: {
                 "Authorization": `Token ${localStorage.getItem("watchparty_token")}`
             }
@@ -69,7 +73,7 @@ export const PartyProvider = (props) => {
     }
 
     const getPartyGuests = (partyId) => {
-        return fetch(`http://localhost:8000/partyguests/${partyId}`, {
+        return fetch(`${baseURL}/partyguests/${partyId}`, {
             headers: {
                 "Authorization": `Token ${localStorage.getItem("watchparty_token")}`
             }
@@ -79,7 +83,7 @@ export const PartyProvider = (props) => {
     }
 
     const addPartyGuest = (partyId, guestId) => {
-        return fetch('http://localhost:8000/partyguests', {
+        return fetch(`${baseURL}/partyguests`, {
             method : "POST",
             headers: {
                 "Authorization": `Token ${localStorage.getItem("watchparty_token")}`,
@@ -99,7 +103,7 @@ export const PartyProvider = (props) => {
     }
 
     const deletePartyGuest = (partyId, guestId) => {
-        return fetch(`http://localhost:8000/partyguests/${partyId}`, {
+        return fetch(`${baseURL}/partyguests/${partyId}`, {
             method : "DELETE",
             headers: {
                 "Authorization": `Token ${localStorage.getItem("watchparty_token")}`,
@@ -117,7 +121,7 @@ export const PartyProvider = (props) => {
     }
 
     const getUpcomingParties = (partyId) => {
-        return fetch('http://localhost:8000/parties/myupcoming', {
+        return fetch(`${baseURL}/parties/myupcoming`, {
             headers: {
                 "Authorization": `Token ${localStorage.getItem("watchparty_token")}`
             }
@@ -127,7 +131,7 @@ export const PartyProvider = (props) => {
     }
 
     const createParty = (partyInfo) => {
-        return fetch('http://localhost:8000/parties', {
+        return fetch(`${baseURL}/parties`, {
             method : "POST",
             headers: {
                 "Authorization": `Token ${localStorage.getItem("watchparty_token")}`,
@@ -178,7 +182,7 @@ export const PartyProvider = (props) => {
     }
 
     const updateParty = (partyInfo) => {
-        return fetch(`http://localhost:8000/parties/${partyInfo.id}`, {
+        return fetch(`${baseURL}/parties/${partyInfo.id}`, {
             method : "PUT",
             headers: {
                 "Authorization": `Token ${localStorage.getItem("watchparty_token")}`,
@@ -193,7 +197,7 @@ export const PartyProvider = (props) => {
     };
 
     const deleteParty = (partyId) => {
-        return fetch(`http://localhost:8000/parties/${partyId}`, {
+        return fetch(`${baseURL}/parties/${partyId}`, {
             method : "DELETE",
             headers: {
                 "Authorization": `Token ${localStorage.getItem("watchparty_token")}`

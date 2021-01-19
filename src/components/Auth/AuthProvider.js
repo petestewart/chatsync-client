@@ -1,10 +1,16 @@
 import React from "react"
 
+import apiKeys from '../../helpers/apiKeys.json';
+
+const baseURL = apiKeys.chatSyncServer.baseURL;
+
+console.log(baseURL)
+
 export const AuthContext = React.createContext()
 
 export const AuthProvider = (props) => {
     const loginUser = (loginInfo) => {
-        return fetch("http://127.0.0.1:8000/login", {
+        return fetch(`${baseURL}/login`, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
@@ -25,7 +31,7 @@ export const AuthProvider = (props) => {
     }
 
     const registerUser = (userInfo) => {
-            return fetch("http://127.0.0.1:8000/register", {
+            return fetch(`${baseURL}/register`, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
