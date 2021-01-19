@@ -57,43 +57,44 @@ export const ChatRoom = (props) => {
     const messagesRef = firestore.collection(`party-${props.party.id}`);
     const query = messagesRef.orderBy('createdAt');
 
-    // check for online status?
-    // (works, but need to look at the database to get statuses)
-    // var ref = firebase.database().ref(`party-${props.party.id}`);
-    // const userOnlineObject = {}
-    // const userOfflineObject = {}
-    // userOnlineObject[profile.id] = true
-    // userOfflineObject[profile.id] = false
-    // ref.update({
-    //     ...userOnlineObject
-    // });
-    // ref.onDisconnect().update({
-    //     ...userOfflineObject
-    // });
+    // TODO: check for online status?
+        // (works, but need to look at the database to get statuses)
+        // var ref = firebase.database().ref(`party-${props.party.id}`);
+        // const userOnlineObject = {}
+        // const userOfflineObject = {}
+        // userOnlineObject[profile.id] = true
+        // userOfflineObject[profile.id] = false
+        // ref.update({
+        //     ...userOnlineObject
+        // });
+        // ref.onDisconnect().update({
+        //     ...userOfflineObject
+        // });
 
     // listen for new messages
     const [messages] = useCollectionData(query, {idField: 'id'});
 
-    // *** CHECK FOR SYSTEM MESSAGES ***
+    // check for system messages
     useEffect(() => {
         let statusMessages = 0
         if (messages) {
 
+            // update chat messages count
             const newMessageCount = messages.filter(msg => !msg.systemMessage).length
             if (newMessageCount !== currentMessageCount) {
                 setCurrentMessageCount(newMessageCount)
             }
 
-
+            // check to see if a calibration request exists:
             let calibratorOpen = false
             let calibrateMessage = null
 
-            // check to see if a calibration request exists:
+            // check each system message:
             messages.forEach((m) => {
                 if (m.systemMessage) {
                     if (m.messageType === 'calibration_call') {
+                        // if an old calibration request exists, delete it, otherwise set current calibration message:
                         if (calibrateMessage) {
-                            // if an old calibration request exists, delete it:
                             if (m.id !== calibrateMessage.id) {
                                 deleteMessage(calibrateMessage.id)
                             }
@@ -101,6 +102,7 @@ export const ChatRoom = (props) => {
                         calibrateMessage = m
                         calibratorOpen = true
                     }
+                    // check for 'is typing' message
                     if (m.messageType === 'isTyping' && m.senderId !== profile.id) {
                         statusMessages += 1
                         const offset = ((m.createdAt.seconds * 1000) + props.timeOffset - m.timeOffset) - Math.floor(new Date().getTime())
@@ -109,8 +111,9 @@ export const ChatRoom = (props) => {
                     }
                 }
             })
+
+            // if calibrator is open, check for responses:
             if (calibratorOpen) {
-                // check to see if others have responded to the calibration request:
                 const responses = []
                 
                 messages.forEach((m) => { 
@@ -122,12 +125,14 @@ export const ChatRoom = (props) => {
                         }
                     }
                 })
-                // calculate everyone's offset times (OR AFTER FOR EACH LOOP?):
+
+                // calculate everyone's offset times:
                 responses.sort((a, b) => a.createdAt > b.createdAt)
                 responses.forEach((res) => {
                     res.offsetAmount = res.createdAt - responses[0].createdAt
                 })
                 setMemberOffsets(responses)
+
                 // check if user has responded to calibration request:
                 responses.forEach((m) => {
                     if (m.memberId === profile.id) {
@@ -136,6 +141,7 @@ export const ChatRoom = (props) => {
                     }
                 })
             }
+
             setCalibrationMessage(calibrateMessage)
             props.setShowCalibrator(calibratorOpen)
             if (statusMessages === 0) {
@@ -144,14 +150,18 @@ export const ChatRoom = (props) => {
         }
     }, [messages])
 
+    // form handler:
     const handleFormData = (e) => {
         setFormValue(e.target.value)
     };
 
+    // keystroke handler
     const handleKeystroke = (e) => {
+        // send message if user hits return without shift
         if (e.keyCode === 13 && e.shiftKey === false) {
             sendMessage()
         } else {
+            // delete "is typing" message after 15 seconds
             if ((new Date().getTime() / 1000) > (lastTyped + 15)) {
                 clearTimeout(clearStatus)
                 sendIsTypingMessage()
@@ -161,8 +171,9 @@ export const ChatRoom = (props) => {
         }
     };
 
-    // for sending a message
+    // message-sending functions:
     const [formValue, setFormValue] = useState('');
+
     const sendMessage = async(e) => {
         deleteMessage(`status-user${profile.id}`)
         await messagesRef.add({
@@ -245,25 +256,6 @@ export const ChatRoom = (props) => {
             messagesRef.doc(messageId).update({ lastUpdated: firebase.firestore.FieldValue.serverTimestamp() })
         }
     };
-
-    // useEffect(() => {
-    //     if (messages) {
-    //         const newMessageCount = messages.filter(msg => !msg.systemMessage)
-    //         // if (newMessageCount > currentMessageCount) {
-    //         //     setTimeout(
-    //         //         () => {
-                        
-    //         //             endOfFeed.current.scrollIntoView({ behavior: 'smooth' })
-    //         //         }, 1000
-    //         //     )
-    //         // }
-    //         setCurrentMessageCount(newMessageCount)
-    //     }
-    // }, [messages])
-
-    useEffect(() => {
-        console.log('currentMessageCount updated')
-    }, [currentMessageCount])
     
     return (
         <>

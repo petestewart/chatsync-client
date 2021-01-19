@@ -1,4 +1,4 @@
-import React, { useState } from "react"
+import React from "react"
 
 import "./NotificationsWindow.css"
 
@@ -13,8 +13,11 @@ export const NotificationsWindow = (props) => {
             clicked={() => {
                             props.setShowNotifications(false)
                             props.markAllNotificationsRead()}} />
+
+        {/* show notifications if the user has any */}
         { props.notifications.length > 0
             ?    <div className="notifications-window">
+
                     {props.notifications.slice(0, 7).map((n) => 
                     <div 
                         className='notification d-flex justify-content-between align-items-center' 
@@ -25,11 +28,12 @@ export const NotificationsWindow = (props) => {
                             if (n.link) {
                                 props.history.push(n.link)
                             }
-                        }}
-                        >
+                        }}>
+
                         <small className={`${n.isRead ? '' : 'font-weight-bold'}`}>
                             {n.content}
                         </small>
+
                             <span className="mr-1 delete-notification-button text-secondary" 
                                 aria-hidden="true"
                                 id={n}
@@ -38,11 +42,12 @@ export const NotificationsWindow = (props) => {
                                     props.deleteNotification(n.id)}}>
                                     &times;
                             </span>
+
                     </div>)}
                 </div>
             : ''
             }
-</>
+        </>
     )
 }
 

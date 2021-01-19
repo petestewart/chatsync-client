@@ -11,16 +11,14 @@ export const ChannelForm = props => {
     const { profile, getProfile, allProfiles, getAllProfiles } = useContext(ProfileContext)
 
     const [base64, setBase64] = useState(null)
-
     const [channelInfo, setChannelInfo] = useState({ name: '', description: '', image: '' })
     const [channelMembers, setChannelMembers] = useState([])
-
     const [showDeleteWarning, setShowDeleteWarning] = useState(false)
-
 
     useEffect(getAllProfiles, [])
     useEffect(getProfile, [])
 
+    // gather channel info if editing existing channel
     useEffect(() => {
         if (props.editExisting) {
             getChannel(props.match.params.id)
@@ -36,12 +34,12 @@ export const ChannelForm = props => {
         }
     }, [])
 
+    // convert new image to string
     const getBase64 = (file, callback) => {
         const reader = new FileReader()
         reader.addEventListener('load', () => callback(reader.result))
         reader.readAsDataURL(file)
     }
-
     const createImageString = (event) => {
         getBase64(event.target.files[0], (base64ImageString) => {
             console.log("Base64 of file is", base64ImageString)
@@ -49,12 +47,12 @@ export const ChannelForm = props => {
         })
     }
 
+    // add or remove member functions
     const addMember = (memberId) => {
         const members = [...channelMembers]
         members.push(memberId)
         setChannelMembers(members)
     };
-
     const removeMember = (memberId) => {
         const members = [...channelMembers]
         const index = members.indexOf(memberId)
@@ -64,7 +62,7 @@ export const ChannelForm = props => {
         setChannelMembers(members)
     }
 
-
+    // form handlers
     const handleFormInput = (e) => {
         e.preventDefault()
         const formInfo =  { ...channelInfo }
@@ -73,7 +71,7 @@ export const ChannelForm = props => {
         };
 
     const handleFormSubmission = (e) => {
-        // function to handle memberlist of new channel
+        // function to handle member-list of new channel:
         const handleMemberList = (chId) => {
             channelId = chId
             createChannelMember(channelId, profile.id)
@@ -91,7 +89,8 @@ export const ChannelForm = props => {
                     props.history.push(`/channels/${channelId}`)
                 })
         }
-        //
+
+        // start of form submission handling:
         e.preventDefault()
         let channelId = 0
         if (props.editExisting) {
@@ -106,6 +105,7 @@ export const ChannelForm = props => {
         }
     };
 
+    // return member icon
     const getMember = (memberId) => {
         const channelMember = allProfiles.find((member) => memberId === member.id)
         if (channelMember)  { return (
@@ -123,10 +123,12 @@ export const ChannelForm = props => {
     }
 
     return(
+        /* header */
         <main className="channel-container px-3">
         <h3 className="mt-3 text-center text-warning">{ props.editExisting ? 'Edit' : 'Create' } Channel</h3>
-            <section>
 
+        {/* form */}
+        <section>
             <div className="profile-form my-5" onSubmit={handleFormSubmission}>
                 <div className="form-group">
                     <label htmlFor="name">Channel Name</label>
@@ -150,20 +152,15 @@ export const ChannelForm = props => {
                     <input onChange={createImageString} type="file" id="image" className="form-control" />
                 </div>
 
-                {/* <div className="form-group">
-                    <label htmlFor="image">Channel Image</label>
-                    <input onChange={createImageString} type="file" id="image" className="form-control"  />
-                </div> */}
-
                 <div className="channel-members-selector pb-4">
                     <label htmlFor="members">Channel Members</label>
                     <div className="members list mb-2">
                         {[...new Set([profile.id, ...channelMembers])].map((m) => getMember(m))}
                     </div>
                     <MemberSelector options={allProfiles} selected={[...channelMembers, profile.id]} addSelection={addMember} />
-
                 </div>
 
+                {/* submit, delete & cancel buttons */}
                 {
                     showDeleteWarning
                     ? ''

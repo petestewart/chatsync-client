@@ -1,7 +1,6 @@
 import React, { useContext, useState, useEffect } from "react"
 import dayjs from 'dayjs'
 
-
 import { MemberSelector } from '../UI/MemberSelector/MemberSelector'
 
 import { ChannelContext } from "../Channel/ChannelProvider"
@@ -9,7 +8,6 @@ import { PartyContext } from "../Party/PartyProvider"
 import { ProfileContext } from "../Profile/ProfileProvider"
 
 import './Channel.css'
-// import { matchPath } from "react-router-dom"
 
 export const Channel = props => {
     const { channel, deleteChannelMember, getChannel, createChannelMember } = useContext(ChannelContext)
@@ -19,11 +17,19 @@ export const Channel = props => {
     const [showInviteForm, setShowInviteForm] = useState(false)
     const [availableInvitees, setAvailableInvitees] = useState([])
     const [channelParties, setChannelParties] = useState([])
-
     const [showLeaveWarning, setShowLeaveWarning] = useState(false)
-
     const [isMember, setIsMember] = useState(false)
 
+    // get user's and all profiles, current channel and all parties of the current channel
+    useEffect(() => {
+        getProfile()
+        getChannel(props.match.params.id)
+        getAllProfiles()
+        getPartiesByChannel(props.match.params.id)
+            .then((res) => setChannelParties(res))
+    }, [props.match.params.id])
+
+    // determine if user is a member of the current channel
     useEffect(() => {
         let status = false
         if (channel.members) {
@@ -36,16 +42,7 @@ export const Channel = props => {
         setIsMember(status)
     }, [channel.members, profile])
 
-
-
-    useEffect(() => {
-        getProfile()
-        getChannel(props.match.params.id)
-        getAllProfiles()
-        getPartiesByChannel(props.match.params.id)
-            .then((res) => setChannelParties(res))
-    }, [props.match.params.id])
-
+    // determine which users are not currently members of the channel
     useEffect(() => {
         if (channel.members) {
             const availableUsers = []
@@ -64,43 +61,43 @@ export const Channel = props => {
         }
     }, [allProfiles, channel])
 
+    // add a member to the current channel
     const addMember = (memberId) => {
         createChannelMember(channel.id, memberId)
             .then(() => getChannel(channel.id))
     };
 
+    // leave the current channel
     const leaveChannel = () => {
         deleteChannelMember(channel.id, profile.id)
             .then(() => props.history.push("/"))
     };
 
     return (
-        <>
+    <>
+        {/* channel header: name, image, description and edit button */}
         <div className="text-center channel-title text-warning">
                 <h3>#{channel.name}</h3>
         </div>
         <main className="channel-container container px-3">
-
-
-
-
-
-        <div className="mt-3">
-            <div className="channel-header row">
-                <div className="col-4">
-                    {
-                        channel.image
-                        ? <img className="channel-page-pic" src={channel.image} alt=""/>
-                        : ''
-                    }
-                </div>
-                <div className="col-7">
-                    {channel.description}
-                </div>
-                <div className="col-1">
-                <i className="fas fa-cog edit-channel-btn mr-3" onClick={() => props.history.push(`/channels/edit/${channel.id}`)}></i>
-                </div>
+            <div className="mt-3">
+                <div className="channel-header row">
+                    <div className="col-4">
+                        {
+                            channel.image
+                            ? <img className="channel-page-pic" src={channel.image} alt=""/>
+                            : ''
+                        }
+                    </div>
+                    <div className="col-7">
+                        {channel.description}
+                    </div>
+                    <div className="col-1">
+                    <i className="fas fa-cog edit-channel-btn mr-3" onClick={() => props.history.push(`/channels/edit/${channel.id}`)}></i>
+                    </div>
             </div>
+
+        {/* channel events: list of upcoming and create new event button */}
             <div className="channel-events row mt-2">
                 <div className="col-12">
                 {
@@ -128,6 +125,8 @@ export const Channel = props => {
                 </button>
                 </div>
             </div>
+
+        {/* channel members: list of current members and invite & leave buttons */}
             <div className="channel-members row mt-2">
                 <div className="col-12">
                     <h6 className="muted-text">Members:</h6>
