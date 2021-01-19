@@ -119,7 +119,7 @@ export const ChannelProvider = (props) => {
 
     const createChannelMember = async (channelId, memberId) => {
         console.log('createChannelMember')
-        const response = await fetch('${baseURL}/channelmembers', {
+        const response = await fetch(`${baseURL}/channelmembers`, {
             method: "POST",
             headers: {
                 "Authorization": `Token ${localStorage.getItem("watchparty_token")}`,
