@@ -1,5 +1,9 @@
 import React, { useState, useEffect } from "react"
 
+import apiKeys from '../../helpers/apiKeys.json';
+
+const baseURL = apiKeys.chatSyncServer.baseURL;
+
 export const ProfileContext = React.createContext()
 
 export const ProfileProvider = (props) => {
@@ -16,7 +20,7 @@ export const ProfileProvider = (props) => {
     const [allProfiles, setAllProfiles] = useState([])
 
     const getProfile = () => {
-        return fetch("http://localhost:8000/members/me", {
+        return fetch(`${baseURL}/members/me`, {
             headers: {
                 "Authorization": `Token ${localStorage.getItem("watchparty_token")}`
             }
@@ -27,7 +31,7 @@ export const ProfileProvider = (props) => {
     }
 
     const getProfileById = (memberId) => {
-        return fetch(`http://localhost:8000/members/${memberId}`, {
+        return fetch(`${baseURL}/members/${memberId}`, {
             headers: {
                 "Authorization": `Token ${localStorage.getItem("watchparty_token")}`
             }
@@ -37,7 +41,7 @@ export const ProfileProvider = (props) => {
     }
 
     const getAllProfiles = () => {
-        return fetch("http://localhost:8000/members", {
+        return fetch(`${baseURL}/members`, {
             headers: {
                 "Authorization": `Token ${localStorage.getItem("watchparty_token")}`
             }
@@ -48,7 +52,7 @@ export const ProfileProvider = (props) => {
     }
 
     const updateProfile = (profileInfo) => {
-        return fetch("http://localhost:8000/members/me", {
+        return fetch(`${baseURL}/members/me`, {
             method : "PUT",
             headers: {
                 "Authorization": `Token ${localStorage.getItem("watchparty_token")}`,

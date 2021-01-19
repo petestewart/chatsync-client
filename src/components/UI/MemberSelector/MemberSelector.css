@@ -22,7 +22,8 @@
 } */
 
 .selector-input {    
-    background: url("http://localhost:8000/media/images/avatars/profile_pic-3571fb11-ea43-431f-9a58-0b820c43a53b.png")  left     no-repeat;
+    /* background: url("http://localhost:8000/media/images/avatars/profile_pic-3571fb11-ea43-431f-9a58-0b820c43a53b.png")  left     no-repeat; */
+    /* TODO: UPLOAD SEARCH PNG */
     height:30px;
     padding-left:25px;
     background-color: white;

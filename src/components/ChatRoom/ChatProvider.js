@@ -1,5 +1,9 @@
 import React, { useState } from "react"
 
+import apiKeys from '../../helpers/apiKeys.json';
+
+const baseURL = apiKeys.chatSyncServer.baseURL;
+
 export const ChatContext = React.createContext()
 
 export const ChatProvider = (props) => {
@@ -7,7 +11,7 @@ export const ChatProvider = (props) => {
     const [reactionTypes, setReactionTypes] = useState([])
 
     const toggleReaction = (reaction) => {
-        return fetch('http://localhost:8000/messagereactions', {
+        return fetch(`${baseURL}/messagereactions`, {
             method : "POST",
             headers: {
                 "Authorization": `Token ${localStorage.getItem("watchparty_token")}`,
@@ -27,7 +31,7 @@ export const ChatProvider = (props) => {
     }
 
     const getReactionsByMessage = (messageId) => {
-        return fetch(`http://127.0.0.1:8000/messagereactions?message_id=${messageId}`, {
+        return fetch(`${baseURL}/messagereactions?message_id=${messageId}`, {
                 method: "GET",
                 headers: {
                     "Content-Type": "application/json",
@@ -39,7 +43,7 @@ export const ChatProvider = (props) => {
     }
 
     const getAllReactionTypes = () => {
-        return fetch('http://127.0.0.1:8000/reactions', {
+        return fetch(`${baseURL}/reactions`, {
                 method: "GET",
                 headers: {
                     "Content-Type": "application/json",

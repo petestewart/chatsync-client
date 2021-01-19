@@ -10,6 +10,10 @@ import { ShareModal } from "../UI/ShareModal/ShareModal"
 
 import "./Party.css"
 
+import apiKeys from '../../helpers/apiKeys.json';
+
+const baseURL = apiKeys.chatSyncClient.baseURL;
+
 export const Party = props => {
     const { getParty, party } = useContext(PartyContext)
     const { profile } = useContext(ProfileContext)
@@ -112,7 +116,7 @@ export const Party = props => {
                                 {
                                     showShareMsg
                                     ? <ShareModal 
-                                        link={`http://localhost:3000/party/${party.id}`}
+                                        link={`${baseURL}/party/${party.id}`}
                                         handleClose={() => {setShowShareMsg(false)}}
                                         />
                                     : ''
