@@ -7,7 +7,7 @@ This is a full-stack 'spoiler-preventing' chat room app I created using React, P
 
 After having countess touchdowns, goals, etc ruined for me in group text threads with my friends during games or TV shows, I decided to create this app as a solution to never have someone inform me of a moment I haven't seen yet. :)
 
-Python server repo: [https://github.com/petestewart/chatsync-server](https://github.com/petestewart/chatsync-server)
+* Python server repo: [https://github.com/petestewart/chatsync-server](https://github.com/petestewart/chatsync-server)
 
 
 ### Feature List
