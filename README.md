@@ -1,8 +1,7 @@
 ### ChatSync
 
-Video walkthrough: [https://youtu.be/9XOqC5OOMCA](https://www.youtube.com/watch?v=9XOqC5OOMCA)
-
-Online demo: [https://chatsync.me](https://chatsync.me)
+* Video walkthrough: [https://youtu.be/9XOqC5OOMCA](https://www.youtube.com/watch?v=9XOqC5OOMCA)
+* Online demo: [https://chatsync.me](https://chatsync.me)
 
 This is a full-stack 'spoiler-preventing' chat room app I created using React, Python, Django and Firebase where users can host viewing party type events to discuss live TV shows in real time. The app calculates time differences in each user's stream to delay the display of new messages on their chat feeds to prevent spoilers. It was my final capstone project while enrolled at [Nashville Software School](http://nashvillesoftwareschool.com/).
 
