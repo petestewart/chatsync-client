@@ -1,4 +1,4 @@
-### ChatSync
+## ChatSync
 
 * Video walkthrough: [https://youtu.be/9XOqC5OOMCA](https://www.youtube.com/watch?v=9XOqC5OOMCA)
 * Online demo: [https://chatsync.me](https://chatsync.me)
