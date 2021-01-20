@@ -31,12 +31,6 @@ export const PartyCard = (props) => {
                 }
                 {props.party.description}
                 </small></p>
-            
-            {/* {props.party.rsvp
-            ? <><i className="fas fa-calendar-check text-success"></i> <small className="text-secondary">Attending </small> </>
-            : <><i className="fas fa-calendar-times"></i> <small>Not Attending </small></>
-            } */}
-
         </div>
     </div>
 )};

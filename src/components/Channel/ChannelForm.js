@@ -97,7 +97,7 @@ export const ChannelForm = props => {
             updateChannel({...channelInfo, image: base64})
                 .then(() => setChannelMemberList(channelInfo.id, [...channelMembers, profile.id]))
                 // .then(() => props.history.push(`/channels/${channelInfo.id}`)))
-                // TODO: .then isn't working for some reason here, so we are sending user to home page for now
+                // TODO: .then isn't working for some reason here, so we are sending user to home page for now. Need to send them to new channel.
                 props.history.push('/')
         } else {
             createChannel({...channelInfo, image: base64})

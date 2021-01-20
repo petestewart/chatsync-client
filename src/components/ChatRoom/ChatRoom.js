@@ -188,7 +188,6 @@ export const ChatRoom = (props) => {
         timeOffset: props.timeOffset
         });
         setFormValue('');
-        // endOfFeed.current.scrollIntoView({ behavior: 'smooth' })
     }
 
     const sendCalibrationCall = async(cal) => {
@@ -311,7 +310,8 @@ export const ChatRoom = (props) => {
                         onChange={(e) => {handleFormData(e)}}/>
                 <div className="message-controls d-flex justify-content-around">
                     <i className="fas fa-paper-plane fa-2x message-button" onClick={sendMessage}></i>
-                    {/* <i className="fas fa-smile fa-2x message-button"></i> */}
+                    {/* TODO: Create emoji response selector functionality 
+                    <i className="fas fa-smile fa-2x message-button"></i> */}
                 </div>
                 </form>
             </div>

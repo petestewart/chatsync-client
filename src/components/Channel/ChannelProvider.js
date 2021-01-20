@@ -81,42 +81,6 @@ export const ChannelProvider = (props) => {
             .then(data => {return(data)})
     };
 
-    // const createChannelMember = (channelId, memberId) => new Promise((resolve, reject) => {
-    //     fetch('${baseURL}/channelmembers', {
-    //         method : "POST",
-    //         headers: {
-    //             "Authorization": `Token ${localStorage.getItem("watchparty_token")}`,
-    //             "Content-Type": "application/json",
-    //             "Accept": "application/json"
-    //         },
-    //         body: JSON.stringify({
-    //             channel_id: channelId,
-    //             member_id: memberId
-    //         })
-    //     })
-    //         .then(response => resolve(response.json()))
-    //         .then(err => reject(err))
-
-    // }) 
-        
-
-    // const createChannelMember = (channelId, memberId) => {
-    //     return fetch('${baseURL}/channelmembers', {
-    //         method : "POST",
-    //         headers: {
-    //             "Authorization": `Token ${localStorage.getItem("watchparty_token")}`,
-    //             "Content-Type": "application/json",
-    //             "Accept": "application/json"
-    //         },
-    //         body: JSON.stringify({
-    //             channel_id: channelId,
-    //             member_id: memberId
-    //         })
-    //     })
-    //         .then(response => response.json())
-    //         .then(data => {return(data)})
-    // };
-
     const createChannelMember = async (channelId, memberId) => {
         console.log('createChannelMember')
         const response = await fetch(`${baseURL}/channelmembers`, {
@@ -134,23 +98,6 @@ export const ChannelProvider = (props) => {
         const data = await response.json();
         return (data);
     };
-
-    // const deleteChannelMember = (channelId, memberId) => new Promise((resolve, reject) => {
-    //     return fetch(`${baseURL}/channelmembers/${channelId}`, {
-    //         method : "DELETE",
-    //         headers: {
-    //             "Authorization": `Token ${localStorage.getItem("watchparty_token")}`,
-    //             "Content-Type": "application/json",
-    //             "Accept": "application/json"
-    //         },
-    //         body: JSON.stringify({
-    //             member_id: memberId
-    //         })
-    //     })
-    //         // .then(response => response.json())
-    //         .then(data => resolve(data.json()))
-    //         .catch((err) => reject(err))
-    // })
 
     const deleteChannelMember = async (channelId, memberId) => {
         console.log('createChannelMember')
@@ -170,22 +117,6 @@ export const ChannelProvider = (props) => {
         return (data);
     };
 
-    // const deleteChannelMember = (channelId, memberId) => {
-    //     return fetch(`${baseURL}/channelmembers/${channelId}`, {
-    //         method : "DELETE",
-    //         headers: {
-    //             "Authorization": `Token ${localStorage.getItem("watchparty_token")}`,
-    //             "Content-Type": "application/json",
-    //             "Accept": "application/json"
-    //         },
-    //         body: JSON.stringify({
-    //             member_id: memberId
-    //         })
-    //     })
-    //         .then(response => response.json())
-    //         .then(data => {return(data)})
-    // };
-
     const setChannelMemberList = (channelId, newMembers) => {
         getChannel(channelId)
             .then((c) => {
@@ -196,23 +127,14 @@ export const ChannelProvider = (props) => {
                 // add all new members that aren't already pre-existing members
                 newMembers.forEach((m) => {
                     if (!currentMembers.includes(m)) {
-                        // promises.push(new Promise((resolve, reject) => {
-                        //     createChannelMember(channelId, m)
-                        //         .then(() => resolve(m))
-                        //         .catch((err) => reject(err))
                         promises.push(
                             createChannelMember(channelId, m)
-                                
                         )
                     }
                 })
                 // delete all pre-existing members not in new members list
                 currentMembers.forEach((m) => {
                     if (!newMembers.includes(m)) {
-                        // promises.push(new Promise((resolve, reject) => {
-                        //     deleteChannelMember(channelId, m)
-                        //         .then((r) => resolve(m))
-                        //         .catch((err) => reject(err))
                         promises.push(
                             deleteChannelMember(channelId, m)
                         )

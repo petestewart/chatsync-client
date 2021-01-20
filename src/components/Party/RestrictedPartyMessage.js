@@ -1,7 +1,5 @@
 import React from "react"
 
-// import "./RestrictedPartyMessage.css"
-
 export const RestrictedPartyMessage = props => {
     
 

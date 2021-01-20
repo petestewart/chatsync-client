@@ -6,7 +6,6 @@
     left: 0;
     top: 40;
     z-index: 200;
-    /* background-color: white; */
     background-color: white;
     color: black;
     padding: 32px 0px;
@@ -25,12 +24,6 @@
     
 }
 
-/* @media (min-width: 500px) {
-    .SideDrawer {
-    display: none;
-    }
-    } */
-
 .sidedrawer ul {
     list-style: none;
     padding-inline-start: 15px;
@@ -43,12 +36,5 @@
 
 .sidemenu-item:hover {
     cursor: pointer;
-    /* color: rgb(2, 212, 2); */
-    /* color: #383838; */
-    /* color: #505050; */
-    /* color: rgb(2, 212, 2); */
     color: #007BFF;
-
-    /* background-color: #f1f1f1; */
-    /* box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19); */
 }

@@ -46,11 +46,6 @@ export const Party = props => {
             (dayjs(party.datetime_end).valueOf()) >= (dayjs(new Date()).valueOf())
         )}, [party])
 
-    // const offsetInputHandler = (e) => {
-    //     setTimeOffset(e.target.value)
-    // };
-
-
     return (
         <main className="party-container">
             <div className="party-header">
@@ -84,11 +79,6 @@ export const Party = props => {
                     </div>
                 </div>
                 </div>
-                {/* <div className="text-center party-description">
-                    <small>
-                        {party.description}
-                    </small>
-                </div> */}
                 
                 <section className="mt-0">
                     <div className="container">
@@ -108,7 +98,6 @@ export const Party = props => {
                             <div className="col-2 text-right">
                                 <i className="fas fa-cog party-control-button" 
                                 onClick={() => props.history.push(`/party/edit/${party.id}`)}></i>
-                                {/* <input type="number" id="offset" onChange={offsetInputHandler}></input> */}
                             </div>
                         </div>
                         <div className="row">
