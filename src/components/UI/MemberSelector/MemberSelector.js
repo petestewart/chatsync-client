@@ -9,9 +9,6 @@ export const MemberSelector = (props) => {
 
     const [showOptions, setShowOptions] = useState(false)
 
-    // shows menu options as long as something is typed in to the text input
-    // useEffect(() => {setShowOptions(textInput.length > 0)}, [textInput])
-
     const handleInput = (e) => {
         setTextInput(e.target.value)
     };
@@ -25,7 +22,6 @@ export const MemberSelector = (props) => {
                     key={option.id}
                     onClick={() => {
                         props.addSelection(option.id)
-                        // setShowOptions(false)
                     }} 
                 >
                     {option.full_name}
@@ -45,7 +41,8 @@ export const MemberSelector = (props) => {
                 defaultValue={""}
                 onChange={handleInput}
                 onClick={() => {setShowOptions(true)}}
-                // onBlur={() => {setShowOptions(false)}} ** NEED TO FIND SOLUTION TO THIS
+                // onBlur={() => {setShowOptions(false)}} 
+                // ** TODO: onBlur doesn't work here, so find another solution to close selector when user clicks elsewhere
                 />
             <div className={`selector-menu w-75 dropdown-menu${showOptions  ? 'show' : ''}`} aria-labelledby="dropdownMenuButton">
             <span className="ml-1 selector-close-menu-button" aria-hidden="true" onClick={() => {setShowOptions(false)}}>&times;</span>

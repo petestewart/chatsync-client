@@ -11,13 +11,11 @@ html {
 .Layout {
     min-height: 100vh;
     margin: 0;
-    /* background-color: rgb(250, 250, 250); */
     background-color: #1B1D21;
     color: white;
 }
 
 .navbar-container {
-    /* background-color: yellow; */
     position: fixed;
     top: 0;
     width: 100%;
@@ -26,12 +24,7 @@ html {
 }
 
 .app-container {
-    /* position: relative;
-    top: 48px;
-    height: calc(100vh - 48px); */
     width: 100%;
-    /* position: fixed; */
-    /* top: 48px; */
     margin-top: 48px;
     min-height: calc(100vh - 48px);
 }

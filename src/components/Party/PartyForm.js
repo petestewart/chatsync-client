@@ -189,11 +189,6 @@ export const PartyForm = props => {
         return({ datetime, date, time })
     };
 
-    // useEffect(() => {
-    //     const { date, time } = getCurrentDatetime()
-    //     setDatetimeInput({ date, time })
-    // }, [])
-
     useEffect(getAllProfiles, [])
 
     const addGuest = (guest) => {

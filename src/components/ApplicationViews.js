@@ -15,70 +15,57 @@ import { RestrictedPartyMessage } from "./Party/RestrictedPartyMessage"
 import { Profile } from "./Profile/Profile"
 import { ProfileForm } from "./Profile/ProfileForm"
 
-import { FirebaseTest } from './Firebase/FirebaseTest'
-
 export const ApplicationViews = (props) => {
     return (
         <>
-            {/* <ProfileProvider>
-                <ChannelProvider>
-                    <PartyProvider> */}
-                        {/* TEST */}
-                        <ScrollToTop />
-                        <Route exact path="/firebasetest" render={ props => <FirebaseTest history={props.history} {...props} />} />
+            {/* Edit Profile */}
+            <ScrollToTop />
+            <Route exact path="/profile/edit" render={ props => <ProfileForm history={props.history} {...props} />} />
 
-                        {/* Edit Profile */}
-                        <ScrollToTop />
-                        <Route exact path="/profile/edit" render={ props => <ProfileForm history={props.history} {...props} />} />
+            {/* View Own Profile */}
+            <ScrollToTop />
+            <Route exact path="/profile" render={ props => <Profile history={props.history} {...props} />} />
 
-                        {/* View Own Profile */}
-                        <ScrollToTop />
-                        <Route exact path="/profile" render={ props => <Profile history={props.history} {...props} />} />
+            {/* View User Profile */}
+            <ScrollToTop />
+            <Route exact path="/profile/:id(\d+)" render={ props => <Profile history={props.history} {...props} />} />
 
-                        {/* View User Profile */}
-                        <ScrollToTop />
-                        <Route exact path="/profile/:id(\d+)" render={ props => <Profile history={props.history} {...props} />} />
+            {/* View Parties List */}
+            <ScrollToTop />
+            <Route exact path="/parties/upcoming" render={ props => <PartyList history={props.history} {...props} />} />
 
-                        {/* View Parties List */}
-                        <ScrollToTop />
-                        <Route exact path="/parties/upcoming" render={ props => <PartyList history={props.history} {...props} />} />
+            {/* Party */}
+            <ChatProvider>
+                <Route exact path="/party/:id(\d+)" render={ props => <Party history={props.history} {...props} />} />
+            </ChatProvider>
+            
+            {/* Create Party */}
+            <ScrollToTop />
+            <Route exact path="/parties/create" render={ props => <PartyForm history={props.history} {...props} />} />
+            
+            {/* Edit Party */}
+            <ScrollToTop />
+            <Route exact path="/party/edit/:id(\d+)" render={ props => <PartyForm history={props.history} {...props} />} />
+            
+            {/* Restricted Party Message */}
+            <ScrollToTop />
+            <Route exact path="/party/restricted_access" render={ props => <RestrictedPartyMessage history={props.history} {...props} />} />
+            
+            {/* Create Channel */}
+            <ScrollToTop />
+            <Route exact path="/channels/create" render={ props => <ChannelForm history={props.history} {...props} />} />
+            
+            {/* Edit Channel */}
+            <ScrollToTop />
+            <Route exact path="/channels/edit/:id(\d+)" render={ props => <ChannelForm history={props.history} editExisting={true} {...props} />} />
+            
+            {/* View Channel */}
+            <ScrollToTop />
+            <Route exact path="/channels/:id(\d+)" render={ props => <Channel history={props.history} {...props} />} />
 
-                        {/* Party */}
-                        <ChatProvider>
-                            <Route exact path="/party/:id(\d+)" render={ props => <Party history={props.history} {...props} />} />
-                        </ChatProvider>
-                        
-                        {/* Create Party */}
-                        <ScrollToTop />
-                        <Route exact path="/parties/create" render={ props => <PartyForm history={props.history} {...props} />} />
-                        
-                        {/* Edit Party */}
-                        <ScrollToTop />
-                        <Route exact path="/party/edit/:id(\d+)" render={ props => <PartyForm history={props.history} {...props} />} />
-                        
-                        {/* Restricted Party Message */}
-                        <ScrollToTop />
-                        <Route exact path="/party/restricted_access" render={ props => <RestrictedPartyMessage history={props.history} {...props} />} />
-                        
-                        {/* Create Channel */}
-                        <ScrollToTop />
-                        <Route exact path="/channels/create" render={ props => <ChannelForm history={props.history} {...props} />} />
-                        
-                        {/* Edit Channel */}
-                        <ScrollToTop />
-                        <Route exact path="/channels/edit/:id(\d+)" render={ props => <ChannelForm history={props.history} editExisting={true} {...props} />} />
-                        
-                        {/* View Channel */}
-                        <ScrollToTop />
-                        <Route exact path="/channels/:id(\d+)" render={ props => <Channel history={props.history} {...props} />} />
-
-                        {/* Home */}
-                        <ScrollToTop />
-                        <Route exact path="/" render={ props => <Home history={props.history} {...props} />} />
-
-                    {/* </PartyProvider>
-                </ChannelProvider>
-            </ProfileProvider> */}
+            {/* Home */}
+            <ScrollToTop />
+            <Route exact path="/" render={ props => <Home history={props.history} {...props} />} />
         </>
     )
 };

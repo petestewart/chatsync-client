@@ -19,14 +19,6 @@ export const Register = props => {
     const [passwordMatches, setPasswordMatches] = useState(true)
     const [formIsComplete, setFormIsComplete] = useState(false)
     const [termsAgreed, setTermsAgreed] = useState(false)
-
-    // const confirmPassword = () => {
-    //     if (signupInfo.passwordConfirm === signupInfo.password) {
-    //         setPasswordMatches(true)
-    //     } else {
-    //         setPasswordMatches(false)
-    //     }
-    // }
     
     useEffect(() => {
         setPasswordMatches(signupInfo.password === signupInfo.passwordConfirm)

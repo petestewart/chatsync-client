@@ -10,7 +10,6 @@ export const Login = props => {
 
     const username = React.createRef()
     const password = React.createRef()
-    // const invalidDialog = React.createRef()
 
     const handleLogin = (e) => {
         e.preventDefault()
@@ -19,7 +18,6 @@ export const Login = props => {
             password: password.current.value
         })
     };
-
 
     return (
         <main className="login-container px-3">

@@ -40,9 +40,7 @@ export const Profile = props => {
                             <h6 className="mt-3 text-secondary text-center">Your Profile</h6>
                         </div>
                         <div className="col-2 ">
-                            {/* <Link to={'profile/edit'}> */}
                                 <i className="fas fa-cog edit-profile-btn" onClick={() => props.history.push("profile/edit")}></i>
-                            {/* </Link> */}
                         </div>
                     </>
                 : ''
@@ -59,10 +57,6 @@ export const Profile = props => {
 
                         <small className="muted-text">{userProfile.location}</small>
                         </div>
-                    {/* </div>
-                </div>
-                <div className="profile-bio row mt-2">
-                    <div className="col-12 text-center"> */}
                         
                         <div className="">{userProfile.bio}</div>
                     </div>

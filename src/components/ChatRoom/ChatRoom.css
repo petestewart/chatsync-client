@@ -1,14 +1,11 @@
 .chatroom-container {
-    /* background-color: red; */
     width: 100%;
     font-size: .8rem;
 }
 
 .chat-feed {
-    /* background-color: orange; */
     height: calc(100vh - 238px); 
     overflow-y: scroll;
-    /* margin: 0 0 150px;  */
     width: 100%;
     padding-top: 40px;
     font-size: 1.1rem;
@@ -16,7 +13,6 @@
 
 .chat-footer {
     background-color: #2E2E2E;
-    /* background-color: green; */
     color: white;
     position: fixed;
     bottom: 0;
@@ -27,7 +23,6 @@
 }
 
 .chat-message-form {
-    /* width: 100%; */
     width: 100%;
     text-align: center;
 }
@@ -56,5 +51,4 @@
 .status-ticker {
     height: 20px;
     margin: 0;
-    /* background-color: red; */
 }

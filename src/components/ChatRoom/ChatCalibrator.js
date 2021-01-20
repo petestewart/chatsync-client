@@ -85,7 +85,7 @@ export const ChatCalibrator = (props) => {
                         <button className="btn btn-secondary w-100 mt-3" onClick={() => {
                             props.setCalibratorOpen(false)
                             // TODO: props.sendCalibrationAnswer({message: calibrationMessage})
-                            // some type of do not participate message
+                            // (send some type of 'do not participate in calibration' system message)
                             }}>
                                 Do not sync my feed
                         </button>

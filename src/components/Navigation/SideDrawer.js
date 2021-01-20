@@ -55,8 +55,6 @@ export const SideDrawer = (props) => {
                         props.closedHandler()
                         props.history.push(`/channels/${channel.id}`)
                         }}><span className="menu-icon"><i className="fas"></i></span>#{channel.name}</li>)
-                        // props.userChannels.map((channel) => <li className="my-3" key={channel.id}><span className="menu-icon"><i className="fas"></i></span>#{channel.name}</li>)
-                    
                     : ''
                 }
                 <li className="sidemenu-item my-3" onClick={() => {
@@ -66,7 +64,8 @@ export const SideDrawer = (props) => {
                     <span className="menu-icon"><i className="fas fa-users"></i></span>Create Channel
                 </li>
                 <hr />
-                {/* <li className="sidemenu-item my-3">
+                {/* TODO: Create 'Invite Friends' feature
+                <li className="sidemenu-item my-3">
                     <span className="menu-icon"><i className="fas fa-user-plus"></i></span>Invite Friends
                 </li> */}
                 <li className="sidemenu-item my-3" onClick={logoutUser}>
